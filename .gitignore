@@ -78,8 +78,6 @@ Plugins/**/Intermediate/*
 # Cache files for the editor to use
 DerivedDataCache/*
 
-Content/
-
 # OS generated files
 .DS_Store
 .DS_Store?
