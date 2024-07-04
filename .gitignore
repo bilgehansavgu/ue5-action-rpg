@@ -87,4 +87,5 @@ DerivedDataCache/*
 ehthumbs.db
 Thumbs.db
 
-Content/
+Content/*
+!Content/_ActionRPG/
