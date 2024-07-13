@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "ActionRPG/Public/ARPGCharacter.h"
+#include "ActionRPG/Public/Core/Characters/ARPGCharacter.h"
 
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -21,11 +21,6 @@ AARPGCharacter::AARPGCharacter()
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	
 	bUseControllerRotationYaw = false;
-}
-
-void AARPGCharacter::BeginPlay()
-{
-	Super::BeginPlay();
 }
 
 void AARPGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -50,7 +45,8 @@ void AARPGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	EnhancedInputComponent->BindAction(Input_Move, ETriggerEvent::Triggered, this, &ThisClass::Move);
 	EnhancedInputComponent->BindAction(Input_LookMouse, ETriggerEvent::Triggered, this, &ThisClass::LookMouse);
 	EnhancedInputComponent->BindAction(Input_Jump, ETriggerEvent::Triggered, this, &ACharacter::Jump);
-	EnhancedInputComponent->BindAction(Input_RegularAttack, ETriggerEvent::Triggered, this, &ThisClass::RegularAttack);
+	EnhancedInputComponent->BindAction(Input_BasicAttack, ETriggerEvent::Triggered, this, &ThisClass::BasicAttack);
+	EnhancedInputComponent->BindAction(Input_AreaOfEffect, ETriggerEvent::Triggered, this, &ThisClass::AreaOfEffectAttack);
 }
 
 void AARPGCharacter::Move(const FInputActionInstance& Instance)
@@ -80,14 +76,51 @@ void AARPGCharacter::LookMouse(const FInputActionValue& Value)
 	}
 }
 
-void AARPGCharacter::RegularAttack()
+void AARPGCharacter::BasicAttack()
 {
-	FVector rightHandLocation = GetMesh()->GetSocketLocation("ik_hand_rSocket");
-	FTransform SpawnTransform = FTransform(GetControlRotation(), rightHandLocation);
+	SpawnProjectile(BasicAttackProjectileClass);
+}
 
-	FActorSpawnParameters SpawnParameters;
-	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+void AARPGCharacter::AreaOfEffectAttack()
+{
+	SpawnProjectile(AreaOfEffectClass);
+}
 
-	GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnTransform, SpawnParameters);
+void AARPGCharacter::SpawnProjectile(TSubclassOf<AActor> ClassToSpawn)
+{
+	if(ensureAlways(ClassToSpawn))
+	{
+		FVector RightHandSpawnLocation = GetMesh()->GetSocketLocation(RightHandSocketName);
+
+		FActorSpawnParameters SpawnParameters;
+		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		SpawnParameters.Instigator = this;
+
+		FCollisionShape Shape;
+		Shape.SetSphere(ProjectileTraceRadius);
+
+		FCollisionQueryParams Params;
+		Params.AddIgnoredActor(this);
+
+		FCollisionObjectQueryParams ObjectQueryParams;
+		ObjectQueryParams.AddObjectTypesToQuery(ECC_WorldDynamic);
+		ObjectQueryParams.AddObjectTypesToQuery(ECC_WorldStatic);
+		ObjectQueryParams.AddObjectTypesToQuery(ECC_Pawn);
+
+		FVector TraceStart = CameraComponent->GetComponentLocation();
+		FVector TraceEnd = CameraComponent->GetComponentLocation() + (GetControlRotation().Vector() * ProjectileTraceEndDistance);
+
+		FHitResult HitResult;
+
+		if(GetWorld()->SweepSingleByObjectType(HitResult, TraceStart, TraceEnd, FQuat::Identity, ObjectQueryParams, Shape, Params))
+		{
+			TraceEnd = HitResult.ImpactPoint;
+		}
+
+		FRotator ProjRotation = FRotationMatrix::MakeFromX(TraceEnd - RightHandSpawnLocation).Rotator();
+
+		FTransform SpawnTransform = FTransform(ProjRotation, RightHandSpawnLocation);
+		GetWorld()->SpawnActor<AActor>(ClassToSpawn, SpawnTransform, SpawnParameters);
+	}
 }
 

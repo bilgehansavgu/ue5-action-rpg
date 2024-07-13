@@ -26,8 +26,13 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
-	virtual void BeginPlay() override;
 
+	//	DELEGATES
+
+
+
+	//	FUNCTIONS
+	
 	UFUNCTION()
 	void Move(const FInputActionInstance& Instance);
 
@@ -35,7 +40,22 @@ protected:
 	void LookMouse(const FInputActionValue& Value);
 
 	UFUNCTION()
-	void RegularAttack();
+	void BasicAttack();
+
+	void AreaOfEffectAttack();
+	
+	void SpawnProjectile(TSubclassOf<AActor> ClassToSpawn);
+
+	// PROPERTIES
+	
+	UPROPERTY(EditDefaultsOnly)
+	float ProjectileTraceEndDistance{5000.f};
+
+	UPROPERTY(EditDefaultsOnly)
+	float ProjectileTraceRadius{20.f};
+	
+	UPROPERTY(EditDefaultsOnly)
+	FName RightHandSocketName{"ik_hand_rSocket"};
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UCameraComponent> CameraComponent;
@@ -56,11 +76,17 @@ protected:
 	TObjectPtr<UInputAction> Input_LookMouse;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
-	TObjectPtr<UInputAction> Input_RegularAttack;
+	TObjectPtr<UInputAction> Input_BasicAttack;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TObjectPtr<UInputAction> Input_AreaOfEffect;
 
 	UPROPERTY(EditAnywhere, Category = "Animations")
 	TObjectPtr<UAnimMontage> AttackAnimation;
 
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<AActor> ProjectileClass;
+	TSubclassOf<AActor> BasicAttackProjectileClass;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<AActor> AreaOfEffectClass;
 };

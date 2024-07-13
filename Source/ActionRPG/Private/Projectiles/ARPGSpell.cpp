@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "ARPGSpell.h"
+#include "Projectiles/ARPGSpell.h"
 
 #include "NiagaraComponent.h"
 

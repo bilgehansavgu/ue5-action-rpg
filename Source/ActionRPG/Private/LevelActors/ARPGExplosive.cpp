@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "ARPGExplosive.h"
+#include "ActionRPG/Public/LevelActors/ARPGExplosive.h"
 
 #include "PhysicsEngine/RadialForceComponent.h"
 
