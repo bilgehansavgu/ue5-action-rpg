@@ -41,6 +41,9 @@ void AARPGAreaOfEffectSpell::Explode_Implementation()
 	
 	for(const FHitResult& HitResult : OutHits)
 	{
-		Explode();
+		if (AActor* HitActor = HitResult.GetActor())
+		{
+			Explode();
+		}
 	}
 }

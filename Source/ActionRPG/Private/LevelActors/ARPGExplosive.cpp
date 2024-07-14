@@ -33,6 +33,9 @@ void AARPGExplosive::OnComponentHit(UPrimitiveComponent* HitComponent, AActor* O
 {
 	RadialForceComponent->FireImpulse();
 
+	
+	/* Debugging
+	 * 
 	UE_LOG(LogTemp, Log, TEXT("OnComponent Triggered"))
 
 	UE_LOG(LogTemp, Warning, TEXT("Hit Actor : %s, at Game Second : %f"), *GetNameSafe(OtherActor), GetWorld()->TimeSeconds)
@@ -43,4 +46,6 @@ void AARPGExplosive::OnComponentHit(UPrimitiveComponent* HitComponent, AActor* O
 
 	FString DebugString = FString::Printf(TEXT("Hit at Location : %s"), *Hit.ImpactPoint.ToString());
 	DrawDebugString(GetWorld(), Hit.ImpactPoint, DebugString, nullptr, FColor::Green, 3.f, true);
+	*
+	*/
 }

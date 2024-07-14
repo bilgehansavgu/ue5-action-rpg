@@ -47,6 +47,7 @@ void AARPGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	EnhancedInputComponent->BindAction(Input_Jump, ETriggerEvent::Triggered, this, &ACharacter::Jump);
 	EnhancedInputComponent->BindAction(Input_BasicAttack, ETriggerEvent::Triggered, this, &ThisClass::BasicAttack);
 	EnhancedInputComponent->BindAction(Input_AreaOfEffect, ETriggerEvent::Triggered, this, &ThisClass::AreaOfEffectAttack);
+	EnhancedInputComponent->BindAction(Input_Teleport, ETriggerEvent::Triggered, this, &ThisClass::Teleport);
 }
 
 void AARPGCharacter::Move(const FInputActionInstance& Instance)
@@ -84,6 +85,11 @@ void AARPGCharacter::BasicAttack()
 void AARPGCharacter::AreaOfEffectAttack()
 {
 	SpawnProjectile(AreaOfEffectClass);
+}
+
+void AARPGCharacter::Teleport()
+{
+	SpawnProjectile(TeleportSpellClass);
 }
 
 void AARPGCharacter::SpawnProjectile(TSubclassOf<AActor> ClassToSpawn)

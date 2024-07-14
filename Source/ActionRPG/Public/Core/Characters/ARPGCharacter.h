@@ -40,11 +40,13 @@ protected:
 	void LookMouse(const FInputActionValue& Value);
 
 	UFUNCTION()
+	void SpawnProjectile(TSubclassOf<AActor> ClassToSpawn);
+	
 	void BasicAttack();
 
 	void AreaOfEffectAttack();
-	
-	void SpawnProjectile(TSubclassOf<AActor> ClassToSpawn);
+
+	void Teleport();
 
 	// PROPERTIES
 	
@@ -80,6 +82,9 @@ protected:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> Input_AreaOfEffect;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TObjectPtr<UInputAction> Input_Teleport;
 
 	UPROPERTY(EditAnywhere, Category = "Animations")
 	TObjectPtr<UAnimMontage> AttackAnimation;
@@ -89,4 +94,7 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AActor> AreaOfEffectClass;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<AActor> TeleportSpellClass;
 };

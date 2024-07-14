@@ -89,3 +89,4 @@ Thumbs.db
 
 Content/*
 !Content/_ActionRPG/
+!Content/ControlRig/
