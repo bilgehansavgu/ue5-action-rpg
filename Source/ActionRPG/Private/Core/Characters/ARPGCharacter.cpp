@@ -8,6 +8,7 @@
 
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "Core/Equippables/ARPGBaseEquippable.h"
 
 AARPGCharacter::AARPGCharacter()
 {
@@ -21,6 +22,13 @@ AARPGCharacter::AARPGCharacter()
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	
 	bUseControllerRotationYaw = false;
+}
+
+void AARPGCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+	
+	SpawnWeapon();
 }
 
 void AARPGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -48,6 +56,20 @@ void AARPGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	EnhancedInputComponent->BindAction(Input_BasicAttack, ETriggerEvent::Triggered, this, &ThisClass::BasicAttack);
 	EnhancedInputComponent->BindAction(Input_AreaOfEffect, ETriggerEvent::Triggered, this, &ThisClass::AreaOfEffectAttack);
 	EnhancedInputComponent->BindAction(Input_Teleport, ETriggerEvent::Triggered, this, &ThisClass::Teleport);
+	EnhancedInputComponent->BindAction(Input_EquipWeapon, ETriggerEvent::Triggered, this, &ThisClass::ToggleMainWeapon);
+}
+
+void AARPGCharacter::SpawnWeapon()
+{
+	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	SpawnParameters.Instigator = this;
+	SpawnParameters.Owner = this;
+
+	FTransform HipSpawnTransform = GetMesh()->GetSocketTransform(BigSwordHipLSocketName);
+	
+	MainWeapon = GetWorld()->SpawnActor<AActor>(WeaponClass, HipSpawnTransform, SpawnParameters);
+	Cast<AARPGBaseEquippable>(MainWeapon)->OnUnequipped(BigSwordHipLSocketName);
 }
 
 void AARPGCharacter::Move(const FInputActionInstance& Instance)
@@ -77,19 +99,15 @@ void AARPGCharacter::LookMouse(const FInputActionValue& Value)
 	}
 }
 
-void AARPGCharacter::BasicAttack()
+void AARPGCharacter::ToggleMainWeapon()
 {
-	SpawnProjectile(BasicAttackProjectileClass);
-}
-
-void AARPGCharacter::AreaOfEffectAttack()
-{
-	SpawnProjectile(AreaOfEffectClass);
-}
-
-void AARPGCharacter::Teleport()
-{
-	SpawnProjectile(TeleportSpellClass);
+	if(!Cast<AARPGBaseEquippable>(MainWeapon)->IsEquipped)
+	{
+		Cast<AARPGBaseEquippable>(MainWeapon)->OnEquipped(BigSwordHandRSocketName);
+	} else
+	{
+		Cast<AARPGBaseEquippable>(MainWeapon)->OnUnequipped(BigSwordHipLSocketName);
+	}
 }
 
 void AARPGCharacter::SpawnProjectile(TSubclassOf<AActor> ClassToSpawn)
@@ -130,3 +148,17 @@ void AARPGCharacter::SpawnProjectile(TSubclassOf<AActor> ClassToSpawn)
 	}
 }
 
+void AARPGCharacter::BasicAttack()
+{
+	SpawnProjectile(BasicAttackProjectileClass);
+}
+
+void AARPGCharacter::AreaOfEffectAttack()
+{
+	SpawnProjectile(AreaOfEffectClass);
+}
+
+void AARPGCharacter::Teleport()
+{
+	SpawnProjectile(TeleportSpellClass);
+}

@@ -30,8 +30,9 @@ protected:
 	//	DELEGATES
 
 
-
 	//	FUNCTIONS
+	
+	virtual void BeginPlay() override;
 	
 	UFUNCTION()
 	void Move(const FInputActionInstance& Instance);
@@ -41,12 +42,21 @@ protected:
 
 	UFUNCTION()
 	void SpawnProjectile(TSubclassOf<AActor> ClassToSpawn);
-	
+
+	UFUNCTION()
 	void BasicAttack();
 
+	UFUNCTION()
 	void AreaOfEffectAttack();
 
+	UFUNCTION()
 	void Teleport();
+
+	UFUNCTION()
+	void SpawnWeapon();
+
+	UFUNCTION()
+	void ToggleMainWeapon();
 
 	// PROPERTIES
 	
@@ -58,6 +68,12 @@ protected:
 	
 	UPROPERTY(EditDefaultsOnly)
 	FName RightHandSocketName{"ik_hand_rSocket"};
+	
+	UPROPERTY(EditDefaultsOnly)
+	FName BigSwordHipLSocketName{"sword_hip_attach_socket"};
+
+	UPROPERTY(EditDefaultsOnly)
+	FName BigSwordHandRSocketName{"hand_r_weapon_socket"};
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UCameraComponent> CameraComponent;
@@ -85,6 +101,9 @@ protected:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> Input_Teleport;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TObjectPtr<UInputAction> Input_EquipWeapon;
 
 	UPROPERTY(EditAnywhere, Category = "Animations")
 	TObjectPtr<UAnimMontage> AttackAnimation;
@@ -97,4 +116,9 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AActor> TeleportSpellClass;
+	
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<AActor> WeaponClass;
+	
+	AActor* MainWeapon;
 };
