@@ -25,6 +25,12 @@ public:
 	
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UFUNCTION()
+	void PutBackWeapon();
+
+	UFUNCTION()
+	void DrawWeapon();
+
 protected:
 
 	//	DELEGATES
@@ -56,7 +62,7 @@ protected:
 	void SpawnWeapon();
 
 	UFUNCTION()
-	void ToggleMainWeapon();
+	void ToggleMainWeaponMontage();
 
 	// PROPERTIES
 	
@@ -66,13 +72,13 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	float ProjectileTraceRadius{20.f};
 	
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Socket")
 	FName RightHandSocketName{"ik_hand_rSocket"};
 	
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Socket")
 	FName BigSwordHipLSocketName{"sword_hip_attach_socket"};
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Socket")
 	FName BigSwordHandRSocketName{"hand_r_weapon_socket"};
 
 	UPROPERTY(VisibleAnywhere)
@@ -105,20 +111,25 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> Input_EquipWeapon;
 
-	UPROPERTY(EditAnywhere, Category = "Animations")
-	TObjectPtr<UAnimMontage> AttackAnimation;
+	UPROPERTY(EditAnywhere, Category = "Animation")
+	TObjectPtr<UAnimMontage> DrawWeaponAnimation;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Animation")
+	TObjectPtr<UAnimMontage> PutBackWeaponAnimation;
+
+	UPROPERTY(EditAnywhere, Category = "Projectile")
 	TSubclassOf<AActor> BasicAttackProjectileClass;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Projectile")
 	TSubclassOf<AActor> AreaOfEffectClass;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Projectile")
 	TSubclassOf<AActor> TeleportSpellClass;
 	
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Weapon")
 	TSubclassOf<AActor> WeaponClass;
 	
-	AActor* MainWeapon;
+	TObjectPtr<AActor> MainWeapon;
+	
+	bool bIsWeaponEquipped = false;
 };

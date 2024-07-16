@@ -56,7 +56,7 @@ void AARPGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	EnhancedInputComponent->BindAction(Input_BasicAttack, ETriggerEvent::Triggered, this, &ThisClass::BasicAttack);
 	EnhancedInputComponent->BindAction(Input_AreaOfEffect, ETriggerEvent::Triggered, this, &ThisClass::AreaOfEffectAttack);
 	EnhancedInputComponent->BindAction(Input_Teleport, ETriggerEvent::Triggered, this, &ThisClass::Teleport);
-	EnhancedInputComponent->BindAction(Input_EquipWeapon, ETriggerEvent::Triggered, this, &ThisClass::ToggleMainWeapon);
+	EnhancedInputComponent->BindAction(Input_EquipWeapon, ETriggerEvent::Triggered, this, &ThisClass::ToggleMainWeaponMontage);
 }
 
 void AARPGCharacter::SpawnWeapon()
@@ -99,15 +99,28 @@ void AARPGCharacter::LookMouse(const FInputActionValue& Value)
 	}
 }
 
-void AARPGCharacter::ToggleMainWeapon()
+void AARPGCharacter::ToggleMainWeaponMontage()
 {
-	if(!Cast<AARPGBaseEquippable>(MainWeapon)->IsEquipped)
+	if (bIsWeaponEquipped)
 	{
-		Cast<AARPGBaseEquippable>(MainWeapon)->OnEquipped(BigSwordHandRSocketName);
+		PlayAnimMontage(PutBackWeaponAnimation);
+		bIsWeaponEquipped = false;
 	} else
 	{
-		Cast<AARPGBaseEquippable>(MainWeapon)->OnUnequipped(BigSwordHipLSocketName);
+		PlayAnimMontage(DrawWeaponAnimation);
+		bIsWeaponEquipped = true;
 	}
+	
+}
+
+void AARPGCharacter::DrawWeapon()
+{
+	Cast<AARPGBaseEquippable>(MainWeapon)->OnEquipped(BigSwordHandRSocketName);
+}
+
+void AARPGCharacter::PutBackWeapon()
+{
+	Cast<AARPGBaseEquippable>(MainWeapon)->OnUnequipped(BigSwordHipLSocketName);
 }
 
 void AARPGCharacter::SpawnProjectile(TSubclassOf<AActor> ClassToSpawn)

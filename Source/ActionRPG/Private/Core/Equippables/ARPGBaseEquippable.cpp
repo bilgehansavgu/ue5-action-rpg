@@ -43,7 +43,7 @@ void AARPGBaseEquippable::OnUnequipped(FName SocketName)
 	SetIsEquipped(false);
 }
 
-void AARPGBaseEquippable::SetIsEquipped(bool bIsEquipped)
+void AARPGBaseEquippable::SetIsEquipped(bool isEquipped)
 {
-	IsEquipped = bIsEquipped;
+	bIsEquipped = isEquipped;
 }

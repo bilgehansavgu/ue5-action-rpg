@@ -23,7 +23,8 @@ public:
 	UFUNCTION()
 	void OnUnequipped(FName SocketName);
 
-	bool IsEquipped;
+	UFUNCTION()
+	bool IsEquipped() const { return bIsEquipped; }
 
 protected:
 
@@ -38,4 +39,6 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UStaticMeshComponent> StaticMeshComponent;
+	
+	bool bIsEquipped;
 };
