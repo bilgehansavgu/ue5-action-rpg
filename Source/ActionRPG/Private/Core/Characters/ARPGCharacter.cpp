@@ -12,6 +12,7 @@
 #include "Components/ARPGInteractionComponent.h"
 #include "Core/Equippables/ARPGBaseEquippable.h"
 #include "Core/Projectiles/ARPGProjectileBase.h"
+#include "Kismet/GameplayStatics.h"
 
 AARPGCharacter::AARPGCharacter()
 {
@@ -131,11 +132,16 @@ void AARPGCharacter::OnHealthChangedEvent(AActor* InstigatorActor,
 {
 	if(DeltaHealth < 0.f)
 	{
-		GetMesh()->SetScalarParameterValueOnMaterials("HitTime", GetWorld()->TimeSeconds);
-
-		FVector3d FlashColor = FVector3d(1.0f, 0.0f, 0.0f);
-		GetMesh()->SetVectorParameterValueOnMaterials("Flash Color", FlashColor);
+		TookDamageMaterialEffect();
 	}
+}
+
+void AARPGCharacter::TookDamageMaterialEffect()
+{
+	GetMesh()->SetScalarParameterValueOnMaterials("HitTime", GetWorld()->TimeSeconds);
+
+	FVector3d FlashColor = FVector3d(1.0f, 0.0f, 0.0f);
+	GetMesh()->SetVectorParameterValueOnMaterials("Flash Color", FlashColor);
 }
 
 void AARPGCharacter::DrawWeapon()
@@ -169,8 +175,21 @@ void AARPGCharacter::SpawnProjectile(TSubclassOf<AARPGProjectileBase> ClassToSpa
 		ObjectQueryParams.AddObjectTypesToQuery(ECC_WorldStatic);
 		ObjectQueryParams.AddObjectTypesToQuery(ECC_Pawn);
 
-		FVector TraceStart = CameraComponent->GetComponentLocation();
-		FVector TraceEnd = CameraComponent->GetComponentLocation() + (GetControlRotation().Vector() * ProjectileTraceEndDistance);
+		APlayerController* PlayerController = Cast<APlayerController>(GetController());
+		if(PlayerController == nullptr)
+		{
+			return;
+		}
+
+		FVector2D ViewportSize;
+		GEngine->GameViewport->GetViewportSize(ViewportSize);
+		FVector2D ScreenCenter = ViewportSize / 2.f;
+	
+		FVector WorldLocation, WorldDirection;
+		UGameplayStatics::DeprojectScreenToWorld(PlayerController, ScreenCenter, WorldLocation, WorldDirection);
+	
+		FVector TraceStart = WorldLocation;
+		FVector TraceEnd = WorldLocation + (WorldDirection * ProjectileTraceEndDistance);
 
 		FHitResult HitResult;
 

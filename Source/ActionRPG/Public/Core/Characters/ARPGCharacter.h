@@ -72,6 +72,9 @@ protected:
 	void OnHealthChangedEvent(AActor* InstigatorActor, UARPGAttributeComponent* OwningComponent, float NewHealth, float DeltaHealth);
 
 	UFUNCTION()
+	void TookDamageMaterialEffect();
+
+	UFUNCTION()
 	void Interact();
 
 	// PROPERTIES
@@ -140,7 +143,7 @@ protected:
 	TSubclassOf<AARPGProjectileBase> TeleportSpellClass;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
-	float ProjectileTraceEndDistance{5000.f};
+	float ProjectileTraceEndDistance{10000.f};
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
 	float ProjectileTraceRadius{20.f};

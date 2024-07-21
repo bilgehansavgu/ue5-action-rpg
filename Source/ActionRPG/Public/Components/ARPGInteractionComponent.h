@@ -21,7 +21,7 @@ public:
 protected:
 
 	UPROPERTY(EditAnywhere)
-	uint16 EndDistance{1000};
+	uint16 EndDistance{800};
 
 	UPROPERTY(EditAnywhere)
 	float ShapeRadius{30.f};

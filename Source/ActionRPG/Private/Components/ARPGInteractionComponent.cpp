@@ -3,7 +3,9 @@
 
 #include "Components/ARPGInteractionComponent.h"
 
+#include "Camera/CameraComponent.h"
 #include "Core/Interfaces/ARPGInteractableInterface.h"
+#include "Kismet/GameplayStatics.h"
 
 
 UARPGInteractionComponent::UARPGInteractionComponent()
@@ -17,21 +19,28 @@ void UARPGInteractionComponent::Interact()
 	ObjectQueryParams.AddObjectTypesToQuery(ECC_WorldDynamic);
 	
 	AActor* Owner = GetOwner();
-
-	FVector EyeLocation;
-	FRotator EyeRotation;
-	Owner->GetActorEyesViewPoint(EyeLocation, EyeRotation);
-
-	FVector EndLocation = EyeLocation + (EyeRotation.Vector() * EndDistance);
 	
-	/*FHitResult HitResult;
-	bool bIsHit = GetWorld()->LineTraceSingleByObjectType(HitResult, EyeLocation, EndLocation, ObjectQueryParams);*/
+	APlayerController* PlayerController = Cast<APlayerController>(Owner->GetInstigatorController());
+	if(PlayerController == nullptr)
+	{
+		return;
+	}
+
+	FVector2D ViewportSize;
+	GEngine->GameViewport->GetViewportSize(ViewportSize);
+	FVector2D ScreenCenter = ViewportSize / 2.f;
+	
+	FVector WorldLocation, WorldDirection;
+	UGameplayStatics::DeprojectScreenToWorld(PlayerController, ScreenCenter, WorldLocation, WorldDirection);
+	
+	FVector TraceStart = WorldLocation;
+	FVector TraceEnd = WorldLocation + (WorldDirection * EndDistance);
 
 	FCollisionShape CollisionShape;
 	CollisionShape.SetSphere(ShapeRadius);
 
 	TArray<FHitResult> HitResults;
-	bool bIsHit = GetWorld()->SweepMultiByObjectType(HitResults, EyeLocation, EndLocation, FQuat::Identity, ObjectQueryParams, CollisionShape);
+	bool bIsHit = GetWorld()->SweepMultiByObjectType(HitResults, TraceStart, TraceEnd, FQuat::Identity, ObjectQueryParams, CollisionShape);
 
 	FColor DebugColor = bIsHit ? FColor::Green : FColor::Red;
 
@@ -52,7 +61,6 @@ void UARPGInteractionComponent::Interact()
 
 		DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, ShapeRadius, 32, DebugColor, false, 2.f);
 	}
-	
-	DrawDebugLine(GetWorld(), EyeLocation, EndLocation, DebugColor, false, 2.f, 0.f, 2.f);
+	DrawDebugLine(GetWorld(), TraceStart, TraceEnd, DebugColor, false, 2.f, 0.f, 2.f);
 }
 
