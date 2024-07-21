@@ -6,6 +6,10 @@
 #include "GameFramework/Character.h"
 #include "ARPGCharacter.generated.h"
 
+class UARPGAttributeComponent;
+class UARPGInteractionComponent;
+class AARPGBaseEquippable;
+class AARPGProjectileBase;
 class USpringArmComponent;
 class UCameraComponent;
 
@@ -47,7 +51,7 @@ protected:
 	void LookMouse(const FInputActionValue& Value);
 
 	UFUNCTION()
-	void SpawnProjectile(TSubclassOf<AActor> ClassToSpawn);
+	void SpawnProjectile(TSubclassOf<AARPGProjectileBase> ClassToSpawn);
 
 	UFUNCTION()
 	void BasicAttack();
@@ -64,13 +68,13 @@ protected:
 	UFUNCTION()
 	void ToggleMainWeaponMontage();
 
-	// PROPERTIES
-	
-	UPROPERTY(EditDefaultsOnly)
-	float ProjectileTraceEndDistance{5000.f};
+	UFUNCTION()
+	void OnHealthChangedEvent(AActor* InstigatorActor, UARPGAttributeComponent* OwningComponent, float NewHealth, float DeltaHealth);
 
-	UPROPERTY(EditDefaultsOnly)
-	float ProjectileTraceRadius{20.f};
+	UFUNCTION()
+	void Interact();
+
+	// PROPERTIES
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Socket")
 	FName RightHandSocketName{"ik_hand_rSocket"};
@@ -81,11 +85,17 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Socket")
 	FName BigSwordHandRSocketName{"hand_r_weapon_socket"};
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, Category = "Components")
 	TObjectPtr<UCameraComponent> CameraComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	TObjectPtr<USpringArmComponent> SpringArmComponent;
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	TObjectPtr<UARPGInteractionComponent> InteractionComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	TObjectPtr<UARPGAttributeComponent> AttributeComponent;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputMappingContext> InputMapping;
@@ -109,6 +119,9 @@ protected:
 	TObjectPtr<UInputAction> Input_Teleport;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TObjectPtr<UInputAction> Input_Interact;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> Input_EquipWeapon;
 
 	UPROPERTY(EditAnywhere, Category = "Animation")
@@ -118,18 +131,26 @@ protected:
 	TObjectPtr<UAnimMontage> PutBackWeaponAnimation;
 
 	UPROPERTY(EditAnywhere, Category = "Projectile")
-	TSubclassOf<AActor> BasicAttackProjectileClass;
+	TSubclassOf<AARPGProjectileBase> BasicAttackProjectileClass;
 
 	UPROPERTY(EditAnywhere, Category = "Projectile")
-	TSubclassOf<AActor> AreaOfEffectClass;
+	TSubclassOf<AARPGProjectileBase> AreaOfEffectClass;
 
 	UPROPERTY(EditAnywhere, Category = "Projectile")
-	TSubclassOf<AActor> TeleportSpellClass;
+	TSubclassOf<AARPGProjectileBase> TeleportSpellClass;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
+	float ProjectileTraceEndDistance{5000.f};
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
+	float ProjectileTraceRadius{20.f};
 	
 	UPROPERTY(EditAnywhere, Category = "Weapon")
-	TSubclassOf<AActor> WeaponClass;
+	TSubclassOf<AARPGBaseEquippable> WeaponClass;
+
+	UPROPERTY(VisibleAnywhere, Category = "Weapon")
+	TObjectPtr<AARPGBaseEquippable> MainWeapon;
 	
-	TObjectPtr<AActor> MainWeapon;
-	
+	UPROPERTY(VisibleAnywhere, Category = "Weapon")
 	bool bIsWeaponEquipped = false;
 };

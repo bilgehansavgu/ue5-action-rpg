@@ -3,30 +3,11 @@
 
 #include "Projectiles/ARPGSpell.h"
 
-#include "NiagaraComponent.h"
-
-#include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 
 AARPGSpell::AARPGSpell()
 {
-	PrimaryActorTick.bCanEverTick = true;
-
-	SphereComponent = CreateDefaultSubobject<USphereComponent>("SphereComponent");
-	SphereComponent->SetCollisionProfileName("Projectile");
-	RootComponent = SphereComponent;
-
-	NiagaraComponent = CreateDefaultSubobject<UNiagaraComponent>("NiagaraComponent");
-	NiagaraComponent->SetupAttachment(SphereComponent);
-
-	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>("ProjectileMovementComponent");
-	ProjectileMovementComponent->InitialSpeed = 2000.f;
-	ProjectileMovementComponent->bRotationFollowsVelocity = true;
-	ProjectileMovementComponent->bInitialVelocityInLocalSpace = true;
+	MovementComponent->InitialSpeed = 3000.f;
 }
 
-void AARPGSpell::BeginPlay()
-{
-	Super::BeginPlay();
-}
 

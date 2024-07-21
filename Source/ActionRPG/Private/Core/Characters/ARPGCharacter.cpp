@@ -8,10 +8,14 @@
 
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "Components/ARPGAttributeComponent.h"
+#include "Components/ARPGInteractionComponent.h"
 #include "Core/Equippables/ARPGBaseEquippable.h"
+#include "Core/Projectiles/ARPGProjectileBase.h"
 
 AARPGCharacter::AARPGCharacter()
 {
+	//	SpringArm & Camera Components
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>("SpringArmComponent");
 	SpringArmComponent->bUsePawnControlRotation = true;
 	SpringArmComponent->SetupAttachment(RootComponent);
@@ -19,9 +23,17 @@ AARPGCharacter::AARPGCharacter()
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>("CameraComponent");
 	CameraComponent->SetupAttachment(SpringArmComponent);
 	
+	//	Movement Component
 	GetCharacterMovement()->bOrientRotationToMovement = true;
-	
 	bUseControllerRotationYaw = false;
+
+	//	Interaction Component
+	InteractionComponent = CreateDefaultSubobject<UARPGInteractionComponent>("InteractionComponent");
+
+	// Character Attributes Component
+	AttributeComponent = CreateDefaultSubobject<UARPGAttributeComponent>("AttributeComponent");
+
+	AttributeComponent->OnHealthChanged.AddUniqueDynamic(this, &ThisClass::OnHealthChangedEvent);
 }
 
 void AARPGCharacter::BeginPlay()
@@ -57,6 +69,7 @@ void AARPGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	EnhancedInputComponent->BindAction(Input_AreaOfEffect, ETriggerEvent::Triggered, this, &ThisClass::AreaOfEffectAttack);
 	EnhancedInputComponent->BindAction(Input_Teleport, ETriggerEvent::Triggered, this, &ThisClass::Teleport);
 	EnhancedInputComponent->BindAction(Input_EquipWeapon, ETriggerEvent::Triggered, this, &ThisClass::ToggleMainWeaponMontage);
+	EnhancedInputComponent->BindAction(Input_Interact, ETriggerEvent::Triggered, this, &ThisClass::Interact);
 }
 
 void AARPGCharacter::SpawnWeapon()
@@ -68,8 +81,8 @@ void AARPGCharacter::SpawnWeapon()
 
 	FTransform HipSpawnTransform = GetMesh()->GetSocketTransform(BigSwordHipLSocketName);
 	
-	MainWeapon = GetWorld()->SpawnActor<AActor>(WeaponClass, HipSpawnTransform, SpawnParameters);
-	Cast<AARPGBaseEquippable>(MainWeapon)->OnUnequipped(BigSwordHipLSocketName);
+	MainWeapon = GetWorld()->SpawnActor<AARPGBaseEquippable>(WeaponClass, HipSpawnTransform, SpawnParameters);
+	MainWeapon->OnUnequipped(BigSwordHipLSocketName);
 }
 
 void AARPGCharacter::Move(const FInputActionInstance& Instance)
@@ -113,6 +126,15 @@ void AARPGCharacter::ToggleMainWeaponMontage()
 	
 }
 
+void AARPGCharacter::OnHealthChangedEvent(AActor* InstigatorActor,
+	UARPGAttributeComponent* OwningComponent, float NewHealth, float DeltaHealth)
+{
+	if(DeltaHealth < 0.f)
+	{
+		GetMesh()->SetScalarParameterValueOnMaterials("HitTime", GetWorld()->TimeSeconds);
+	}
+}
+
 void AARPGCharacter::DrawWeapon()
 {
 	Cast<AARPGBaseEquippable>(MainWeapon)->OnEquipped(BigSwordHandRSocketName);
@@ -123,7 +145,7 @@ void AARPGCharacter::PutBackWeapon()
 	Cast<AARPGBaseEquippable>(MainWeapon)->OnUnequipped(BigSwordHipLSocketName);
 }
 
-void AARPGCharacter::SpawnProjectile(TSubclassOf<AActor> ClassToSpawn)
+void AARPGCharacter::SpawnProjectile(TSubclassOf<AARPGProjectileBase> ClassToSpawn)
 {
 	if(ensureAlways(ClassToSpawn))
 	{
@@ -174,4 +196,12 @@ void AARPGCharacter::AreaOfEffectAttack()
 void AARPGCharacter::Teleport()
 {
 	SpawnProjectile(TeleportSpellClass);
+}
+
+void AARPGCharacter::Interact()
+{
+	if(InteractionComponent)
+	{
+		InteractionComponent->Interact();
+	}
 }

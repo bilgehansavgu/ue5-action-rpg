@@ -26,7 +26,7 @@ void AARPGExplosive::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 
-	MeshComponent->OnComponentHit.AddUniqueDynamic(this, &ThisClass::AARPGExplosive::OnComponentHit);
+	MeshComponent->OnComponentBeginOverlap.AddUniqueDynamic(this, &ThisClass::AARPGExplosive::OnActorOverlap);	
 }
 
 void AARPGExplosive::OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
@@ -48,4 +48,11 @@ void AARPGExplosive::OnComponentHit(UPrimitiveComponent* HitComponent, AActor* O
 	DrawDebugString(GetWorld(), Hit.ImpactPoint, DebugString, nullptr, FColor::Green, 3.f, true);
 	*
 	*/
+}
+
+void AARPGExplosive::OnActorOverlap(UPrimitiveComponent* OverlappedComponent,
+	AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
+	const FHitResult& SweepResult)
+{
+	RadialForceComponent->FireImpulse();
 }

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Core/Projectiles/ARPGProjectileBase.h"
 #include "GameFramework/Actor.h"
 #include "ARPGSpell.generated.h"
 
@@ -11,7 +12,7 @@ class USphereComponent;
 class UNiagaraComponent;
 
 UCLASS()
-class ACTIONRPG_API AARPGSpell : public AActor
+class ACTIONRPG_API AARPGSpell : public AARPGProjectileBase
 {
 	GENERATED_BODY()
 	
@@ -19,14 +20,5 @@ public:
 	AARPGSpell();
 
 protected:
-	virtual void BeginPlay() override;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	TObjectPtr<USphereComponent> SphereComponent;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	TObjectPtr<UProjectileMovementComponent> ProjectileMovementComponent;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	TObjectPtr<UNiagaraComponent> NiagaraComponent;
+	
 };

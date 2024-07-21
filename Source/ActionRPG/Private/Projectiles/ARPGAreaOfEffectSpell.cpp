@@ -6,8 +6,6 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/KismetSystemLibrary.h"
 
-class URDAttributeComponent;
-
 AARPGAreaOfEffectSpell::AARPGAreaOfEffectSpell()
 {
 	MovementComponent->ProjectileGravityScale = 4.0f;
