@@ -132,6 +132,9 @@ void AARPGCharacter::OnHealthChangedEvent(AActor* InstigatorActor,
 	if(DeltaHealth < 0.f)
 	{
 		GetMesh()->SetScalarParameterValueOnMaterials("HitTime", GetWorld()->TimeSeconds);
+
+		FVector3d FlashColor = FVector3d(1.0f, 0.0f, 0.0f);
+		GetMesh()->SetVectorParameterValueOnMaterials("Flash Color", FlashColor);
 	}
 }
 
