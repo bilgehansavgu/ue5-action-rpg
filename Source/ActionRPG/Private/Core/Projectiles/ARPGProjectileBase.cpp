@@ -48,11 +48,11 @@ void AARPGProjectileBase::OnActorOverlap(UPrimitiveComponent* OverlappedComponen
 		{
 			AttributeComponent->ApplyHealthChange(-Damage);
 			
-			if (GEngine)
-			{
-				FString DebugMessage = FString::Printf(TEXT("Health changed. New Health: %f"), AttributeComponent->GetHealth());
-				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, DebugMessage);
-			}
+			// if (GEngine)
+			// {
+			// 	FString DebugMessage = FString::Printf(TEXT("Health changed. New Health: %f"), AttributeComponent->GetHealth());
+			// 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, DebugMessage);
+			// }
 		}
 		else
 		{
