@@ -11,6 +11,7 @@ UARPGAttributeComponent::UARPGAttributeComponent()
 bool UARPGAttributeComponent::ApplyHealthChange(float DeltaHealth)
 {
 	Health += DeltaHealth;
+	Health = FMath::Clamp(Health, 0.f, MaxHealth);
 
 	OnHealthChanged.Broadcast(nullptr, this, Health, DeltaHealth);
 	

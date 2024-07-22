@@ -133,6 +133,9 @@ void AARPGCharacter::OnHealthChangedEvent(AActor* InstigatorActor,
 	if(DeltaHealth < 0.f)
 	{
 		TookDamageMaterialEffect();
+	} else if (DeltaHealth > 0.f)
+	{
+		HPBuffMaterialEffect();
 	}
 }
 
@@ -141,6 +144,14 @@ void AARPGCharacter::TookDamageMaterialEffect()
 	GetMesh()->SetScalarParameterValueOnMaterials("HitTime", GetWorld()->TimeSeconds);
 
 	FVector3d FlashColor = FVector3d(1.0f, 0.0f, 0.0f);
+	GetMesh()->SetVectorParameterValueOnMaterials("Flash Color", FlashColor);
+}
+
+void AARPGCharacter::HPBuffMaterialEffect() 
+{
+	GetMesh()->SetScalarParameterValueOnMaterials("HitTime", GetWorld()->TimeSeconds);
+
+	FVector3d FlashColor = FVector3d(0.0f, 1.0f, 0.0f);
 	GetMesh()->SetVectorParameterValueOnMaterials("Flash Color", FlashColor);
 }
 

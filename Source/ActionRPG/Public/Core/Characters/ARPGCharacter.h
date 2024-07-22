@@ -75,6 +75,9 @@ protected:
 	void TookDamageMaterialEffect();
 
 	UFUNCTION()
+	void HPBuffMaterialEffect();
+
+	UFUNCTION()
 	void Interact();
 
 	// PROPERTIES
@@ -143,7 +146,7 @@ protected:
 	TSubclassOf<AARPGProjectileBase> TeleportSpellClass;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
-	float ProjectileTraceEndDistance{10000.f};
+	float ProjectileTraceEndDistance{2.f};
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
 	float ProjectileTraceRadius{20.f};
