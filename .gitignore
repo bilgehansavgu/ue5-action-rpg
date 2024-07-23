@@ -92,3 +92,5 @@ Content/*
 !Content/ControlRig/
 !Content/sA_Megapack_v1
 !Content/SoulsLikeBasicAssets
+!Content/__ExternalObjects__
+!Content/__ExternalActors__
