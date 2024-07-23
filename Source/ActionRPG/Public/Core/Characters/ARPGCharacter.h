@@ -30,10 +30,10 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION()
-	void PutBackWeapon();
+	void PutBackWeapon() const;
 
 	UFUNCTION()
-	void DrawWeapon();
+	void DrawWeapon() const;
 
 protected:
 
@@ -72,10 +72,10 @@ protected:
 	void OnHealthChangedEvent(AActor* InstigatorActor, UARPGAttributeComponent* OwningComponent, float NewHealth, float DeltaHealth);
 
 	UFUNCTION()
-	void TookDamageMaterialEffect();
+	void TookDamageMaterialEffect() const;
 
 	UFUNCTION()
-	void HPBuffMaterialEffect();
+	void HPBuffMaterialEffect() const;
 
 	UFUNCTION()
 	void Interact();
@@ -146,7 +146,7 @@ protected:
 	TSubclassOf<AARPGProjectileBase> TeleportSpellClass;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
-	float ProjectileTraceEndDistance{2.f};
+	float ProjectileTraceEndDistance{5000.f};
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
 	float ProjectileTraceRadius{20.f};

@@ -139,7 +139,7 @@ void AARPGCharacter::OnHealthChangedEvent(AActor* InstigatorActor,
 	}
 }
 
-void AARPGCharacter::TookDamageMaterialEffect()
+void AARPGCharacter::TookDamageMaterialEffect() const
 {
 	GetMesh()->SetScalarParameterValueOnMaterials("HitTime", GetWorld()->TimeSeconds);
 
@@ -147,7 +147,7 @@ void AARPGCharacter::TookDamageMaterialEffect()
 	GetMesh()->SetVectorParameterValueOnMaterials("Flash Color", FlashColor);
 }
 
-void AARPGCharacter::HPBuffMaterialEffect() 
+void AARPGCharacter::HPBuffMaterialEffect() const
 {
 	GetMesh()->SetScalarParameterValueOnMaterials("HitTime", GetWorld()->TimeSeconds);
 
@@ -155,12 +155,12 @@ void AARPGCharacter::HPBuffMaterialEffect()
 	GetMesh()->SetVectorParameterValueOnMaterials("Flash Color", FlashColor);
 }
 
-void AARPGCharacter::DrawWeapon()
+void AARPGCharacter::DrawWeapon() const
 {
 	Cast<AARPGBaseEquippable>(MainWeapon)->OnEquipped(BigSwordHandRSocketName);
 }
 
-void AARPGCharacter::PutBackWeapon()
+void AARPGCharacter::PutBackWeapon() const
 {
 	Cast<AARPGBaseEquippable>(MainWeapon)->OnUnequipped(BigSwordHipLSocketName);
 }
