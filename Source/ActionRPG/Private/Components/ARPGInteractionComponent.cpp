@@ -3,7 +3,6 @@
 
 #include "Components/ARPGInteractionComponent.h"
 
-#include "Camera/CameraComponent.h"
 #include "Core/Interfaces/ARPGInteractableInterface.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -41,7 +40,6 @@ void UARPGInteractionComponent::Interact()
 
 	TArray<FHitResult> HitResults;
 	bool bIsHit = GetWorld()->SweepMultiByObjectType(HitResults, TraceStart, TraceEnd, FQuat::Identity, ObjectQueryParams, CollisionShape);
-
 	FColor DebugColor = bIsHit ? FColor::Green : FColor::Red;
 
 	for(const FHitResult& HitResult : HitResults)
@@ -54,12 +52,10 @@ void UARPGInteractionComponent::Interact()
 				APawn* Pawn = Cast<APawn>(Owner);
 			
 				IARPGInteractableInterface::Execute_Interact(HitActor, Pawn);
-				
+				DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, ShapeRadius, 32, DebugColor, false, 2.f);
 				break;
 			}
 		}
-
-		DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, ShapeRadius, 32, DebugColor, false, 2.f);
 	}
 	DrawDebugLine(GetWorld(), TraceStart, TraceEnd, DebugColor, false, 2.f, 0.f, 2.f);
 }

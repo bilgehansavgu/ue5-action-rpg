@@ -6,30 +6,23 @@
 #include "GameFramework/Actor.h"
 #include "ARPGBaseEquippable.generated.h"
 
+class AARPGBasePickupActor;
+
 UCLASS()
 class ACTIONRPG_API AARPGBaseEquippable : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
+
 	AARPGBaseEquippable();
 
 	TObjectPtr<UPrimitiveComponent> GetItemMesh();
-	
-	UFUNCTION()
-	void OnEquipped(FName SocketName);
-
-	UFUNCTION()
-	void OnUnequipped(FName SocketName);
 
 	UFUNCTION()
 	bool IsEquipped() const { return bIsEquipped; }
 
 protected:
-
-	UFUNCTION()
-	void AttachToActor(FName SocketName);
 	
 	UFUNCTION()
 	void SetIsEquipped(bool bIsEquipped);

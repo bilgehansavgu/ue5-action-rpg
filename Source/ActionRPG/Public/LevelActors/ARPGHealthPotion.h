@@ -15,7 +15,8 @@ class ACTIONRPG_API AARPGHealthPotion : public AActor, public IARPGInteractableI
 public:	
 
 	AARPGHealthPotion();
-	
+
+	UFUNCTION()
 	virtual void Interact_Implementation(APawn* InstigatorPawn) override;
 
 protected:

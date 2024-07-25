@@ -30,10 +30,22 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION()
-	void PutBackWeapon() const;
+	void PutBackWeapon();
 
 	UFUNCTION()
-	void DrawWeapon() const;
+	void DrawWeapon();
+	
+	UFUNCTION()
+	AARPGBaseEquippable* GetMainWeapon();
+
+	UFUNCTION()
+	void SetMainWeapon(AARPGBaseEquippable* WeaponClass);
+
+	UFUNCTION()
+	void PickUpWeapon(TSubclassOf<AARPGBaseEquippable> WeaponClass);
+
+	// UFUNCTION()
+	// void DropWeapon();
 
 protected:
 
@@ -41,8 +53,6 @@ protected:
 
 
 	//	FUNCTIONS
-	
-	virtual void BeginPlay() override;
 	
 	UFUNCTION()
 	void Move(const FInputActionInstance& Instance);
@@ -63,19 +73,16 @@ protected:
 	void Teleport();
 
 	UFUNCTION()
-	void SpawnWeapon();
-
-	UFUNCTION()
 	void ToggleMainWeaponMontage();
 
 	UFUNCTION()
 	void OnHealthChangedEvent(AActor* InstigatorActor, UARPGAttributeComponent* OwningComponent, float NewHealth, float DeltaHealth);
 
 	UFUNCTION()
-	void TookDamageMaterialEffect() const;
+	void TookDamageMaterialEffect();
 
 	UFUNCTION()
-	void HPBuffMaterialEffect() const;
+	void HPBuffMaterialEffect();
 
 	UFUNCTION()
 	void Interact();
@@ -130,6 +137,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> Input_EquipWeapon;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TObjectPtr<UInputAction> Input_DropWeapon;
+
 	UPROPERTY(EditAnywhere, Category = "Animation")
 	TObjectPtr<UAnimMontage> DrawWeaponAnimation;
 
@@ -150,9 +160,6 @@ protected:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
 	float ProjectileTraceRadius{20.f};
-	
-	UPROPERTY(EditAnywhere, Category = "Weapon")
-	TSubclassOf<AARPGBaseEquippable> WeaponClass;
 
 	UPROPERTY(VisibleAnywhere, Category = "Weapon")
 	TObjectPtr<AARPGBaseEquippable> MainWeapon;

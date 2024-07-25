@@ -3,3 +3,10 @@
 
 #include "Equippables/ARPGThoughSword.h"
 
+AARPGThoughSword::AARPGThoughSword()
+{
+	SetEquippedSocketName("hand_r_weapon_socket");
+	SetUnequippedSocketName("sword_hip_attach_socket");
+}
+
+

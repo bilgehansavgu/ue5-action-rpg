@@ -11,8 +11,10 @@
 #include "Components/ARPGAttributeComponent.h"
 #include "Components/ARPGInteractionComponent.h"
 #include "Core/Equippables/ARPGBaseEquippable.h"
+#include "Core/Equippables/ARPGBaseWeapon.h"
 #include "Core/Projectiles/ARPGProjectileBase.h"
 #include "Kismet/GameplayStatics.h"
+#include "PickupActors/ARPGWeaponPickupActor.h"
 
 AARPGCharacter::AARPGCharacter()
 {
@@ -33,15 +35,7 @@ AARPGCharacter::AARPGCharacter()
 
 	// Character Attributes Component
 	AttributeComponent = CreateDefaultSubobject<UARPGAttributeComponent>("AttributeComponent");
-
 	AttributeComponent->OnHealthChanged.AddUniqueDynamic(this, &ThisClass::OnHealthChangedEvent);
-}
-
-void AARPGCharacter::BeginPlay()
-{
-	Super::BeginPlay();
-	
-	SpawnWeapon();
 }
 
 void AARPGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -71,20 +65,50 @@ void AARPGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	EnhancedInputComponent->BindAction(Input_Teleport, ETriggerEvent::Triggered, this, &ThisClass::Teleport);
 	EnhancedInputComponent->BindAction(Input_EquipWeapon, ETriggerEvent::Triggered, this, &ThisClass::ToggleMainWeaponMontage);
 	EnhancedInputComponent->BindAction(Input_Interact, ETriggerEvent::Triggered, this, &ThisClass::Interact);
+	//EnhancedInputComponent->BindAction(Input_DropWeapon, ETriggerEvent::Triggered, this, &ThisClass::DropWeapon);
 }
 
-void AARPGCharacter::SpawnWeapon()
+void AARPGCharacter::PickUpWeapon(TSubclassOf<AARPGBaseEquippable> WeaponClass)
 {
+	if (!WeaponClass)
+	{
+		return;
+	}
+
+	if (GetMainWeapon() != nullptr)
+	{
+		MainWeapon->Destroy();
+	}
+	
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	SpawnParameters.Instigator = this;
 	SpawnParameters.Owner = this;
-
-	FTransform HipSpawnTransform = GetMesh()->GetSocketTransform(BigSwordHipLSocketName);
 	
-	MainWeapon = GetWorld()->SpawnActor<AARPGBaseEquippable>(WeaponClass, HipSpawnTransform, SpawnParameters);
-	MainWeapon->OnUnequipped(BigSwordHipLSocketName);
+	MainWeapon = GetWorld()->SpawnActor<AARPGBaseEquippable>(WeaponClass, GetTransform(), SpawnParameters);
+
+	Cast<AARPGBaseWeapon>(MainWeapon)->OnEquipped(this);
+	
+	bIsWeaponEquipped = true;
 }
+
+// void AARPGCharacter::DropWeapon()
+// {
+// 	if (GetMainWeapon() == nullptr)
+// 	{
+// 		return;
+// 	}
+//
+// 	UClass* WeaponClass = GetMainWeapon()->GetClass();
+//
+// 	FActorSpawnParameters SpawnParameters;
+// 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+// 	
+// 	AARPGWeaponPickupActor* PickUpActor = GetWorld()->SpawnActor<AARPGWeaponPickupActor>(AARPGWeaponPickupActor::StaticClass(), GetTransform(), SpawnParameters);
+// 	PickUpActor->SetEquippableClass(WeaponClass);
+// 	
+// 	MainWeapon->Destroy();
+// }
 
 void AARPGCharacter::Move(const FInputActionInstance& Instance)
 {
@@ -115,6 +139,10 @@ void AARPGCharacter::LookMouse(const FInputActionValue& Value)
 
 void AARPGCharacter::ToggleMainWeaponMontage()
 {
+	if (!MainWeapon)
+	{
+		return;
+	}
 	if (bIsWeaponEquipped)
 	{
 		PlayAnimMontage(PutBackWeaponAnimation);
@@ -139,7 +167,7 @@ void AARPGCharacter::OnHealthChangedEvent(AActor* InstigatorActor,
 	}
 }
 
-void AARPGCharacter::TookDamageMaterialEffect() const
+void AARPGCharacter::TookDamageMaterialEffect()
 {
 	GetMesh()->SetScalarParameterValueOnMaterials("HitTime", GetWorld()->TimeSeconds);
 
@@ -147,7 +175,7 @@ void AARPGCharacter::TookDamageMaterialEffect() const
 	GetMesh()->SetVectorParameterValueOnMaterials("Flash Color", FlashColor);
 }
 
-void AARPGCharacter::HPBuffMaterialEffect() const
+void AARPGCharacter::HPBuffMaterialEffect()
 {
 	GetMesh()->SetScalarParameterValueOnMaterials("HitTime", GetWorld()->TimeSeconds);
 
@@ -155,14 +183,30 @@ void AARPGCharacter::HPBuffMaterialEffect() const
 	GetMesh()->SetVectorParameterValueOnMaterials("Flash Color", FlashColor);
 }
 
-void AARPGCharacter::DrawWeapon() const
+void AARPGCharacter::DrawWeapon()
 {
-	Cast<AARPGBaseEquippable>(MainWeapon)->OnEquipped(BigSwordHandRSocketName);
+	if (AARPGBaseWeapon* Weapon = Cast<AARPGBaseWeapon>(MainWeapon))
+	{
+		Weapon->OnEquipped(this);
+	}
 }
 
-void AARPGCharacter::PutBackWeapon() const
+AARPGBaseEquippable* AARPGCharacter::GetMainWeapon()
 {
-	Cast<AARPGBaseEquippable>(MainWeapon)->OnUnequipped(BigSwordHipLSocketName);
+	return MainWeapon;
+}
+
+void AARPGCharacter::SetMainWeapon(AARPGBaseEquippable* Weapon)
+{
+	MainWeapon = Weapon;
+}
+
+void AARPGCharacter::PutBackWeapon()
+{
+	if (AARPGBaseWeapon* Weapon = Cast<AARPGBaseWeapon>(MainWeapon))
+	{
+		Weapon->OnUnequipped(this);
+	}
 }
 
 void AARPGCharacter::SpawnProjectile(TSubclassOf<AARPGProjectileBase> ClassToSpawn)
