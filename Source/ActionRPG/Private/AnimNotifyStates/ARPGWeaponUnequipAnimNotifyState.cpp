@@ -1,11 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "AnimNotifyStates/ARPGThoughSwordUnequip.h"
+#include "AnimNotifyStates/ARPGWeaponUnequipAnimNotifyState.h"
 
 #include "Core/Characters/ARPGCharacter.h"
 
-void UARPGThoughSwordUnequip::NotifyBegin(USkeletalMeshComponent* MeshComp,
+void UARPGWeaponUnequipAnimNotifyState::NotifyBegin(USkeletalMeshComponent* MeshComp,
 	UAnimSequenceBase* Animation, float TotalDuration,
 	const FAnimNotifyEventReference& EventReference)
 {

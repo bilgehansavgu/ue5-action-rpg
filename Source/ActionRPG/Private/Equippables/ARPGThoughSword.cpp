@@ -5,8 +5,8 @@
 
 AARPGThoughSword::AARPGThoughSword()
 {
-	SetEquippedSocketName("hand_r_weapon_socket");
-	SetUnequippedSocketName("sword_hip_attach_socket");
+	SetEquippedSocketName("though_sword_equipped_socket");
+	SetUnequippedSocketName("though_sword_unequipped_socket");
 }
 
 

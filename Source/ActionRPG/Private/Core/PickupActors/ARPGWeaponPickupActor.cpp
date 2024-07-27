@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "PickupActors/ARPGWeaponPickupActor.h"
+#include "Core/PickupActors/ARPGWeaponPickupActor.h"
 
 #include "Core/Characters/ARPGCharacter.h"
 #include "Core/Equippables/ARPGBaseEquippable.h"
@@ -20,8 +20,16 @@ void AARPGWeaponPickupActor::Interact_Implementation(APawn* InstigatorPawn)
 	
 	if (AARPGCharacter* CharacterOwner = Cast<AARPGCharacter>(InstigatorPawn))
 	{
+		if (CharacterOwner->GetMainWeapon())
+		{
+			if (EquippableClass == CharacterOwner->GetMainWeapon()->GetClass())
+			{
+				return;
+			}
+		}
+
 		CharacterOwner->PickUpWeapon(EquippableClass);
 		
-		Destroy();
+		//Destroy();
 	}
 }

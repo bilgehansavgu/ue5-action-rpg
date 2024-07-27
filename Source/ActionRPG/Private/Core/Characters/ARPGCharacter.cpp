@@ -8,13 +8,13 @@
 
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "Blueprint/UserWidget.h"
 #include "Components/ARPGAttributeComponent.h"
 #include "Components/ARPGInteractionComponent.h"
 #include "Core/Equippables/ARPGBaseEquippable.h"
 #include "Core/Equippables/ARPGBaseWeapon.h"
 #include "Core/Projectiles/ARPGProjectileBase.h"
 #include "Kismet/GameplayStatics.h"
-#include "PickupActors/ARPGWeaponPickupActor.h"
 
 AARPGCharacter::AARPGCharacter()
 {
@@ -35,7 +35,15 @@ AARPGCharacter::AARPGCharacter()
 
 	// Character Attributes Component
 	AttributeComponent = CreateDefaultSubobject<UARPGAttributeComponent>("AttributeComponent");
+}
+
+void AARPGCharacter::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+
 	AttributeComponent->OnHealthChanged.AddUniqueDynamic(this, &ThisClass::OnHealthChangedEvent);
+
+	InventoryWidget = CreateWidget<UUserWidget>(GetWorld(), InventoryWidgetClass);
 }
 
 void AARPGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -66,6 +74,7 @@ void AARPGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	EnhancedInputComponent->BindAction(Input_EquipWeapon, ETriggerEvent::Triggered, this, &ThisClass::ToggleMainWeaponMontage);
 	EnhancedInputComponent->BindAction(Input_Interact, ETriggerEvent::Triggered, this, &ThisClass::Interact);
 	//EnhancedInputComponent->BindAction(Input_DropWeapon, ETriggerEvent::Triggered, this, &ThisClass::DropWeapon);
+	EnhancedInputComponent->BindAction(Input_ToggleInventory, ETriggerEvent::Triggered, this, &ThisClass::ToggleInventory);
 }
 
 void AARPGCharacter::PickUpWeapon(TSubclassOf<AARPGBaseEquippable> WeaponClass)
@@ -281,4 +290,41 @@ void AARPGCharacter::Interact()
 	{
 		InteractionComponent->Interact();
 	}
+}
+
+void AARPGCharacter::ToggleInventory()
+{
+	if (bIsInventoryOpen)
+	{
+		if (InventoryWidget)
+		{
+			InventoryWidget->RemoveFromParent();
+		}
+
+		APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+		if (PlayerController)
+		{
+			FInputModeGameOnly InputMode;
+			PlayerController->SetInputMode(InputMode);
+			PlayerController->SetShowMouseCursor(false);
+		}
+	}
+	else
+	{
+		if (InventoryWidget)
+		{
+			InventoryWidget->AddToViewport();
+		}
+
+		APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+		if (PlayerController)
+		{
+			FInputModeGameAndUI InputMode;
+			InputMode.SetWidgetToFocus(InventoryWidget->TakeWidget());
+			PlayerController->SetInputMode(InputMode);
+			PlayerController->SetShowMouseCursor(true);
+		}
+	}
+
+	bIsInventoryOpen = !bIsInventoryOpen;
 }

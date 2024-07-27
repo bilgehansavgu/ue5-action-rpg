@@ -53,6 +53,8 @@ protected:
 
 
 	//	FUNCTIONS
+
+	virtual void PostInitializeComponents() override;
 	
 	UFUNCTION()
 	void Move(const FInputActionInstance& Instance);
@@ -86,6 +88,9 @@ protected:
 
 	UFUNCTION()
 	void Interact();
+
+	UFUNCTION()
+	void ToggleInventory();
 
 	// PROPERTIES
 	
@@ -140,6 +145,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> Input_DropWeapon;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TObjectPtr<UInputAction> Input_ToggleInventory;
+
 	UPROPERTY(EditAnywhere, Category = "Animation")
 	TObjectPtr<UAnimMontage> DrawWeaponAnimation;
 
@@ -166,4 +174,12 @@ protected:
 	
 	UPROPERTY(VisibleAnywhere, Category = "Weapon")
 	bool bIsWeaponEquipped = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	TSubclassOf<UUserWidget> InventoryWidgetClass;
+
+	UPROPERTY()
+	UUserWidget* InventoryWidget;
+	
+	bool bIsInventoryOpen = false;
 };

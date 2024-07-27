@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimNotifies/AnimNotifyState.h"
-#include "ARPGThoughSwordUnequip.generated.h"
+#include "ARPGWeaponUnequipAnimNotifyState.generated.h"
 
 UCLASS()
-class ACTIONRPG_API UARPGThoughSwordUnequip : public UAnimNotifyState
+class ACTIONRPG_API UARPGWeaponUnequipAnimNotifyState : public UAnimNotifyState
 {
 	GENERATED_BODY()
 
