@@ -152,16 +152,18 @@ void AARPGCharacter::ToggleMainWeaponMontage()
 	{
 		return;
 	}
-	if (bIsWeaponEquipped)
+	if (AARPGBaseWeapon* Weapon = Cast<AARPGBaseWeapon>(MainWeapon))
 	{
-		PlayAnimMontage(PutBackWeaponAnimation);
-		bIsWeaponEquipped = false;
-	} else
-	{
-		PlayAnimMontage(DrawWeaponAnimation);
-		bIsWeaponEquipped = true;
+		if (bIsWeaponEquipped)
+		{
+			PlayAnimMontage(Weapon->GetDisarmAnimationMontage());
+			bIsWeaponEquipped = false;
+		} else
+		{
+			PlayAnimMontage(Weapon->GetDrawAnimationMontage());
+			bIsWeaponEquipped = true;
+		}
 	}
-	
 }
 
 void AARPGCharacter::OnHealthChangedEvent(AActor* InstigatorActor,

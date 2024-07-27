@@ -96,12 +96,6 @@ protected:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Socket")
 	FName RightHandSocketName{"ik_hand_rSocket"};
-	
-	UPROPERTY(EditDefaultsOnly, Category = "Socket")
-	FName BigSwordHipLSocketName{"sword_hip_attach_socket"};
-
-	UPROPERTY(EditDefaultsOnly, Category = "Socket")
-	FName BigSwordHandRSocketName{"hand_r_weapon_socket"};
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	TObjectPtr<UCameraComponent> CameraComponent;
@@ -149,10 +143,7 @@ protected:
 	TObjectPtr<UInputAction> Input_ToggleInventory;
 
 	UPROPERTY(EditAnywhere, Category = "Animation")
-	TObjectPtr<UAnimMontage> DrawWeaponAnimation;
-
-	UPROPERTY(EditAnywhere, Category = "Animation")
-	TObjectPtr<UAnimMontage> PutBackWeaponAnimation;
+	TObjectPtr<UAnimMontage> DisarmGreatSwordAnimation;
 
 	UPROPERTY(EditAnywhere, Category = "Projectile")
 	TSubclassOf<AARPGProjectileBase> BasicAttackProjectileClass;

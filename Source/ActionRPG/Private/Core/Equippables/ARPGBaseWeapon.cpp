@@ -15,6 +15,16 @@ FName AARPGBaseWeapon::GetUnequippedSocketName() const
 	return UnequippedSocketName;
 }
 
+UAnimMontage* AARPGBaseWeapon::GetDrawAnimationMontage() const
+{
+	return DrawAnimation;
+}
+
+UAnimMontage* AARPGBaseWeapon::GetDisarmAnimationMontage() const
+{
+	return DisarmAnimation;
+}
+
 void AARPGBaseWeapon::SetEquippedSocketName(FName SocketName)
 {
 	EquippedSocketName = SocketName;

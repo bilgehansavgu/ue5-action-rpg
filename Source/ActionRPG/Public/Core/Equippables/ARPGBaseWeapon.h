@@ -22,20 +22,34 @@ public:
 	FName GetUnequippedSocketName() const;
 
 	UFUNCTION()
-	void SetEquippedSocketName(FName SocketName);
-
-	UFUNCTION()
-	void SetUnequippedSocketName(FName SocketName);
-		
-	UFUNCTION()
 	void OnEquipped(AActor* Actor);
 
 	UFUNCTION()
 	void OnUnequipped(AActor* Actor);
 
-	UPROPERTY(EditAnywhere)
+	UFUNCTION()
+	UAnimMontage* GetDrawAnimationMontage() const;
+
+	UFUNCTION()
+	UAnimMontage* GetDisarmAnimationMontage() const;
+
+protected:
+
+	UFUNCTION()
+	void SetEquippedSocketName(FName SocketName);
+
+	UFUNCTION()
+	void SetUnequippedSocketName(FName SocketName);
+	
+	UPROPERTY(EditAnywhere, Category = "Socket")
 	FName EquippedSocketName;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Socket")
 	FName UnequippedSocketName;
+	
+	UPROPERTY(EditAnywhere, Category = "Animation")
+	TObjectPtr<UAnimMontage> DrawAnimation;
+
+	UPROPERTY(EditAnywhere, Category = "Animation")
+	TObjectPtr<UAnimMontage> DisarmAnimation;
 };
