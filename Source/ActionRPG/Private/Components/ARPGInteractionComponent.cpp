@@ -3,7 +3,7 @@
 
 #include "Components/ARPGInteractionComponent.h"
 
-#include "Core/Interfaces/ARPGInteractableInterface.h"
+#include "Interfaces/ARPGInteractableInterface.h"
 #include "Kismet/GameplayStatics.h"
 
 

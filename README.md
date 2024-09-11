@@ -6,3 +6,4 @@ This repository contains my action RPG for the Unreal Engine course I took from 
 2. Set a collision profile for attached equipages
 3. Refactor weapon attachment logic
 4. NotifyState refactoring (maybe an event to notify character)
+5. Add projectile initial sfx

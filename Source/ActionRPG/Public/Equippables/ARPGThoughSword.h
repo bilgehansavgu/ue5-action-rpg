@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Core/Equippables/ARPGBaseWeapon.h"
+#include "Equippables/ARPGBaseWeapon.h"
 #include "ARPGThoughSword.generated.h"
 
 UCLASS()

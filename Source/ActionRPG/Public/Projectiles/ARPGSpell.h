@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Core/Projectiles/ARPGProjectileBase.h"
+#include "Projectiles/ARPGProjectileBase.h"
 #include "GameFramework/Actor.h"
 #include "ARPGSpell.generated.h"
 

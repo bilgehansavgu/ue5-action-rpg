@@ -5,7 +5,7 @@
 
 #include "NiagaraComponent.h"
 #include "NiagaraFunctionLibrary.h"
-#include "Core/Characters/ARPGCharacter.h"
+#include "Characters/ARPGCharacter.h"
 #include "GameFramework/PawnMovementComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 

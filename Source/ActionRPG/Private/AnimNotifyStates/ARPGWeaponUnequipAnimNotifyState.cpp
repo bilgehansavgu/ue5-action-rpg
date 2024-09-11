@@ -3,7 +3,7 @@
 
 #include "AnimNotifyStates/ARPGWeaponUnequipAnimNotifyState.h"
 
-#include "Core/Characters/ARPGCharacter.h"
+#include "Characters/ARPGCharacter.h"
 
 void UARPGWeaponUnequipAnimNotifyState::NotifyBegin(USkeletalMeshComponent* MeshComp,
 	UAnimSequenceBase* Animation, float TotalDuration,

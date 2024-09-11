@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Core/Interfaces/ARPGInteractableInterface.h"
+#include "Interfaces/ARPGInteractableInterface.h"
 #include "GameFramework/Actor.h"
 #include "ARPGHealthPotion.generated.h"
 
