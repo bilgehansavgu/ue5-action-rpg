@@ -15,8 +15,20 @@ protected:
 	virtual void TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;
 
 	UPROPERTY(EditAnywhere, Category = "AI")
-	FBlackboardKeySelector AttackRangeKey;
+	FBlackboardKeySelector ShouldAttackKey;
 
 	UPROPERTY(EditAnywhere, Category = "AI")
-	float AttackRange;
+	FBlackboardKeySelector ShouldRunAwayKey;
+
+	UPROPERTY(EditAnywhere, Category = "AI")
+	FBlackboardKeySelector ShouldChaseKey;
+	
+	UPROPERTY(EditAnywhere, Category = "AI")
+	float AttackMinRange;
+	
+	UPROPERTY(EditAnywhere, Category = "AI")
+	float AttackMaxRange;
+
+	UPROPERTY(EditAnywhere, Category = "AI")
+	float RunAwayRange;
 };

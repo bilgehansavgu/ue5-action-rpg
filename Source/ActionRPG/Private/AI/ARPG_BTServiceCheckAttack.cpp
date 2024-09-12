@@ -7,7 +7,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 
 void UARPG_BTServiceCheckAttack::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory,
-                                         float DeltaSeconds)
+										 float DeltaSeconds)
 {
 	Super::TickNode(OwnerComp, NodeMemory, DeltaSeconds);
 
@@ -21,15 +21,16 @@ void UARPG_BTServiceCheckAttack::TickNode(UBehaviorTreeComponent& OwnerComp, uin
 				{
 					float Distance = FVector::Distance(AIPawn->GetActorLocation(), TargetActor->GetActorLocation());
 
-					bool bIsInRange = Distance <= AttackRange;
+					bool bIsInAttackRange = Distance >= AttackMinRange && Distance <= AttackMaxRange;
 					bool bHasLineOfSight = false;
 
-					if (bIsInRange)
+					if (bIsInAttackRange)
 					{
 						bHasLineOfSight = AIController->LineOfSightTo(TargetActor);
 					}
-
-					BlackboardComponent->SetValueAsBool(AttackRangeKey.SelectedKeyName, (bIsInRange && bHasLineOfSight));
+					BlackboardComponent->SetValueAsBool(ShouldAttackKey.SelectedKeyName,  bIsInAttackRange && bHasLineOfSight);
+					BlackboardComponent->SetValueAsBool(ShouldChaseKey.SelectedKeyName, Distance > AttackMaxRange);
+					BlackboardComponent->SetValueAsBool(ShouldRunAwayKey.SelectedKeyName, Distance < RunAwayRange);
 				}
 			}
 		}
