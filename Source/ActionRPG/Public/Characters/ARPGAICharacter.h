@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "ARPGAICharacter.generated.h"
 
+class UPawnSensingComponent;
+
 UCLASS()
 class ACTIONRPG_API AARPGAICharacter : public ACharacter
 {
@@ -17,5 +19,12 @@ public:
 
 protected:
 
-	virtual void BeginPlay() override;
+	UFUNCTION()
+	virtual void PostInitializeComponents() override;
+	
+	UFUNCTION()
+	void OnSeePawn(APawn* Pawn);
+	
+	UPROPERTY(VisibleAnywhere, Category="AI")
+	TObjectPtr<UPawnSensingComponent> PawnSensingComponent;
 };

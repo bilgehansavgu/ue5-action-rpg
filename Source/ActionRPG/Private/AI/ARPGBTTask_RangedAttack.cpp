@@ -25,7 +25,7 @@ EBTNodeResult::Type UARPGBTTask_RangedAttack::ExecuteTask(UBehaviorTreeComponent
 				FActorSpawnParameters SpawnParameters;
 				SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
-				if(AARPGProjectileBase* Projectile = GetWorld()->SpawnActor<AARPGProjectileBase>(ProjectileClass, SpawnLocation , Direction.Rotation(), SpawnParameters))
+				if(ensure(ProjectileClass); AARPGProjectileBase* Projectile = GetWorld()->SpawnActor<AARPGProjectileBase>(ProjectileClass, SpawnLocation , Direction.Rotation(), SpawnParameters))
 				{
 					Projectile->SetOwner(AICharacter);
 					return EBTNodeResult::Succeeded;
