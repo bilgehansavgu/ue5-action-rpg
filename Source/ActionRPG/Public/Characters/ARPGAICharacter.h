@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "ARPGAICharacter.generated.h"
 
+class UARPGAttributeComponent;
 class UPawnSensingComponent;
 
 UCLASS()
@@ -25,6 +26,9 @@ protected:
 	UFUNCTION()
 	void OnSeePawn(APawn* Pawn);
 	
-	UPROPERTY(VisibleAnywhere, Category="AI")
+	UPROPERTY(VisibleAnywhere, Category="Components")
 	TObjectPtr<UPawnSensingComponent> PawnSensingComponent;
+	
+	UPROPERTY(VisibleAnywhere, Category="Components")
+	TObjectPtr<UARPGAttributeComponent> AttributeComponent;
 };

@@ -5,7 +5,7 @@
 
 #include "AI/ARPGAIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
-#include "Kismet/GameplayStatics.h"
+#include "Components/ARPGAttributeComponent.h"
 #include "Perception/PawnSensingComponent.h"
 
 class AARPGAIController;
@@ -13,8 +13,10 @@ class AARPGAIController;
 AARPGAICharacter::AARPGAICharacter()
 {
 	PawnSensingComponent = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensingComponent"));
-
-	APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(this, 0);
+	AttributeComponent = CreateDefaultSubobject<UARPGAttributeComponent>(TEXT("AttributeComponent"));
+	
+	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
+	SpawnCollisionHandlingMethod = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 }
 
 void AARPGAICharacter::PostInitializeComponents()
