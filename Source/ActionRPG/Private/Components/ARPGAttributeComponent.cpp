@@ -10,12 +10,13 @@ UARPGAttributeComponent::UARPGAttributeComponent()
 
 bool UARPGAttributeComponent::ApplyHealthChange(float DeltaHealth)
 {
-	Health += DeltaHealth;
-	Health = FMath::Clamp(Health, 0.f, MaxHealth);
+	float OldHealth = Health;
+	Health = FMath::Clamp(Health + DeltaHealth, 0.f, MaxHealth);
+	float AppliedDeltaHealth = Health - OldHealth;
 
-	OnHealthChanged.Broadcast(nullptr, this, Health, DeltaHealth);
+	OnHealthChanged.Broadcast(nullptr, this, Health, AppliedDeltaHealth);
 	
-	return true;
+	return AppliedDeltaHealth != 0.f;
 }
 
 bool UARPGAttributeComponent::IsAlive() const

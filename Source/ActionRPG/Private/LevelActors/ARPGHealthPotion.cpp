@@ -8,7 +8,9 @@
 
 AARPGHealthPotion::AARPGHealthPotion()
 {
-
+	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
+	StaticMesh->SetCollisionProfileName("Powerup");
+	RootComponent = StaticMesh;
 }
 
 void AARPGHealthPotion::Interact_Implementation(APawn* InstigatorPawn)
@@ -22,9 +24,12 @@ void AARPGHealthPotion::Interact_Implementation(APawn* InstigatorPawn)
 			return;
 		}
 
-		AttributeComponent->ApplyHealthChange(50.f);
+		AttributeComponent->ApplyHealthChange(BuffAmount);
+		
 		SetActorHiddenInGame(true);
 		SetActorEnableCollision(false);
+		// RootComponent->SetVisibility(true, true);
+		// SetActorEnableCollision(false);
 
 		FTimerHandle TimerHandle;
 		GetWorldTimerManager().SetTimer(TimerHandle, this, &AARPGHealthPotion::EnablePotion, 10.0f, false);

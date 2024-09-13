@@ -13,13 +13,18 @@ class ACTIONRPG_API AARPGHealthPotion : public AActor, public IARPGInteractableI
 	GENERATED_BODY()
 	
 public:	
-
 	AARPGHealthPotion();
 
 	UFUNCTION()
 	virtual void Interact_Implementation(APawn* InstigatorPawn) override;
 
 protected:
-
+	UFUNCTION()
 	void EnablePotion();
+
+	UPROPERTY(VisibleAnywhere, Category="Components")
+	TObjectPtr<UStaticMeshComponent> StaticMesh;
+
+	UPROPERTY(EditDefaultsOnly, Category="Consumable")
+	float BuffAmount{50.f};
 };
