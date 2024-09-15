@@ -8,15 +8,19 @@ UARPGAttributeComponent::UARPGAttributeComponent()
 {
 }
 
-bool UARPGAttributeComponent::ApplyHealthChange(float DeltaHealth)
+bool UARPGAttributeComponent::ApplyHealthChange(AActor* InstigatorActor, float DeltaHealth)
 {
 	float OldHealth = Health;
 	Health = FMath::Clamp(Health + DeltaHealth, 0.f, MaxHealth);
 	float AppliedDeltaHealth = Health - OldHealth;
 
-	OnHealthChanged.Broadcast(nullptr, this, Health, AppliedDeltaHealth);
+	if (AppliedDeltaHealth != 0.f)
+	{
+		OnHealthChanged.Broadcast(InstigatorActor, this, Health, AppliedDeltaHealth);
+		return true;
+	}
 	
-	return AppliedDeltaHealth != 0.f;
+	return false;
 }
 
 bool UARPGAttributeComponent::IsAlive() const
@@ -32,4 +36,16 @@ float UARPGAttributeComponent::GetHealth() const
 float UARPGAttributeComponent::GetHealthPercent() const
 {
 	return Health / MaxHealth;
+}
+
+bool UARPGAttributeComponent::IsActorAlive(AActor* Actor)
+{
+	if (Actor)
+	{
+		if (UARPGAttributeComponent* AttributeComponent = Actor->FindComponentByClass<UARPGAttributeComponent>())
+		{
+			return AttributeComponent->IsAlive();
+		}
+	}
+	return false;
 }

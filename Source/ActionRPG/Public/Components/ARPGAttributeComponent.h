@@ -18,8 +18,11 @@ public:
 
 	UARPGAttributeComponent();
 
+	UPROPERTY(BlueprintAssignable)
+	FOnHealthChanged OnHealthChanged;
+	
 	UFUNCTION(BlueprintCallable)
-	bool ApplyHealthChange(float DeltaHealth);
+	bool ApplyHealthChange(AActor* InstigatorActor, float DeltaHealth);
 
 	UFUNCTION(BlueprintPure)
 	bool IsAlive() const;
@@ -30,8 +33,8 @@ public:
 	UFUNCTION(BlueprintPure)
 	float GetHealthPercent() const;
 	
-	UPROPERTY(BlueprintAssignable)
-	FOnHealthChanged OnHealthChanged;
+	UFUNCTION(BlueprintCallable, Category="Attributes", meta=( DisplayName="Is Alive"))
+	static bool IsActorAlive(AActor* Actor);
 
 protected:
 

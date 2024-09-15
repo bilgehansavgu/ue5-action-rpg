@@ -46,7 +46,7 @@ void AARPGProjectileBase::OnActorOverlap(UPrimitiveComponent* OverlappedComponen
 
 		if (AttributeComponent)
 		{
-			AttributeComponent->ApplyHealthChange(-Damage);
+			AttributeComponent->ApplyHealthChange(GetInstigator(),-Damage);
 			
 			// if (GEngine)
 			// {

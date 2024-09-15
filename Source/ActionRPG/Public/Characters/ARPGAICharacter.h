@@ -25,6 +25,12 @@ protected:
 	
 	UFUNCTION()
 	void OnSeePawn(APawn* Pawn);
+
+	UFUNCTION()
+	bool SetTargetActor(AActor* NewTarget);
+
+	UFUNCTION()
+	void OnHealthChangedEvent(AActor* InstigatorActor,UARPGAttributeComponent* OwningComponent, float NewHealth, float DeltaHealth);
 	
 	UPROPERTY(VisibleAnywhere, Category="Components")
 	TObjectPtr<UPawnSensingComponent> PawnSensingComponent;

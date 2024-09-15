@@ -40,7 +40,7 @@ protected:
 	TSubclassOf<AActor> AIClass;
 
 	UPROPERTY(EditDefaultsOnly, Category="AI")
-	int32 MaxAICount;
+	int32 MaxAICount{0};
 	
 	UPROPERTY(EditDefaultsOnly, Category="AI")
 	TObjectPtr<UCurveFloat> MaxAICountCurve;

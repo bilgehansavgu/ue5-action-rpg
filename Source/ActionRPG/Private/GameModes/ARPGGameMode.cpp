@@ -20,35 +20,26 @@ void AARPGGameMode::StartPlay()
 	Super::StartPlay();
 
 	GetWorldTimerManager().SetTimer(SpawnAITimerHandle, this, &AARPGGameMode::SpawnAITimerElapsed, AISpawnTimerInterval, true);
-
-	MaxAICount = 0;
 }
 
 void AARPGGameMode::SpawnAITimerElapsed()
 {
-	if(ensure(SpawnAIEnvQuery))
+	if(!ensure(SpawnAIEnvQuery))
 	{
-		if(auto UEnvQueryInstanceBlueprintWrapper = UEnvQueryManager::RunEQSQuery(this, SpawnAIEnvQuery, this, EEnvQueryRunMode::Type::RandomBest5Pct, nullptr))
-		{
-			UEnvQueryInstanceBlueprintWrapper->GetOnQueryFinishedEvent().AddUniqueDynamic(this, &ThisClass::OnSpawnAIQueryFinished);
-		}
+		UE_LOG(LogTemp, Error, TEXT("invalid SpawnAIEnvQuery aborting SpawnAITimerElapsed()"));
+		return;
 	}
-}
 
-void AARPGGameMode::OnSpawnAIQueryFinished(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus)
-{
-	if(QueryStatus != EEnvQueryStatus::Type::Success)
+	if(!ensure(MaxAICountCurve))
 	{
-		UE_LOG(LogTemp, Error, TEXT("Spawn AI query failed!"));
+		UE_LOG(LogTemp, Error, TEXT("invalid MaxAICountCurve aborting SpawnAITimerElapsed()"));
 		return;
 	}
 
 	int32 AliveAICount = 0;
 	for(TActorIterator<AARPGAICharacter> It(GetWorld()); It; ++It)
 	{
-		AARPGAICharacter* AICharacter = *It;
-
-		if (AICharacter)
+		if (AARPGAICharacter* AICharacter = *It)
 		{
 			UARPGAttributeComponent* AttributeComponent = Cast<UARPGAttributeComponent>(AICharacter->FindComponentByClass<UARPGAttributeComponent>());
 			if (AttributeComponent && AttributeComponent->IsAlive())
@@ -57,15 +48,25 @@ void AARPGGameMode::OnSpawnAIQueryFinished(UEnvQueryInstanceBlueprintWrapper* Qu
 			}
 		}
 	}
-	
-	if(ensure(MaxAICountCurve))
-	{
-		MaxAICount = MaxAICountCurve->GetFloatValue(GetWorld()->GetTimeSeconds());
-	}
-	
+
+	MaxAICount = MaxAICountCurve->GetFloatValue(GetWorld()->GetTimeSeconds());
 	if (AliveAICount == MaxAICount)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Max AI count reached!"));
+		return;
+	}
+		
+	if(auto UEnvQueryInstanceBlueprintWrapper = UEnvQueryManager::RunEQSQuery(this, SpawnAIEnvQuery, this, EEnvQueryRunMode::Type::RandomBest5Pct, nullptr))
+	{
+		UEnvQueryInstanceBlueprintWrapper->GetOnQueryFinishedEvent().AddUniqueDynamic(this, &ThisClass::OnSpawnAIQueryFinished);
+	}
+}
+
+void AARPGGameMode::OnSpawnAIQueryFinished(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus)
+{
+	if(QueryStatus != EEnvQueryStatus::Type::Success)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Spawn AI query failed!"));
 		return;
 	}
 	

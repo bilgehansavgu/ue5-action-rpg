@@ -24,6 +24,7 @@ EBTNodeResult::Type UARPGBTTask_RangedAttack::ExecuteTask(UBehaviorTreeComponent
 				
 				FActorSpawnParameters SpawnParameters;
 				SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+				SpawnParameters.Instigator = AICharacter;
 
 				if(ensure(ProjectileClass); AARPGProjectileBase* Projectile = GetWorld()->SpawnActor<AARPGProjectileBase>(ProjectileClass, SpawnLocation , Direction.Rotation(), SpawnParameters))
 				{

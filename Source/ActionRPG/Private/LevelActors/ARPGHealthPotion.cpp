@@ -24,7 +24,7 @@ void AARPGHealthPotion::Interact_Implementation(APawn* InstigatorPawn)
 			return;
 		}
 
-		AttributeComponent->ApplyHealthChange(BuffAmount);
+		AttributeComponent->ApplyHealthChange(InstigatorPawn, BuffAmount);
 		
 		SetActorHiddenInGame(true);
 		SetActorEnableCollision(false);
