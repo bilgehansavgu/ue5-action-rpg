@@ -36,6 +36,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Attributes", meta=( DisplayName="Is Alive"))
 	static bool IsActorAlive(AActor* Actor);
 
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category="Attributes")
+	static UARPGAttributeComponent* GetAttributeComponent(AActor* Actor);
+
 protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Attributes")

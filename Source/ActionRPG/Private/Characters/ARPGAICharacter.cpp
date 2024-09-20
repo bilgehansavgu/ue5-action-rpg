@@ -6,9 +6,11 @@
 #include "BrainComponent.h"
 #include "AI/ARPGAIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "Blueprint/UserWidget.h"
 #include "Components/ARPGAttributeComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Perception/PawnSensingComponent.h"
+#include "Widgets/ARPGWorldUserWidget.h"
 
 class AARPGAIController;
 
@@ -25,11 +27,28 @@ void AARPGAICharacter::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 
-	PawnSensingComponent->OnSeePawn.AddDynamic(this, &AARPGAICharacter::OnSeePawn);
-	AttributeComponent->OnHealthChanged.AddUniqueDynamic(this, &AARPGAICharacter::OnHealthChangedEvent);
+	PawnSensingComponent->OnSeePawn.AddDynamic(this, &AARPGAICharacter::OnSeePawnCallback);
+	AttributeComponent->OnHealthChanged.AddUniqueDynamic(this, &AARPGAICharacter::OnHealthChangedCallback);
 }
 
-void AARPGAICharacter::OnSeePawn(APawn* Pawn)
+bool AARPGAICharacter::SetTargetActor(AActor* NewTarget)
+{
+	if (AARPGAIController* AIController = Cast<AARPGAIController>(GetController()); NewTarget)
+	{
+		if (UBlackboardComponent* BlackboardComponent = AIController->GetBlackboardComponent())
+		{
+			BlackboardComponent->SetValueAsObject("TargetActor", NewTarget);
+#if WITH_EDITOR
+			DrawDebugString(GetWorld(), GetActorLocation(), "I see you!", nullptr, FColor::Red, 0.5f);
+#endif
+			
+			return true;
+		}
+	}
+	return false;
+}
+
+void AARPGAICharacter::OnSeePawnCallback(APawn* Pawn)
 {
 	if (AARPGAIController* AIController = Cast<AARPGAIController>(GetController()))
 	{
@@ -42,24 +61,7 @@ void AARPGAICharacter::OnSeePawn(APawn* Pawn)
 
 }
 
-bool AARPGAICharacter::SetTargetActor(AActor* NewTarget)
-{
-	if (AARPGAIController* AIController = Cast<AARPGAIController>(GetController()); NewTarget)
-	{
-		if (UBlackboardComponent* BlackboardComponent = AIController->GetBlackboardComponent())
-		{
-			BlackboardComponent->SetValueAsObject("TargetActor", NewTarget);
-			#if WITH_EDITOR
-				DrawDebugString(GetWorld(), GetActorLocation(), "I see you!", nullptr, FColor::Red, 2.0f);
-			#endif
-			
-			return true;
-		}
-	}
-	return false;
-}
-
-void AARPGAICharacter::OnHealthChangedEvent(AActor* InstigatorActor,
+void AARPGAICharacter::OnHealthChangedCallback(AActor* InstigatorActor,
                                             UARPGAttributeComponent* OwningComponent, float NewHealth, float DeltaHealth)
 {
 	if (InstigatorActor == this)
@@ -70,6 +72,17 @@ void AARPGAICharacter::OnHealthChangedEvent(AActor* InstigatorActor,
 	if (!SetTargetActor(InstigatorActor))
 	{
 		return;
+	}
+
+	if (HealthBarWidget == nullptr)
+	{
+		HealthBarWidget = CreateWidget<UARPGWorldUserWidget>(GetWorld(), HealthBarWidgetClass);
+		if (HealthBarWidget)
+		{
+			HealthBarWidget->OnHealthChangedCallback(InstigatorActor, OwningComponent, NewHealth, DeltaHealth);
+			HealthBarWidget->AttachedActor = this;
+			HealthBarWidget->AddToViewport();
+		}
 	}
 
 	if (NewHealth <= 0.0f)

@@ -49,3 +49,12 @@ bool UARPGAttributeComponent::IsActorAlive(AActor* Actor)
 	}
 	return false;
 }
+
+UARPGAttributeComponent* UARPGAttributeComponent::GetAttributeComponent(AActor* Actor)
+{
+	if (Actor)
+	{
+		return Actor->FindComponentByClass<UARPGAttributeComponent>();
+	}
+	return nullptr;
+}

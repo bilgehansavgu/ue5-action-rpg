@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "ARPGAICharacter.generated.h"
 
+class UARPGWorldUserWidget;
 class UARPGAttributeComponent;
 class UPawnSensingComponent;
 
@@ -24,17 +25,23 @@ protected:
 	virtual void PostInitializeComponents() override;
 	
 	UFUNCTION()
-	void OnSeePawn(APawn* Pawn);
-
-	UFUNCTION()
 	bool SetTargetActor(AActor* NewTarget);
+	
+	UFUNCTION()
+	void OnSeePawnCallback(APawn* Pawn);
 
 	UFUNCTION()
-	void OnHealthChangedEvent(AActor* InstigatorActor,UARPGAttributeComponent* OwningComponent, float NewHealth, float DeltaHealth);
+	void OnHealthChangedCallback(AActor* InstigatorActor,UARPGAttributeComponent* OwningComponent, float NewHealth, float DeltaHealth);
 	
 	UPROPERTY(VisibleAnywhere, Category="Components")
 	TObjectPtr<UPawnSensingComponent> PawnSensingComponent;
 	
 	UPROPERTY(VisibleAnywhere, Category="Components")
 	TObjectPtr<UARPGAttributeComponent> AttributeComponent;
+
+	UPROPERTY(EditDefaultsOnly, Category="UI")
+	TSubclassOf<UUserWidget> HealthBarWidgetClass;
+
+	UPROPERTY()
+	TObjectPtr<UARPGWorldUserWidget> HealthBarWidget;
 };
