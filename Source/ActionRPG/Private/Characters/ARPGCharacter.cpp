@@ -9,6 +9,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/ARPGActionComponent.h"
 #include "Components/ARPGAttributeComponent.h"
 #include "Components/ARPGInteractionComponent.h"
 #include "Equippables/ARPGBaseEquippable.h"
@@ -35,6 +36,8 @@ AARPGCharacter::AARPGCharacter()
 
 	// Character Attributes Component
 	AttributeComponent = CreateDefaultSubobject<UARPGAttributeComponent>("AttributeComponent");
+
+	ActionComponent = CreateDefaultSubobject<UARPGActionComponent>("ActionComponent");
 }
 
 void AARPGCharacter::PostInitializeComponents()
@@ -44,6 +47,8 @@ void AARPGCharacter::PostInitializeComponents()
 	AttributeComponent->OnHealthChanged.AddUniqueDynamic(this, &ThisClass::OnHealthChangedEvent);
 
 	InventoryWidget = CreateWidget<UUserWidget>(GetWorld(), InventoryWidgetClass);
+
+	ActionComponent->AddAction(SprintActionClass);
 }
 
 void AARPGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -75,6 +80,8 @@ void AARPGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	EnhancedInputComponent->BindAction(Input_Interact, ETriggerEvent::Triggered, this, &ThisClass::Interact);
 	//EnhancedInputComponent->BindAction(Input_DropWeapon, ETriggerEvent::Triggered, this, &ThisClass::DropWeapon);
 	EnhancedInputComponent->BindAction(Input_ToggleInventory, ETriggerEvent::Triggered, this, &ThisClass::ToggleInventory);
+	EnhancedInputComponent->BindAction(Input_Sprint, ETriggerEvent::Started, this, &ThisClass::Sprint);
+	EnhancedInputComponent->BindAction(Input_Sprint, ETriggerEvent::Completed, this, &ThisClass::StopSprint);
 }
 
 void AARPGCharacter::PickUpWeapon(TSubclassOf<AARPGBaseEquippable> WeaponClass)
@@ -329,4 +336,14 @@ void AARPGCharacter::ToggleInventory()
 	}
 
 	bIsInventoryOpen = !bIsInventoryOpen;
+}
+
+void AARPGCharacter::Sprint()
+{
+	ActionComponent->StartActionByName(this, "Sprint");
+}
+
+void AARPGCharacter::StopSprint()
+{
+	ActionComponent->StopActionByName(this, "Sprint");
 }

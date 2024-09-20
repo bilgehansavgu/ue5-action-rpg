@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "ARPGCharacter.generated.h"
 
+class UARPGAction;
+class UARPGActionComponent;
 class UARPGAttributeComponent;
 class UARPGInteractionComponent;
 class AARPGBaseEquippable;
@@ -92,6 +94,12 @@ protected:
 	UFUNCTION()
 	void ToggleInventory();
 
+	UFUNCTION()
+	void Sprint();
+
+	UFUNCTION()
+	void StopSprint();
+
 	// PROPERTIES
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Socket")
@@ -108,6 +116,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	TObjectPtr<UARPGAttributeComponent> AttributeComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	TObjectPtr<UARPGActionComponent> ActionComponent;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputMappingContext> InputMapping;
@@ -142,6 +153,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> Input_ToggleInventory;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TObjectPtr<UInputAction> Input_Sprint;
+
 	UPROPERTY(EditAnywhere, Category = "Animation")
 	TObjectPtr<UAnimMontage> DisarmGreatSwordAnimation;
 
@@ -171,6 +185,9 @@ protected:
 
 	UPROPERTY()
 	UUserWidget* InventoryWidget;
+
+	UPROPERTY(EditAnywhere, Category = "Action")
+	TSubclassOf<UARPGAction> SprintActionClass;
 	
 	bool bIsInventoryOpen = false;
 };
