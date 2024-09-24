@@ -47,8 +47,6 @@ void AARPGCharacter::PostInitializeComponents()
 	AttributeComponent->OnHealthChanged.AddUniqueDynamic(this, &ThisClass::OnHealthChangedEvent);
 
 	InventoryWidget = CreateWidget<UUserWidget>(GetWorld(), InventoryWidgetClass);
-
-	ActionComponent->AddAction(SprintActionClass);
 }
 
 void AARPGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

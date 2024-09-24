@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Actions/ARPGAction.h"
-#include "SprintAction.generated.h"
+#include "ARPGSprintAction.generated.h"
 
 UCLASS()
-class ACTIONRPG_API USprintAction : public UARPGAction
+class ACTIONRPG_API UARPGSprintAction : public UARPGAction
 {
 	GENERATED_BODY()
 
@@ -18,5 +18,5 @@ public:
 	virtual void StopAction_Implementation(UARPGAction* Action, AActor* Instigator) override;
 
 protected:
-	USprintAction();
+	UARPGSprintAction();
 };

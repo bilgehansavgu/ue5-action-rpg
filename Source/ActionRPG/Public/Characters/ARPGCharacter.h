@@ -185,9 +185,6 @@ protected:
 
 	UPROPERTY()
 	UUserWidget* InventoryWidget;
-
-	UPROPERTY(EditAnywhere, Category = "Action")
-	TSubclassOf<UARPGAction> SprintActionClass;
 	
 	bool bIsInventoryOpen = false;
 };

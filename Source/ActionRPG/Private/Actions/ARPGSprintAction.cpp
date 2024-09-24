@@ -1,18 +1,18 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Actions/SprintAction.h"
+#include "Actions/ARPGSprintAction.h"
 
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/MovementComponent.h"
 
 
-USprintAction::USprintAction()
+UARPGSprintAction::UARPGSprintAction()
 {
 	ActionName = "Sprint";
 }
 
-void USprintAction::StartAction_Implementation(UARPGAction* Action, AActor* Instigator)
+void UARPGSprintAction::StartAction_Implementation(UARPGAction* Action, AActor* Instigator)
 {
 	Super::StartAction_Implementation(Action, Instigator);
 
@@ -28,7 +28,7 @@ void USprintAction::StartAction_Implementation(UARPGAction* Action, AActor* Inst
 	}
 }
 
-void USprintAction::StopAction_Implementation(UARPGAction* Action, AActor* Instigator)
+void UARPGSprintAction::StopAction_Implementation(UARPGAction* Action, AActor* Instigator)
 {
 	Super::StopAction_Implementation(Action, Instigator);
 	
