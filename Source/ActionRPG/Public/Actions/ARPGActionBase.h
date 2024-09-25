@@ -3,21 +3,22 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
-#include "ARPGAction.generated.h"
+#include "ARPGActionBase.generated.h"
 
 UCLASS(Blueprintable)
-class ACTIONRPG_API UARPGAction : public UObject
+class ACTIONRPG_API UARPGActionBase : public UObject
 {
 	GENERATED_BODY()
 
 public:
 
-	UFUNCTION(BlueprintNativeEvent, Category = "Action")
-	void StartAction(UARPGAction* Action, AActor* Instigator);
+	virtual UWorld* GetWorld() const override;
 
 	UFUNCTION(BlueprintNativeEvent, Category = "Action")
-	void StopAction(UARPGAction* Action, AActor* Instigator);
+	void StartAction(UARPGActionBase* Action, AActor* Instigator);
+
+	UFUNCTION(BlueprintNativeEvent, Category = "Action")
+	void StopAction(UARPGActionBase* Action, AActor* Instigator);
 
 	UFUNCTION(BlueprintPure, Category = "Action")
 	FName GetActionName() const { return ActionName; }

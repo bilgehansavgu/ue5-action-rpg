@@ -12,9 +12,7 @@
 #include "Components/ARPGActionComponent.h"
 #include "Components/ARPGAttributeComponent.h"
 #include "Components/ARPGInteractionComponent.h"
-#include "Equippables/ARPGBaseEquippable.h"
-#include "Equippables/ARPGBaseWeapon.h"
-#include "Projectiles/ARPGProjectileBase.h"
+#include "Components/ARPGInventoryComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 AARPGCharacter::AARPGCharacter()
@@ -37,7 +35,11 @@ AARPGCharacter::AARPGCharacter()
 	// Character Attributes Component
 	AttributeComponent = CreateDefaultSubobject<UARPGAttributeComponent>("AttributeComponent");
 
+	// Action Component
 	ActionComponent = CreateDefaultSubobject<UARPGActionComponent>("ActionComponent");
+
+	// Inventory Component
+	InventoryComponent = CreateDefaultSubobject<UARPGInventoryComponent>("InventoryComponent");
 }
 
 void AARPGCharacter::PostInitializeComponents()
@@ -45,8 +47,6 @@ void AARPGCharacter::PostInitializeComponents()
 	Super::PostInitializeComponents();
 
 	AttributeComponent->OnHealthChanged.AddUniqueDynamic(this, &ThisClass::OnHealthChangedEvent);
-
-	InventoryWidget = CreateWidget<UUserWidget>(GetWorld(), InventoryWidgetClass);
 }
 
 void AARPGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -71,39 +71,15 @@ void AARPGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	EnhancedInputComponent->BindAction(Input_Move, ETriggerEvent::Triggered, this, &ThisClass::Move);
 	EnhancedInputComponent->BindAction(Input_LookMouse, ETriggerEvent::Triggered, this, &ThisClass::LookMouse);
 	EnhancedInputComponent->BindAction(Input_Jump, ETriggerEvent::Triggered, this, &ACharacter::Jump);
-	EnhancedInputComponent->BindAction(Input_BasicAttack, ETriggerEvent::Triggered, this, &ThisClass::BasicAttack);
+	EnhancedInputComponent->BindAction(Input_BasicAttack, ETriggerEvent::Triggered, this, &ThisClass::BasicRangedAttack);
 	EnhancedInputComponent->BindAction(Input_AreaOfEffect, ETriggerEvent::Triggered, this, &ThisClass::AreaOfEffectAttack);
 	EnhancedInputComponent->BindAction(Input_Teleport, ETriggerEvent::Triggered, this, &ThisClass::Teleport);
-	EnhancedInputComponent->BindAction(Input_EquipWeapon, ETriggerEvent::Triggered, this, &ThisClass::ToggleMainWeaponMontage);
+	EnhancedInputComponent->BindAction(Input_EquipWeapon, ETriggerEvent::Triggered, this, &ThisClass::EquipMainWeapon);
 	EnhancedInputComponent->BindAction(Input_Interact, ETriggerEvent::Triggered, this, &ThisClass::Interact);
 	//EnhancedInputComponent->BindAction(Input_DropWeapon, ETriggerEvent::Triggered, this, &ThisClass::DropWeapon);
 	EnhancedInputComponent->BindAction(Input_ToggleInventory, ETriggerEvent::Triggered, this, &ThisClass::ToggleInventory);
 	EnhancedInputComponent->BindAction(Input_Sprint, ETriggerEvent::Started, this, &ThisClass::Sprint);
 	EnhancedInputComponent->BindAction(Input_Sprint, ETriggerEvent::Completed, this, &ThisClass::StopSprint);
-}
-
-void AARPGCharacter::PickUpWeapon(TSubclassOf<AARPGBaseEquippable> WeaponClass)
-{
-	if (!WeaponClass)
-	{
-		return;
-	}
-
-	if (GetMainWeapon() != nullptr)
-	{
-		MainWeapon->Destroy();
-	}
-	
-	FActorSpawnParameters SpawnParameters;
-	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	SpawnParameters.Instigator = this;
-	SpawnParameters.Owner = this;
-	
-	MainWeapon = GetWorld()->SpawnActor<AARPGBaseEquippable>(WeaponClass, GetTransform(), SpawnParameters);
-
-	Cast<AARPGBaseWeapon>(MainWeapon)->OnEquipped(this);
-	
-	bIsWeaponEquipped = true;
 }
 
 // void AARPGCharacter::DropWeapon()
@@ -151,26 +127,6 @@ void AARPGCharacter::LookMouse(const FInputActionValue& Value)
 	}
 }
 
-void AARPGCharacter::ToggleMainWeaponMontage()
-{
-	if (!MainWeapon)
-	{
-		return;
-	}
-	if (AARPGBaseWeapon* Weapon = Cast<AARPGBaseWeapon>(MainWeapon))
-	{
-		if (bIsWeaponEquipped)
-		{
-			PlayAnimMontage(Weapon->GetDisarmAnimationMontage());
-			bIsWeaponEquipped = false;
-		} else
-		{
-			PlayAnimMontage(Weapon->GetDrawAnimationMontage());
-			bIsWeaponEquipped = true;
-		}
-	}
-}
-
 void AARPGCharacter::OnHealthChangedEvent(AActor* InstigatorActor,
 	UARPGAttributeComponent* OwningComponent, float NewHealth, float DeltaHealth)
 {
@@ -183,7 +139,7 @@ void AARPGCharacter::OnHealthChangedEvent(AActor* InstigatorActor,
 	}
 }
 
-void AARPGCharacter::TookDamageMaterialEffect()
+void AARPGCharacter::TookDamageMaterialEffect() const
 {
 	GetMesh()->SetScalarParameterValueOnMaterials("HitTime", GetWorld()->TimeSeconds);
 
@@ -191,7 +147,7 @@ void AARPGCharacter::TookDamageMaterialEffect()
 	GetMesh()->SetVectorParameterValueOnMaterials("Flash Color", FlashColor);
 }
 
-void AARPGCharacter::HPBuffMaterialEffect()
+void AARPGCharacter::HPBuffMaterialEffect() const
 {
 	GetMesh()->SetScalarParameterValueOnMaterials("HitTime", GetWorld()->TimeSeconds);
 
@@ -199,96 +155,24 @@ void AARPGCharacter::HPBuffMaterialEffect()
 	GetMesh()->SetVectorParameterValueOnMaterials("Flash Color", FlashColor);
 }
 
-void AARPGCharacter::DrawWeapon()
+void AARPGCharacter::BasicRangedAttack()
 {
-	if (AARPGBaseWeapon* Weapon = Cast<AARPGBaseWeapon>(MainWeapon))
-	{
-		Weapon->OnEquipped(this);
-	}
-}
-
-AARPGBaseEquippable* AARPGCharacter::GetMainWeapon()
-{
-	return MainWeapon;
-}
-
-void AARPGCharacter::SetMainWeapon(AARPGBaseEquippable* Weapon)
-{
-	MainWeapon = Weapon;
-}
-
-void AARPGCharacter::PutBackWeapon()
-{
-	if (AARPGBaseWeapon* Weapon = Cast<AARPGBaseWeapon>(MainWeapon))
-	{
-		Weapon->OnUnequipped(this);
-	}
-}
-
-void AARPGCharacter::SpawnProjectile(TSubclassOf<AARPGProjectileBase> ClassToSpawn)
-{
-	if(ensureAlways(ClassToSpawn))
-	{
-		FVector RightHandSpawnLocation = GetMesh()->GetSocketLocation(RightHandSocketName);
-
-		FActorSpawnParameters SpawnParameters;
-		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		SpawnParameters.Instigator = this;
-
-		FCollisionShape Shape;
-		Shape.SetSphere(ProjectileTraceRadius);
-
-		FCollisionQueryParams Params;
-		Params.AddIgnoredActor(this);
-
-		FCollisionObjectQueryParams ObjectQueryParams;
-		ObjectQueryParams.AddObjectTypesToQuery(ECC_WorldDynamic);
-		ObjectQueryParams.AddObjectTypesToQuery(ECC_WorldStatic);
-		ObjectQueryParams.AddObjectTypesToQuery(ECC_Pawn);
-
-		APlayerController* PlayerController = Cast<APlayerController>(GetController());
-		if(PlayerController == nullptr)
-		{
-			return;
-		}
-
-		FVector2D ViewportSize;
-		GEngine->GameViewport->GetViewportSize(ViewportSize);
-		FVector2D ScreenCenter = ViewportSize / 2.f;
-	
-		FVector WorldLocation, WorldDirection;
-		UGameplayStatics::DeprojectScreenToWorld(PlayerController, ScreenCenter, WorldLocation, WorldDirection);
-	
-		FVector TraceStart = WorldLocation;
-		FVector TraceEnd = WorldLocation + (WorldDirection * ProjectileTraceEndDistance);
-
-		FHitResult HitResult;
-
-		if(GetWorld()->SweepSingleByObjectType(HitResult, TraceStart, TraceEnd, FQuat::Identity, ObjectQueryParams, Shape, Params))
-		{
-			TraceEnd = HitResult.ImpactPoint;
-		}
-
-		FRotator ProjRotation = FRotationMatrix::MakeFromX(TraceEnd - RightHandSpawnLocation).Rotator();
-
-		FTransform SpawnTransform = FTransform(ProjRotation, RightHandSpawnLocation);
-		GetWorld()->SpawnActor<AActor>(ClassToSpawn, SpawnTransform, SpawnParameters);
-	}
-}
-
-void AARPGCharacter::BasicAttack()
-{
-	SpawnProjectile(BasicAttackProjectileClass);
+	ActionComponent->StartActionByName(this, "BasicRangedAttack");
 }
 
 void AARPGCharacter::AreaOfEffectAttack()
 {
-	SpawnProjectile(AreaOfEffectClass);
+	ActionComponent->StartActionByName(this, "AreaOfEffectAttack");
 }
 
 void AARPGCharacter::Teleport()
 {
-	SpawnProjectile(TeleportSpellClass);
+	ActionComponent->StartActionByName(this, "Teleport");
+}
+
+void AARPGCharacter::EquipMainWeapon()
+{
+	InventoryComponent->ToggleMainWeaponMontage(this);
 }
 
 void AARPGCharacter::Interact()
@@ -301,40 +185,9 @@ void AARPGCharacter::Interact()
 
 void AARPGCharacter::ToggleInventory()
 {
-	if (bIsInventoryOpen)
-	{
-		if (InventoryWidget)
-		{
-			InventoryWidget->RemoveFromParent();
-		}
-
-		APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-		if (PlayerController)
-		{
-			FInputModeGameOnly InputMode;
-			PlayerController->SetInputMode(InputMode);
-			PlayerController->SetShowMouseCursor(false);
-		}
-	}
-	else
-	{
-		if (InventoryWidget)
-		{
-			InventoryWidget->AddToViewport();
-		}
-
-		APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-		if (PlayerController)
-		{
-			FInputModeGameAndUI InputMode;
-			InputMode.SetWidgetToFocus(InventoryWidget->TakeWidget());
-			PlayerController->SetInputMode(InputMode);
-			PlayerController->SetShowMouseCursor(true);
-		}
-	}
-
-	bIsInventoryOpen = !bIsInventoryOpen;
+	InventoryComponent->ToggleInventoryWidget(this);
 }
+
 
 void AARPGCharacter::Sprint()
 {

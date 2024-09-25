@@ -17,5 +17,6 @@ public:
 
 protected:
 
+	UPROPERTY()
 	TObjectPtr<AActor> Owner;
 };

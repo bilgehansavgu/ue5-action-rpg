@@ -3,19 +3,19 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Actions/ARPGAction.h"
+#include "Actions/ARPGActionBase.h"
 #include "ARPGSprintAction.generated.h"
 
 UCLASS()
-class ACTIONRPG_API UARPGSprintAction : public UARPGAction
+class ACTIONRPG_API UARPGSprintAction : public UARPGActionBase
 {
 	GENERATED_BODY()
 
 public:
 	
-	virtual void StartAction_Implementation(UARPGAction* Action, AActor* Instigator) override;
+	virtual void StartAction_Implementation(UARPGActionBase* Action, AActor* Instigator) override;
 
-	virtual void StopAction_Implementation(UARPGAction* Action, AActor* Instigator) override;
+	virtual void StopAction_Implementation(UARPGActionBase* Action, AActor* Instigator) override;
 
 protected:
 	UARPGSprintAction();

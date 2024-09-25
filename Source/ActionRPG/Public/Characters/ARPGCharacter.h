@@ -6,7 +6,8 @@
 #include "GameFramework/Character.h"
 #include "ARPGCharacter.generated.h"
 
-class UARPGAction;
+class UARPGInventoryComponent;
+class UARPGActionBase;
 class UARPGActionComponent;
 class UARPGAttributeComponent;
 class UARPGInteractionComponent;
@@ -32,29 +33,9 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION()
-	void PutBackWeapon();
-
-	UFUNCTION()
-	void DrawWeapon();
-	
-	UFUNCTION()
-	AARPGBaseEquippable* GetMainWeapon();
-
-	UFUNCTION()
-	void SetMainWeapon(AARPGBaseEquippable* WeaponClass);
-
-	UFUNCTION()
-	void PickUpWeapon(TSubclassOf<AARPGBaseEquippable> WeaponClass);
-
-	// UFUNCTION()
-	// void DropWeapon();
+	UARPGInventoryComponent* GetInventoryComponent() const { return InventoryComponent; }
 
 protected:
-
-	//	DELEGATES
-
-
-	//	FUNCTIONS
 
 	virtual void PostInitializeComponents() override;
 	
@@ -65,28 +46,25 @@ protected:
 	void LookMouse(const FInputActionValue& Value);
 
 	UFUNCTION()
-	void SpawnProjectile(TSubclassOf<AARPGProjectileBase> ClassToSpawn);
-
-	UFUNCTION()
-	void BasicAttack();
+	void BasicRangedAttack();
 
 	UFUNCTION()
 	void AreaOfEffectAttack();
-
+	
 	UFUNCTION()
 	void Teleport();
 
 	UFUNCTION()
-	void ToggleMainWeaponMontage();
-
+	void EquipMainWeapon();
+	
 	UFUNCTION()
 	void OnHealthChangedEvent(AActor* InstigatorActor, UARPGAttributeComponent* OwningComponent, float NewHealth, float DeltaHealth);
 
 	UFUNCTION()
-	void TookDamageMaterialEffect();
+	void TookDamageMaterialEffect() const;
 
 	UFUNCTION()
-	void HPBuffMaterialEffect();
+	void HPBuffMaterialEffect() const;
 
 	UFUNCTION()
 	void Interact();
@@ -99,11 +77,6 @@ protected:
 
 	UFUNCTION()
 	void StopSprint();
-
-	// PROPERTIES
-	
-	UPROPERTY(EditDefaultsOnly, Category = "Socket")
-	FName RightHandSocketName{"ik_hand_rSocket"};
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	TObjectPtr<UCameraComponent> CameraComponent;
@@ -119,6 +92,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	TObjectPtr<UARPGActionComponent> ActionComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	TObjectPtr<UARPGInventoryComponent> InventoryComponent;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputMappingContext> InputMapping;
@@ -155,36 +131,4 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> Input_Sprint;
-
-	UPROPERTY(EditAnywhere, Category = "Animation")
-	TObjectPtr<UAnimMontage> DisarmGreatSwordAnimation;
-
-	UPROPERTY(EditAnywhere, Category = "Projectile")
-	TSubclassOf<AARPGProjectileBase> BasicAttackProjectileClass;
-
-	UPROPERTY(EditAnywhere, Category = "Projectile")
-	TSubclassOf<AARPGProjectileBase> AreaOfEffectClass;
-
-	UPROPERTY(EditAnywhere, Category = "Projectile")
-	TSubclassOf<AARPGProjectileBase> TeleportSpellClass;
-	
-	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
-	float ProjectileTraceEndDistance{5000.f};
-	
-	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
-	float ProjectileTraceRadius{20.f};
-
-	UPROPERTY(VisibleAnywhere, Category = "Weapon")
-	TObjectPtr<AARPGBaseEquippable> MainWeapon;
-	
-	UPROPERTY(VisibleAnywhere, Category = "Weapon")
-	bool bIsWeaponEquipped = false;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-	TSubclassOf<UUserWidget> InventoryWidgetClass;
-
-	UPROPERTY()
-	UUserWidget* InventoryWidget;
-	
-	bool bIsInventoryOpen = false;
 };

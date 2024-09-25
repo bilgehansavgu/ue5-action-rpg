@@ -4,6 +4,7 @@
 #include "LevelActors/ARPGWeaponPickupActor.h"
 
 #include "Characters/ARPGCharacter.h"
+#include "Components/ARPGInventoryComponent.h"
 #include "Equippables/ARPGBaseEquippable.h"
 
 AARPGWeaponPickupActor::AARPGWeaponPickupActor()
@@ -20,15 +21,15 @@ void AARPGWeaponPickupActor::Interact_Implementation(APawn* InstigatorPawn)
 	
 	if (AARPGCharacter* CharacterOwner = Cast<AARPGCharacter>(InstigatorPawn))
 	{
-		if (CharacterOwner->GetMainWeapon())
+		if (CharacterOwner->GetInventoryComponent()->GetMainWeapon())
 		{
-			if (EquippableClass == CharacterOwner->GetMainWeapon()->GetClass())
+			if (EquippableClass == CharacterOwner->GetInventoryComponent()->GetMainWeapon()->GetClass())
 			{
 				return;
 			}
 		}
 
-		CharacterOwner->PickUpWeapon(EquippableClass);
+		CharacterOwner->GetInventoryComponent()->PickUpWeapon(CharacterOwner, EquippableClass);
 		
 		//Destroy();
 	}

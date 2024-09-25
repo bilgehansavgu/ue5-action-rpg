@@ -12,7 +12,7 @@ UARPGSprintAction::UARPGSprintAction()
 	ActionName = "Sprint";
 }
 
-void UARPGSprintAction::StartAction_Implementation(UARPGAction* Action, AActor* Instigator)
+void UARPGSprintAction::StartAction_Implementation(UARPGActionBase* Action, AActor* Instigator)
 {
 	Super::StartAction_Implementation(Action, Instigator);
 
@@ -28,7 +28,7 @@ void UARPGSprintAction::StartAction_Implementation(UARPGAction* Action, AActor* 
 	}
 }
 
-void UARPGSprintAction::StopAction_Implementation(UARPGAction* Action, AActor* Instigator)
+void UARPGSprintAction::StopAction_Implementation(UARPGActionBase* Action, AActor* Instigator)
 {
 	Super::StopAction_Implementation(Action, Instigator);
 	

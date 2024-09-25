@@ -2,27 +2,27 @@
 
 
 #include "Components/ARPGActionComponent.h"
-#include "Actions/ARPGAction.h"
+#include "Actions/ARPGActionBase.h"
 
 
 void UARPGActionComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-    for (const TSubclassOf<UARPGAction> Action : DefaultActions)
+    for (const TSubclassOf<UARPGActionBase> Action : DefaultActions)
     {
         AddAction(Action);
     }
 }
 
-void UARPGActionComponent::AddAction(TSubclassOf<UARPGAction> ActionClass)
+void UARPGActionComponent::AddAction(TSubclassOf<UARPGActionBase> ActionClass)
 {
     if (!ensure(ActionClass))
     {
         return;
     }
     
-    if (UARPGAction* NewAction = NewObject<UARPGAction>(this, ActionClass))
+    if (UARPGActionBase* NewAction = NewObject<UARPGActionBase>(this, ActionClass))
     {
         Actions.Add(NewAction);
     }
@@ -30,7 +30,7 @@ void UARPGActionComponent::AddAction(TSubclassOf<UARPGAction> ActionClass)
 
 bool UARPGActionComponent::StartActionByName(AActor* Instigator, FName ActionName)
 {
-    for (UARPGAction* Action : Actions)
+    for (UARPGActionBase* Action : Actions)
     {
         if (Action && Action->GetActionName() == ActionName)
         {
@@ -43,7 +43,7 @@ bool UARPGActionComponent::StartActionByName(AActor* Instigator, FName ActionNam
 
 bool UARPGActionComponent::StopActionByName(AActor* Instigator, FName ActionName)
 {
-    for (UARPGAction* Action : Actions)
+    for (UARPGActionBase* Action : Actions)
     {
         if (Action && Action->GetActionName() == ActionName)
         {
