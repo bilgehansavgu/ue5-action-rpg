@@ -15,14 +15,11 @@ class ACTIONRPG_API UARPGAttributeComponent : public UActorComponent
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnHealthChanged, AActor*, InstigatorActor, UARPGAttributeComponent*, AttributeComponent, float, NewHealth, float, DeltaHealth);
 
 public:	
-
-	UARPGAttributeComponent();
-
 	UPROPERTY(BlueprintAssignable)
 	FOnHealthChanged OnHealthChanged;
 	
 	UFUNCTION(BlueprintCallable)
-	bool ApplyHealthChange(AActor* InstigatorActor, float DeltaHealth);
+	void ApplyHealthChange(AActor* InstigatorActor, float DeltaHealth);
 
 	UFUNCTION(BlueprintPure)
 	bool IsAlive() const;

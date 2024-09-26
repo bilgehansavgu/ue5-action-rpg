@@ -24,8 +24,9 @@ void UARPGWorldUserWidget::NativeTick(const FGeometry& MyGeometry, float InDelta
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
 
-	if (!AttachedActor)
+	if (!IsValid(AttachedActor))
 	{
+		RemoveFromParent();
 		return;
 	}
 	

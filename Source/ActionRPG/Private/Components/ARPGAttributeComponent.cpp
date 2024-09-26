@@ -3,24 +3,34 @@
 
 #include "Components/ARPGAttributeComponent.h"
 
+#include "GameModes/ARPGBaseGameMode.h"
 
-UARPGAttributeComponent::UARPGAttributeComponent()
-{
-}
+static TAutoConsoleVariable<float> CVarDamageMultiplier(TEXT("arpg.DamageMultiplier"), 1.f, TEXT("Global Damage Multiplier"), ECVF_Cheat);
 
-bool UARPGAttributeComponent::ApplyHealthChange(AActor* InstigatorActor, float DeltaHealth)
+void UARPGAttributeComponent::ApplyHealthChange(AActor* InstigatorActor, float DeltaHealth)
 {
+	if(Health <= 0.f)
+	{
+		return;
+	}
+
+	DeltaHealth *= CVarDamageMultiplier.GetValueOnGameThread();
+	
 	float OldHealth = Health;
 	Health = FMath::Clamp(Health + DeltaHealth, 0.f, MaxHealth);
 	float AppliedDeltaHealth = Health - OldHealth;
-
-	if (AppliedDeltaHealth != 0.f)
-	{
-		OnHealthChanged.Broadcast(InstigatorActor, this, Health, AppliedDeltaHealth);
-		return true;
-	}
 	
-	return false;
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Health: %f"), Health));
+	
+	OnHealthChanged.Broadcast(InstigatorActor, this, Health, AppliedDeltaHealth);
+
+	if (Health == 0.f)
+	{
+		if(AARPGBaseGameMode* GameMode = GetWorld()->GetAuthGameMode<AARPGBaseGameMode>())
+		{
+			GameMode->OnActorKilled(GetOwner(), InstigatorActor);
+		}
+	}
 }
 
 bool UARPGAttributeComponent::IsAlive() const

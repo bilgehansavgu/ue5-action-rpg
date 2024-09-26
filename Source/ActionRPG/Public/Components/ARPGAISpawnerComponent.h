@@ -19,9 +19,8 @@ class ACTIONRPG_API UARPGAISpawnerComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
-	UARPGAISpawnerComponent();
-
+public:
+	UFUNCTION()
 	void StartSpawning();
 
 protected:

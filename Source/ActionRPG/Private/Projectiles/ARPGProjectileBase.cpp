@@ -2,10 +2,11 @@
 
 #include "NiagaraComponent.h"
 #include "NiagaraFunctionLibrary.h"
-#include "Components/ARPGAttributeComponent.h"
+//#include "Components/ARPGAttributeComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Utility/ARPGGameplayFunctionLibrary.h"
 
 AARPGProjectileBase::AARPGProjectileBase()
 {
@@ -42,22 +43,16 @@ void AARPGProjectileBase::OnActorOverlap(UPrimitiveComponent* OverlappedComponen
 	{
 		Explode();
 
-		UARPGAttributeComponent* AttributeComponent = Cast<UARPGAttributeComponent>(OtherActor->GetComponentByClass(UARPGAttributeComponent::StaticClass()));
+		// if (UARPGAttributeComponent* AttributeComponent = Cast<UARPGAttributeComponent>(OtherActor->GetComponentByClass(UARPGAttributeComponent::StaticClass())))
+		// {
+		// 	AttributeComponent->ApplyHealthChange(GetInstigator(),-Damage);
+		// }
+		// else
+		// {
+		// 	UE_LOG(LogTemp, Warning, TEXT("No Attribute Component found on %s"), *OtherActor->GetName());
+		// }
 
-		if (AttributeComponent)
-		{
-			AttributeComponent->ApplyHealthChange(GetInstigator(),-Damage);
-			
-			// if (GEngine)
-			// {
-			// 	FString DebugMessage = FString::Printf(TEXT("Health changed. New Health: %f"), AttributeComponent->GetHealth());
-			// 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, DebugMessage);
-			// }
-		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("No Attribute Component found on %s"), *OtherActor->GetName());
-		}
+		UARPGGameplayFunctionLibrary::ApplyDirectionalDamage(GetInstigator(), OtherActor, Damage, ImpulseMultiplier, SweepResult);
 	}
 }
 UE_ENABLE_OPTIMIZATION

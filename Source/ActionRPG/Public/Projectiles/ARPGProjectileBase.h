@@ -54,6 +54,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Audio")
 	TObjectPtr<USoundBase> ExplodeSoundCue;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Stats")
 	float Damage{20.f};
+
+	UPROPERTY(EditDefaultsOnly, Category = "Stats")
+	float ImpulseMultiplier{0.f};
 };

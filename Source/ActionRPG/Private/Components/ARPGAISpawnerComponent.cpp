@@ -12,10 +12,8 @@
 class UARPGAttributeComponent;
 class AARPGAICharacter;
 
-UARPGAISpawnerComponent::UARPGAISpawnerComponent()
-{
-	
-}
+static TAutoConsoleVariable<bool> CVarSpawnAI(TEXT("arpg.SpawnAI"), true, TEXT("Enable AI spawning"), ECVF_Cheat);
+
 
 void UARPGAISpawnerComponent::BeginPlay()
 {
@@ -31,6 +29,11 @@ void UARPGAISpawnerComponent::StartSpawning()
 
 void UARPGAISpawnerComponent::SpawnAITimerElapsed()
 {
+	if (!CVarSpawnAI.GetValueOnGameThread())
+	{
+		return;
+	}
+	
 	if(!ensure(SpawnAIEnvQuery))
 	{
 		UE_LOG(LogTemp, Error, TEXT("invalid SpawnAIEnvQuery aborting SpawnAITimerElapsed()"));

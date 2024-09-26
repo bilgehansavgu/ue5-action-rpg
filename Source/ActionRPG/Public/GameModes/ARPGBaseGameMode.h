@@ -4,22 +4,30 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameMode.h"
-#include "ARPGGameMode.generated.h"
+#include "ARPGBaseGameMode.generated.h"
 
 class UARPGAISpawnerComponent;
 
 UCLASS()
-class ACTIONRPG_API AARPGGameMode : public AGameMode
+class ACTIONRPG_API AARPGBaseGameMode : public AGameMode
 {
 	GENERATED_BODY()
 
 public:
-	AARPGGameMode();
+	AARPGBaseGameMode();
 
 	virtual void StartPlay() override;
+
+	virtual void OnActorKilled(AActor* KilledActor, AActor* KillerActor);
+
+	UFUNCTION()
+	void RespawnPlayer(AController* KilledCharacterController);
 
 protected:
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	TObjectPtr<UARPGAISpawnerComponent> AISpawnerComponent;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "GameMode")
+	float RespawnTimerInterval{5.f};
 };

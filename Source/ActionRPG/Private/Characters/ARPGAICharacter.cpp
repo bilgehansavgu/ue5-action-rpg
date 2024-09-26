@@ -20,6 +20,11 @@ AARPGAICharacter::AARPGAICharacter()
 	AttributeComponent = CreateDefaultSubobject<UARPGAttributeComponent>(TEXT("AttributeComponent"));
 	
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
+
+	// To make AI Character's capsule component not collide with projectiles so that projectile can apply impulsive damage to hit result bones
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Ignore);
+	GetMesh()->SetGenerateOverlapEvents(true);
+	
 	SpawnCollisionHandlingMethod = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 }
 
