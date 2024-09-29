@@ -21,7 +21,7 @@ public:
 	virtual void OnActorKilled(AActor* KilledActor, AActor* KillerActor);
 
 	UFUNCTION()
-	void RespawnPlayer(AController* KilledCharacterController);
+	void RespawnPlayer(AController* Controller);
 
 protected:
 

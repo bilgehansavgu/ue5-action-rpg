@@ -8,12 +8,10 @@
 
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
-#include "Blueprint/UserWidget.h"
 #include "Components/ARPGActionComponent.h"
 #include "Components/ARPGAttributeComponent.h"
 #include "Components/ARPGInteractionComponent.h"
 #include "Components/ARPGInventoryComponent.h"
-#include "Kismet/GameplayStatics.h"
 
 AARPGCharacter::AARPGCharacter()
 {
