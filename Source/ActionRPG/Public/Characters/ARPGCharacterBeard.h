@@ -4,15 +4,20 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "AbilitySystemInterface.h"
+#include "Components/ARPGAbilitySystemComponent.h"
 #include "ARPGCharacterBeard.generated.h"
 
+
+class UARPGAttributeSet;
+class UARPGAbilitySystemComponent;
 class UCameraComponent;
 class USpringArmComponent;
 class UARPGDataAsset_InputConfig;
 struct FInputActionValue;
 
 UCLASS()
-class ACTIONRPG_API AARPGCharacterBeard : public ACharacter
+class ACTIONRPG_API AARPGCharacterBeard : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -21,26 +26,39 @@ public:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	//~ Begin IAbilitySystemInterface Interface.
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override { return GetARPGAbilitySystemComponent(); }
+	//~ End IAbilitySystemInterface Interface
+	
+	FORCEINLINE UARPGAbilitySystemComponent* GetARPGAbilitySystemComponent() const { return AbilitySystemComponent; }
+
+	FORCEINLINE UARPGAttributeSet* GetAttributeSet() const { return AttributeSet; }
+
 protected:
 	virtual void BeginPlay() override;
 
-#pragma region Components
+	//~ Begin APawn Interface.
+	virtual void PossessedBy(AController* NewController) override;
+	//~ End APawn Interface
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<USpringArmComponent> CameraBoom;
-	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UCameraComponent> FollowCamera;
-	
-#pragma endregion
-
-#pragma region Inputs
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UARPGDataAsset_InputConfig> InputConfigDataAsset;
-	
+	UFUNCTION()
 	void Input_Move(const FInputActionValue& InputActionValue);
+
+	UFUNCTION()
 	void Input_Look(const FInputActionValue& InputActionValue);
 	
-#pragma endregion
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
+	TObjectPtr<USpringArmComponent> CameraBoom;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
+	TObjectPtr<UCameraComponent> FollowCamera;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AbilitySystem")
+	TObjectPtr<UARPGAbilitySystemComponent> AbilitySystemComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AbilitySystem")
+	TObjectPtr<UARPGAttributeSet> AttributeSet;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData")
+	TObjectPtr<UARPGDataAsset_InputConfig> InputConfigDataAsset;
 };

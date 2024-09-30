@@ -5,13 +5,16 @@
 
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "ActionRPG/ARPGDebugHelper.h"
 #include "Camera/CameraComponent.h"
+#include "Components/ARPGAbilitySystemComponent.h"
 #include "Components/ARPGInputComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "DataAssets/ARPGDataAsset_InputConfig.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameplayTags/APRGGameplayTags.h"
+#include "GAS/ARPGAttributeSet.h"
 
 class UARPGInputComponent;
 class UEnhancedInputLocalPlayerSubsystem;
@@ -37,6 +40,9 @@ AARPGCharacterBeard::AARPGCharacterBeard()
 	GetCharacterMovement()->MaxWalkSpeed = 400.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 
+	AbilitySystemComponent = CreateDefaultSubobject<UARPGAbilitySystemComponent>("AbilitySystemComponent");
+	AttributeSet = CreateDefaultSubobject<UARPGAttributeSet>("AttributeSet");
+
 }
 
 void AARPGCharacterBeard::BeginPlay()
@@ -45,6 +51,23 @@ void AARPGCharacterBeard::BeginPlay()
 	
 }
 
+void AARPGCharacterBeard::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if (AbilitySystemComponent)
+	{
+		AbilitySystemComponent->InitAbilityActorInfo(this,this);
+	}
+
+	if (AbilitySystemComponent && AttributeSet)
+	{	
+		const FString ASCText = FString::Printf(TEXT("Owner Actor: %s, AvatarActor: %s"),*AbilitySystemComponent->GetOwnerActor()->GetActorLabel(),*AbilitySystemComponent->GetAvatarActor()->GetActorLabel());
+		
+		Debug::Print(TEXT("Ability system component valid. ") + ASCText,FColor::Green);
+		Debug::Print(TEXT("AttributeSet valid. ") + ASCText,FColor::Green);
+	}
+}
 
 void AARPGCharacterBeard::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
