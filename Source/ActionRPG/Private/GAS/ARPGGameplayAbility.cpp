@@ -4,6 +4,9 @@
 #include "GAS/ARPGGameplayAbility.h"
 
 #include "AbilitySystemComponent.h"
+#include "Components/ARPGAbilitySystemComponent.h"
+
+class UARPGCombatComponent;
 
 void UARPGGameplayAbility::OnGiveAbility(const FGameplayAbilityActorInfo* ActorInfo,
                                          const FGameplayAbilitySpec& Spec)
@@ -25,8 +28,21 @@ void UARPGGameplayAbility::EndAbility(const FGameplayAbilitySpecHandle Handle,
 {
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
 
-	if (AbilityActivationPolicy == EARPGAbilityActivationPolicy::OnTriggered)
+	if (AbilityActivationPolicy == EARPGAbilityActivationPolicy::OnGiven)
 	{
 		ActorInfo->AbilitySystemComponent->ClearAbility(Handle);
 	}
 }
+
+UARPGCombatComponent* UARPGGameplayAbility::GetPawnCombatComponentFromActorInfo() const
+{
+	return GetAvatarActorFromActorInfo()->FindComponentByClass<UARPGCombatComponent>();
+}
+
+UARPGAbilitySystemComponent* UARPGGameplayAbility::GetARPGAbilitySystemComponentFromActorInfo() const
+{
+	return Cast<UARPGAbilitySystemComponent>(CurrentActorInfo->AbilitySystemComponent);
+}
+
+
+

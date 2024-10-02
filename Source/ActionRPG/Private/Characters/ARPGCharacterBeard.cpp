@@ -9,7 +9,9 @@
 #include "Camera/CameraComponent.h"
 #include "Components/ARPGAbilitySystemComponent.h"
 #include "Components/ARPGInputComponent.h"
+#include "Components/ARPGPlayerCombatComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "DataAssets/ARPGDataAsset_CharacterStartData.h"
 #include "DataAssets/ARPGDataAsset_InputConfig.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -43,6 +45,8 @@ AARPGCharacterBeard::AARPGCharacterBeard()
 	AbilitySystemComponent = CreateDefaultSubobject<UARPGAbilitySystemComponent>("AbilitySystemComponent");
 	AttributeSet = CreateDefaultSubobject<UARPGAttributeSet>("AttributeSet");
 
+	CombatComponent = CreateDefaultSubobject<UARPGPlayerCombatComponent>("PlayerCombatComponent");
+
 }
 
 void AARPGCharacterBeard::BeginPlay()
@@ -55,18 +59,28 @@ void AARPGCharacterBeard::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
+	if (!CharacterStartUpDataAsset.IsNull())
+	{
+		if (UARPGDataAsset_CharacterStartData* LoadedData = CharacterStartUpDataAsset.LoadSynchronous())
+		{
+			LoadedData->GiveToAbilitySystemComponent(AbilitySystemComponent);
+		}
+	}
+
 	if (AbilitySystemComponent)
 	{
 		AbilitySystemComponent->InitAbilityActorInfo(this,this);
+
+		ensureAlwaysMsgf(!CharacterStartUpDataAsset.IsNull(),TEXT("No start up data for %s"),*GetName());
 	}
 
-	if (AbilitySystemComponent && AttributeSet)
-	{	
-		const FString ASCText = FString::Printf(TEXT("Owner Actor: %s, AvatarActor: %s"),*AbilitySystemComponent->GetOwnerActor()->GetActorLabel(),*AbilitySystemComponent->GetAvatarActor()->GetActorLabel());
-		
-		Debug::Print(TEXT("Ability system component valid. ") + ASCText,FColor::Green);
-		Debug::Print(TEXT("AttributeSet valid. ") + ASCText,FColor::Green);
-	}
+	// if (AbilitySystemComponent && AttributeSet)
+	// {	
+	// 	const FString ASCText = FString::Printf(TEXT("Owner Actor: %s, AvatarActor: %s"),*AbilitySystemComponent->GetOwnerActor()->GetActorLabel(),*AbilitySystemComponent->GetAvatarActor()->GetActorLabel());
+	// 	
+	// 	Debug::Print(TEXT("Ability system component valid. ") + ASCText,FColor::Green);
+	// 	Debug::Print(TEXT("AttributeSet valid. ") + ASCText,FColor::Green);
+	// }
 }
 
 void AARPGCharacterBeard::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -81,8 +95,8 @@ void AARPGCharacterBeard::SetupPlayerInputComponent(UInputComponent* PlayerInput
 	
 	UARPGInputComponent* ARPGInputComponent = CastChecked<UARPGInputComponent>(PlayerInputComponent);
 	
-	ARPGInputComponent->BindNativeInputAction(InputConfigDataAsset,ARPGGameplayTags::InputTag_Move,ETriggerEvent::Triggered,this,&ThisClass::Input_Move);
-	ARPGInputComponent->BindNativeInputAction(InputConfigDataAsset,ARPGGameplayTags::InputTag_Look,ETriggerEvent::Triggered,this,&ThisClass::Input_Look);
+	ARPGInputComponent->BindNativeInputAction(InputConfigDataAsset,ARPGGameplayTags::Input_Move,ETriggerEvent::Triggered,this,&ThisClass::Input_Move);
+	ARPGInputComponent->BindNativeInputAction(InputConfigDataAsset,ARPGGameplayTags::Input_Look,ETriggerEvent::Triggered,this,&ThisClass::Input_Look);
 }
 
 void AARPGCharacterBeard::Input_Move(const FInputActionValue& InputActionValue)

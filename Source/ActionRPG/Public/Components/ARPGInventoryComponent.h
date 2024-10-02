@@ -48,13 +48,13 @@ protected:
 	UPROPERTY(EditAnywhere)
 	uint16 CoinAmount{0};
 
-	UPROPERTY(VisibleAnywhere, Category = "Weapon")
+	UPROPERTY(VisibleAnywhere, Category = "ARPG|Weapon")
 	TObjectPtr<AARPGBaseEquippable> MainWeapon;
 	
-	UPROPERTY(VisibleAnywhere, Category = "Weapon")
+	UPROPERTY(VisibleAnywhere, Category = "ARPG|Weapon")
 	bool bIsWeaponEquipped = false;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ARPG|UI")
 	TSubclassOf<UUserWidget> InventoryWidgetClass;
 
 	UPROPERTY()

@@ -27,16 +27,16 @@ protected:
 	UPROPERTY()
 	TObjectPtr<UCharacterMovementComponent> OwnerMovementComponent;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|LocomotionData")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "ARPG|LocomotionData")
 	float GroundSpeed;
 	
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|LocomotionData")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "ARPG|LocomotionData")
 	bool bHasAcceleration;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|LocomotionData")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "ARPG|LocomotionData")
 	bool bShouldEnterRelaxState;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AnimData|LocomotionData")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ARPG|LocomotionData")
 	float EnterRelaxStateThreshold{5.f};
 	
 	float IdleElapsedTime;

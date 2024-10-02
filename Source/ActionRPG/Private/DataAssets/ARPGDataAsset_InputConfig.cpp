@@ -6,7 +6,7 @@
 TObjectPtr<UInputAction> UARPGDataAsset_InputConfig::FindNativeInputActionByTag(
 	const FGameplayTag& Tag) const
 {
-	for (FARPGTaggedInputAction InputActionConfig : InputActionConfigs)
+	for (FARPGTaggedInputAction InputActionConfig : NativeTaggedInputActions)
 	{
 		if (InputActionConfig.InputTag.MatchesTagExact(Tag))
 		{

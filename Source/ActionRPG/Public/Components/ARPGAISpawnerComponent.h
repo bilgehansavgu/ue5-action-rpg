@@ -32,19 +32,19 @@ protected:
 	UFUNCTION()
 	void OnSpawnAIQueryFinished(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus);
 
-	UPROPERTY(EditDefaultsOnly, Category = "AI")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|AI")
 	float AISpawnTimerInterval{2.f};
 
-	UPROPERTY(EditDefaultsOnly, Category="AI")
+	UPROPERTY(EditDefaultsOnly, Category="ARPG|AI")
 	TObjectPtr<UEnvQuery> SpawnAIEnvQuery;
 
-	UPROPERTY(EditDefaultsOnly, Category="AI")
+	UPROPERTY(EditDefaultsOnly, Category="ARPG|AI")
 	TSubclassOf<AActor> AICharacterClass;
 
-	UPROPERTY(EditDefaultsOnly, Category="AI")
+	UPROPERTY(EditDefaultsOnly, Category="ARPG|AI")
 	int32 MaxAICount{0};
 	
-	UPROPERTY(EditDefaultsOnly, Category="AI")
+	UPROPERTY(EditDefaultsOnly, Category="ARPG|AI")
 	TObjectPtr<UCurveFloat> MaxAICountCurve;
 	
 	FTimerHandle SpawnAITimerHandle;

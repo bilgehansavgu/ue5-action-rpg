@@ -22,6 +22,11 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TObjectPtr<UInputAction> InputAction;
+
+	bool IsValid() const
+	{
+		return InputTag.IsValid() && InputAction;
+	}
 };
 
 
@@ -35,7 +40,10 @@ public:
 	TObjectPtr<UInputMappingContext> MappingContext;
 
 	UPROPERTY(EditDefaultsOnly, meta = (TitleProperty = "InputTag"))
-	TArray<FARPGTaggedInputAction> InputActionConfigs;
+	TArray<FARPGTaggedInputAction> NativeTaggedInputActions;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (TitleProperty = "InputTag"))
+	TArray<FARPGTaggedInputAction> AbilityTaggedInputActions;
 
 	TObjectPtr<UInputAction> FindNativeInputActionByTag(const FGameplayTag& Tag) const;
 };

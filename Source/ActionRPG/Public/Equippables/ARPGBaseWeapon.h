@@ -41,15 +41,15 @@ protected:
 	UFUNCTION()
 	void SetUnequippedSocketName(FName SocketName);
 	
-	UPROPERTY(EditAnywhere, Category = "Socket")
+	UPROPERTY(EditAnywhere, Category = "ARPG|Socket")
 	FName EquippedSocketName;
 
-	UPROPERTY(EditAnywhere, Category = "Socket")
+	UPROPERTY(EditAnywhere, Category = "ARPG|Socket")
 	FName UnequippedSocketName;
 	
-	UPROPERTY(EditAnywhere, Category = "Animation")
+	UPROPERTY(EditAnywhere, Category = "ARPG|Animation")
 	TObjectPtr<UAnimMontage> DrawAnimation;
 
-	UPROPERTY(EditAnywhere, Category = "Animation")
+	UPROPERTY(EditAnywhere, Category = "ARPG|Animation")
 	TObjectPtr<UAnimMontage> DisarmAnimation;
 };

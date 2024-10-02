@@ -39,24 +39,24 @@ protected:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	void Explode();
 
-	UPROPERTY(EditDefaultsOnly, Category = "Effects")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|Effects")
 	TObjectPtr<UNiagaraSystem> ImpactEffect;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|Components")
 	TObjectPtr<USphereComponent> SphereComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|Components")
 	TObjectPtr<UProjectileMovementComponent> MovementComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|Components")
 	TObjectPtr<UNiagaraComponent> EffectComponent;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Audio")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|Audio")
 	TObjectPtr<USoundBase> ExplodeSoundCue;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Stats")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|Stats")
 	float Damage{20.f};
 
-	UPROPERTY(EditDefaultsOnly, Category = "Stats")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|Stats")
 	float ImpulseMultiplier{0.f};
 };

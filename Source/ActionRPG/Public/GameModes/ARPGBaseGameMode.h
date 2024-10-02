@@ -25,9 +25,9 @@ public:
 
 protected:
 
-	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UPROPERTY(VisibleAnywhere, Category = "ARPG|Components")
 	TObjectPtr<UARPGAISpawnerComponent> AISpawnerComponent;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "GameMode")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ARPG|GameMode")
 	float RespawnTimerInterval{5.f};
 };

@@ -33,21 +33,6 @@ void UARPGAttributeComponent::ApplyHealthChange(AActor* InstigatorActor, float D
 	}
 }
 
-bool UARPGAttributeComponent::IsAlive() const
-{
-	return Health > 0.f;
-}
-
-float UARPGAttributeComponent::GetHealth() const
-{
-	return Health;
-}
-
-float UARPGAttributeComponent::GetHealthPercent() const
-{
-	return Health / MaxHealth;
-}
-
 bool UARPGAttributeComponent::IsActorAlive(AActor* Actor)
 {
 	if (Actor)

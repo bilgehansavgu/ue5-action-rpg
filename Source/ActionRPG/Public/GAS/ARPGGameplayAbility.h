@@ -4,7 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Abilities/GameplayAbility.h"
+#include "Components/ARPGCombatComponent.h"
 #include "ARPGGameplayAbility.generated.h"
+
+class UARPGAbilitySystemComponent;
 
 UENUM(BlueprintType)
 enum class EARPGAbilityActivationPolicy : uint8
@@ -25,6 +28,12 @@ protected:
 	virtual void EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled) override;
 	//~ End UGameplayAbility Interface
 
-	UPROPERTY(EditDefaultsOnly, Category = "Ability")
+	UFUNCTION(BlueprintPure, Category= "ARPG|Ability")
+	UARPGCombatComponent* GetPawnCombatComponentFromActorInfo() const;
+
+	UFUNCTION(BlueprintPure, Category= "ARPG|Ability")
+	UARPGAbilitySystemComponent* GetARPGAbilitySystemComponentFromActorInfo() const;
+
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|Ability")
 	EARPGAbilityActivationPolicy AbilityActivationPolicy = EARPGAbilityActivationPolicy::OnTriggered;
 };

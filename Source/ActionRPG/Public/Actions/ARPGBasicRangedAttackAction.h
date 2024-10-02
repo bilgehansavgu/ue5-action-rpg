@@ -24,15 +24,15 @@ public:
 	void SpawnProjectile(ACharacter* InstigatorCharacter);
 
 protected:
-	UPROPERTY(EditDefaultsOnly, Category = "Socket")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|Socket")
 	FName RightHandSocketName{"ik_hand_rSocket"};
 
-	UPROPERTY(EditAnywhere, Category = "Projectile")
+	UPROPERTY(EditAnywhere, Category = "ARPG|Projectile")
 	TSubclassOf<AARPGProjectileBase> BasicRangedAttackClass;
 	
-	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|Projectile")
 	float ProjectileTraceEndDistance{5000.f};
 	
-	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|Projectile")
 	float ProjectileTraceRadius{20.f};
 };

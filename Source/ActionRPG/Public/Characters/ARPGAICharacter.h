@@ -33,13 +33,13 @@ protected:
 	UFUNCTION()
 	void OnHealthChangedCallback(AActor* InstigatorActor,UARPGAttributeComponent* OwningComponent, float NewHealth, float DeltaHealth);
 	
-	UPROPERTY(VisibleAnywhere, Category="Components")
+	UPROPERTY(VisibleAnywhere, Category="ARPG|Components")
 	TObjectPtr<UPawnSensingComponent> PawnSensingComponent;
 	
-	UPROPERTY(VisibleAnywhere, Category="Components")
+	UPROPERTY(VisibleAnywhere, Category="ARPG|Components")
 	TObjectPtr<UARPGAttributeComponent> AttributeComponent;
 
-	UPROPERTY(EditDefaultsOnly, Category="UI")
+	UPROPERTY(EditDefaultsOnly, Category="ARPG|UI")
 	TSubclassOf<UUserWidget> HealthBarWidgetClass;
 
 	UPROPERTY()

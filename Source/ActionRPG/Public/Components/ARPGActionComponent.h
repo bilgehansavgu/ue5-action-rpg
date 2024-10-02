@@ -8,27 +8,25 @@
 
 class UARPGActionBase;
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class ACTIONRPG_API UARPGActionComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:
-	
-	UFUNCTION(BlueprintCallable, Category= "Actions")
+	UFUNCTION(BlueprintCallable, Category= "ARPG|Actions")
 	void AddAction(TSubclassOf<UARPGActionBase> ActionClass);
 
-	UFUNCTION(BlueprintCallable, Category= "Actions")
+	UFUNCTION(BlueprintCallable, Category= "ARPG|Actions")
 	bool StartActionByName(AActor* Instigator, FName ActionName);
-	
-	UFUNCTION(BlueprintCallable, Category= "Actions")
+
+	UFUNCTION(BlueprintCallable, Category= "ARPG|Actions")
 	bool StopActionByName(AActor* Instigator, FName ActionName);
-	
+
 protected:
-	
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, Category = "Actions")
+	UPROPERTY(EditAnywhere, Category = "ARPG|Actions")
 	TArray<TSubclassOf<UARPGActionBase>> DefaultActions;
 
 	UPROPERTY()

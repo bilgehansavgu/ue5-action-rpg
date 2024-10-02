@@ -22,9 +22,9 @@ protected:
 	UFUNCTION()
 	void EnablePotion();
 
-	UPROPERTY(VisibleAnywhere, Category="Components")
+	UPROPERTY(VisibleAnywhere, Category="ARPG|Components")
 	TObjectPtr<UStaticMeshComponent> StaticMesh;
 
-	UPROPERTY(EditDefaultsOnly, Category="Consumable")
+	UPROPERTY(EditDefaultsOnly, Category="ARPG|Consumable")
 	float BuffAmount{50.f};
 };

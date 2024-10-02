@@ -14,16 +14,16 @@ public:
 
 	virtual UWorld* GetWorld() const override;
 
-	UFUNCTION(BlueprintNativeEvent, Category = "Action")
+	UFUNCTION(BlueprintNativeEvent, Category = "ARPG|Action")
 	void StartAction(UARPGActionBase* Action, AActor* Instigator);
 
-	UFUNCTION(BlueprintNativeEvent, Category = "Action")
+	UFUNCTION(BlueprintNativeEvent, Category = "ARPG|Action")
 	void StopAction(UARPGActionBase* Action, AActor* Instigator);
 
-	UFUNCTION(BlueprintPure, Category = "Action")
+	UFUNCTION(BlueprintPure, Category = "ARPG|Action")
 	FName GetActionName() const { return ActionName; }
 	
 protected:
-	UPROPERTY(EditDefaultsOnly, Category = "Action")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|Action")
 	FName ActionName;
 };

@@ -78,57 +78,57 @@ protected:
 	UFUNCTION()
 	void StopSprint();
 
-	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UPROPERTY(VisibleAnywhere, Category = "ARPG|Components")
 	TObjectPtr<UCameraComponent> CameraComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|Components")
 	TObjectPtr<USpringArmComponent> SpringArmComponent;
 
-	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UPROPERTY(VisibleAnywhere, Category = "ARPG|Components")
 	TObjectPtr<UARPGInteractionComponent> InteractionComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|Components")
 	TObjectPtr<UARPGAttributeComponent> AttributeComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|Components")
 	TObjectPtr<UARPGActionComponent> ActionComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|Components")
 	TObjectPtr<UARPGInventoryComponent> InventoryComponent;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|Input")
 	TObjectPtr<UInputMappingContext> InputMapping;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|Input")
 	TObjectPtr<UInputAction> Input_Move;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|Input")
 	TObjectPtr<UInputAction> Input_Jump;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|Input")
 	TObjectPtr<UInputAction> Input_LookMouse;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|Input")
 	TObjectPtr<UInputAction> Input_BasicAttack;
 	
-	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|Input")
 	TObjectPtr<UInputAction> Input_AreaOfEffect;
 	
-	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|Input")
 	TObjectPtr<UInputAction> Input_Teleport;
 	
-	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|Input")
 	TObjectPtr<UInputAction> Input_Interact;
 	
-	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|Input")
 	TObjectPtr<UInputAction> Input_EquipWeapon;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|Input")
 	TObjectPtr<UInputAction> Input_DropWeapon;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|Input")
 	TObjectPtr<UInputAction> Input_ToggleInventory;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|Input")
 	TObjectPtr<UInputAction> Input_Sprint;
 };

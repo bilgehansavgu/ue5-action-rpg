@@ -16,7 +16,7 @@ class ACTIONRPG_API UARPGWorldUserWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(BlueprintReadWrite, Category = "UI", meta=(ExposeOnSpawn = true))
+	UPROPERTY(BlueprintReadWrite, Category = "ARPG|UI", meta=(ExposeOnSpawn = true))
 	TObjectPtr<AActor> AttachedActor;
 
 	UFUNCTION()
@@ -33,6 +33,6 @@ protected:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UProgressBar> HealthBar;
 
-	UPROPERTY(EditAnywhere, Category = "UI")
+	UPROPERTY(EditAnywhere, Category = "ARPG|UI")
 	FVector HealthBarOffset{0,0,100};
 };

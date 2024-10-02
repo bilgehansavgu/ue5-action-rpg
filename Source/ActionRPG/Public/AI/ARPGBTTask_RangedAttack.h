@@ -17,9 +17,9 @@ public:
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 
 protected:
-	UPROPERTY(EditAnywhere, Category = "AI")
+	UPROPERTY(EditAnywhere, Category = "ARPG|AI")
 	TSubclassOf<AARPGProjectileBase> ProjectileClass;
 
-	UPROPERTY(EditAnywhere, Category = "AI")
+	UPROPERTY(EditAnywhere, Category = "ARPG|AI")
 	FName ProjectileSpawnSocketName = "Muzzle_Front";
 };

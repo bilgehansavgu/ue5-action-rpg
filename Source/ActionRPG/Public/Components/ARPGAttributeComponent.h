@@ -22,25 +22,28 @@ public:
 	void ApplyHealthChange(AActor* InstigatorActor, float DeltaHealth);
 
 	UFUNCTION(BlueprintPure)
-	bool IsAlive() const;
+	FORCEINLINE bool IsAlive() const {return Health > 0.f;}
 
 	UFUNCTION(BlueprintPure)
-	float GetHealth() const;
+	FORCEINLINE float GetHealth() const {return Health;}
 
 	UFUNCTION(BlueprintPure)
-	float GetHealthPercent() const;
-	
-	UFUNCTION(BlueprintCallable, Category="Attributes", meta=( DisplayName="Is Alive"))
+	FORCEINLINE float GetHealthPercent() const {return Health / MaxHealth;}
+
+	UFUNCTION(BlueprintPure)
+	FORCEINLINE float GetMaxHealth() const {return MaxHealth;}
+
+	UFUNCTION(BlueprintCallable, Category="ARPG|Attributes", meta=( DisplayName="Is Alive"))
 	static bool IsActorAlive(AActor* Actor);
 
-	UFUNCTION(BlueprintCallable, BlueprintPure, Category="Attributes")
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category="ARPG|Attributes")
 	static UARPGAttributeComponent* GetAttributeComponent(AActor* Actor);
 
 protected:
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Attributes")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ARPG|Attributes")
 	float Health{100.f};
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Attributes")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ARPG|Attributes")
 	float MaxHealth{100.f};
 };

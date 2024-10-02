@@ -9,6 +9,8 @@
 #include "ARPGCharacterBeard.generated.h"
 
 
+class UARPGPlayerCombatComponent;
+class UARPGDataAsset_CharacterStartData;
 class UARPGAttributeSet;
 class UARPGAbilitySystemComponent;
 class UCameraComponent;
@@ -34,6 +36,8 @@ public:
 
 	FORCEINLINE UARPGAttributeSet* GetAttributeSet() const { return AttributeSet; }
 
+	FORCEINLINE UARPGPlayerCombatComponent* GetCombatComponent() const { return CombatComponent; }
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -46,19 +50,25 @@ protected:
 
 	UFUNCTION()
 	void Input_Look(const FInputActionValue& InputActionValue);
-	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
-	TObjectPtr<USpringArmComponent> CameraBoom;
-	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
-	TObjectPtr<UCameraComponent> FollowCamera;
-	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AbilitySystem")
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|AbilitySystem")
 	TObjectPtr<UARPGAbilitySystemComponent> AbilitySystemComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AbilitySystem")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|AbilitySystem")
 	TObjectPtr<UARPGAttributeSet> AttributeSet;
 	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|Camera")
+	TObjectPtr<USpringArmComponent> CameraBoom;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|Camera")
+	TObjectPtr<UCameraComponent> FollowCamera;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ARPG|CharacterData")
 	TObjectPtr<UARPGDataAsset_InputConfig> InputConfigDataAsset;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ARPG|CharacterData")
+	TSoftObjectPtr<UARPGDataAsset_CharacterStartData> CharacterStartUpDataAsset;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|Combat", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UARPGPlayerCombatComponent> CombatComponent;
 };

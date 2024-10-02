@@ -21,13 +21,13 @@ protected:
 
 	void TeleportInstigator();
 	
-	UPROPERTY(EditDefaultsOnly, Category = "Teleport")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|Teleport")
 	float TeleportDelay = 1.f;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Teleport")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|Teleport")
 	float DetonateDelay = 0.2f;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Effects")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|Effects")
 	TObjectPtr<UNiagaraSystem> DashEffect;
 
 	FTimerHandle TimerHandle_DelayedDetonate;

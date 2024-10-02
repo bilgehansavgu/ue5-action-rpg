@@ -14,6 +14,6 @@ class ACTIONRPG_API AARPGAIController : public AAIController
 protected:
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditDefaultsOnly, Category = "AI")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|AI")
 	TObjectPtr<UBehaviorTree> BehaviorTree;
 };

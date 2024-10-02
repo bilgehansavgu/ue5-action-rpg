@@ -4,31 +4,31 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTService.h"
-#include "ARPG_BTServiceCheckAttack.generated.h"
+#include "ARPGBTService_CheckAttack.generated.h"
 
 UCLASS()
-class ACTIONRPG_API UARPG_BTServiceCheckAttack : public UBTService
+class ACTIONRPG_API UARPGBTService_CheckAttack : public UBTService
 {
 	GENERATED_BODY()
 
 protected:
 	virtual void TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;
 
-	UPROPERTY(EditAnywhere, Category = "AI")
+	UPROPERTY(EditAnywhere, Category = "ARPG|AI")
 	FBlackboardKeySelector ShouldAttackKey;
 
-	UPROPERTY(EditAnywhere, Category = "AI")
+	UPROPERTY(EditAnywhere, Category = "ARPG|AI")
 	FBlackboardKeySelector ShouldRunAwayKey;
 
-	UPROPERTY(EditAnywhere, Category = "AI")
+	UPROPERTY(EditAnywhere, Category = "ARPG|AI")
 	FBlackboardKeySelector ShouldChaseKey;
 	
-	UPROPERTY(EditAnywhere, Category = "AI")
+	UPROPERTY(EditAnywhere, Category = "ARPG|AI")
 	float AttackMinRange;
 	
-	UPROPERTY(EditAnywhere, Category = "AI")
+	UPROPERTY(EditAnywhere, Category = "ARPG|AI")
 	float AttackMaxRange;
 
-	UPROPERTY(EditAnywhere, Category = "AI")
+	UPROPERTY(EditAnywhere, Category = "ARPG|AI")
 	float RunAwayRange;
 };
