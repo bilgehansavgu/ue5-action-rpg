@@ -2,3 +2,10 @@
 
 
 #include "AnimInstances/ARPGBeardLinkedAnimLayer.h"
+
+#include "AnimInstances/ARPGCharacterAnimInstance.h"
+
+UARPGCharacterAnimInstance* UARPGBeardLinkedAnimLayer::GetCharacterAnimInstance() const
+{
+	return Cast<UARPGCharacterAnimInstance>(GetOwningComponent()->GetAnimInstance());
+}

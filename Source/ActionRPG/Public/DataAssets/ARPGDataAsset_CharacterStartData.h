@@ -11,15 +11,16 @@ class UAbilitySystemComponent;
 class UARPGGameplayAbility;
 
 USTRUCT(BlueprintType)
-struct FARPGPlayerAbilitySet
+struct FARPGAbilityWithInputTag
 {
 	GENERATED_BODY()
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(Categories = "InputTag"))
+	
+	// The Categories keyword restricts the tags to those starting with "Input".
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(Categories = "Input")) 
 	FGameplayTag InputTag;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TSubclassOf<UARPGGameplayAbility> AbilityToGrant;
+	TSubclassOf<UARPGGameplayAbility> Ability;
 	
 	bool IsValid() const;
 };
@@ -38,10 +39,13 @@ protected:
 	UFUNCTION()
 	void GrantAbilities(TArray<TSubclassOf<UARPGGameplayAbility>> Abilities, UAbilitySystemComponent* AbilitySystemComponent, int32 ApplyLevel) const;
 	
-	UPROPERTY(EditDefaultsOnly, Category = "ARPG|StartUpData")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|StartData")
 	TArray<TSubclassOf<UARPGGameplayAbility>> ActivateOnGivenAbilities;
 	
-	UPROPERTY(EditDefaultsOnly, Category = "ARPG|StartUpData")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|StartData")
 	TArray<TSubclassOf<UARPGGameplayAbility>> ReactiveAbilities;
 
+	// The TitleProperty keyword specifies which property to display as the title in the editor UI for elements of this array.
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|StartData", meta=(TitleProperty = "InputTag"))
+	TArray<FARPGAbilityWithInputTag> PlayerStartTaggedGameplayAbility;
 };

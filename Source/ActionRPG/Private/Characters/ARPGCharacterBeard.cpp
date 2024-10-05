@@ -5,7 +5,6 @@
 
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
-#include "ActionRPG/ARPGDebugHelper.h"
 #include "Camera/CameraComponent.h"
 #include "Components/ARPGAbilitySystemComponent.h"
 #include "Components/ARPGInputComponent.h"
@@ -15,7 +14,7 @@
 #include "DataAssets/ARPGDataAsset_InputConfig.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "GameplayTags/APRGGameplayTags.h"
+#include "GAS/GameplayTags/APRGGameplayTags.h"
 #include "GAS/ARPGAttributeSet.h"
 
 class UARPGInputComponent;
@@ -97,6 +96,7 @@ void AARPGCharacterBeard::SetupPlayerInputComponent(UInputComponent* PlayerInput
 	
 	ARPGInputComponent->BindNativeInputAction(InputConfigDataAsset,ARPGGameplayTags::Input_Move,ETriggerEvent::Triggered,this,&ThisClass::Input_Move);
 	ARPGInputComponent->BindNativeInputAction(InputConfigDataAsset,ARPGGameplayTags::Input_Look,ETriggerEvent::Triggered,this,&ThisClass::Input_Look);
+	ARPGInputComponent->BindAbilityInputActions(InputConfigDataAsset,this,&ThisClass::Input_AbilityInputPressed,&ThisClass::Input_AbilityInputReleased);
 }
 
 void AARPGCharacterBeard::Input_Move(const FInputActionValue& InputActionValue)
@@ -128,4 +128,13 @@ void AARPGCharacterBeard::Input_Look(const FInputActionValue& InputActionValue)
 	{
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+void AARPGCharacterBeard::Input_AbilityInputPressed(FGameplayTag InputTag)
+{
+	AbilitySystemComponent->OnAbilityInputPressed(InputTag);
+}
+
+void AARPGCharacterBeard::Input_AbilityInputReleased(FGameplayTag InputTag)
+{
 }

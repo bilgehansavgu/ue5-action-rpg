@@ -17,7 +17,7 @@ public:
 	void BindNativeInputAction(const UARPGDataAsset_InputConfig* InputConfig,const FGameplayTag& InputTag,ETriggerEvent TriggerEvent,UserObject* ContextObject,CallbackFunc Func);
 
 	template<class UserObject,typename CallbackFunc>
-	void BindAbilityInputAction(const UARPGDataAsset_InputConfig* InputConfig,UserObject* ContextObject,CallbackFunc InputPressedFunc,CallbackFunc InputReleasedFunc);
+	void BindAbilityInputActions(const UARPGDataAsset_InputConfig* InputConfig,UserObject* ContextObject,CallbackFunc InputPressedFunc,CallbackFunc InputReleasedFunc);
 };
 
 template <class UserObject, typename CallbackFunc>
@@ -34,7 +34,7 @@ void UARPGInputComponent::BindNativeInputAction(const UARPGDataAsset_InputConfig
 }
 
 template <class UserObject, typename CallbackFunc>
-void UARPGInputComponent::BindAbilityInputAction(const UARPGDataAsset_InputConfig* InputConfig, UserObject* ContextObject,
+void UARPGInputComponent::BindAbilityInputActions(const UARPGDataAsset_InputConfig* InputConfig, UserObject* ContextObject,
 	CallbackFunc InputPressedFunc, CallbackFunc InputReleasedFunc)
 {
 	checkf(InputConfig,TEXT("Input config data asset is null, binding cancelled"));

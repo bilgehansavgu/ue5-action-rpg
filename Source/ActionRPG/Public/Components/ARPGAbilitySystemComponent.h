@@ -10,5 +10,11 @@ UCLASS()
 class ACTIONRPG_API UARPGAbilitySystemComponent : public UAbilitySystemComponent
 {
 	GENERATED_BODY()
-	
+
+public:
+	UFUNCTION()
+	void OnAbilityInputPressed(const FGameplayTag& InputTag);
+
+	UFUNCTION()
+	void OnAbilityInputReleased(const FGameplayTag& InputTag);
 };

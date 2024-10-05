@@ -21,10 +21,10 @@ public:
 
 protected:
 
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|References")
 	TObjectPtr<AARPGCharacterBeard> OwnerCharacter;
 
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|References")
 	TObjectPtr<UCharacterMovementComponent> OwnerMovementComponent;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "ARPG|LocomotionData")

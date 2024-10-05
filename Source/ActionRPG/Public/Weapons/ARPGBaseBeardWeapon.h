@@ -4,8 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Types/ARPGStructTypes.h"
 #include "ARPGBaseBeardWeapon.generated.h"
 
+struct FARPGPlayerWeaponData;
 class UBoxComponent;
 
 UCLASS()
@@ -26,4 +28,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|Weapons")
 	TObjectPtr<UBoxComponent> CollisionBox;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="ARPG|WeaponData")
+	FARPGPlayerWeaponData PlayerWeaponData;
 };

@@ -11,6 +11,7 @@ void UARPGCombatComponent::RegisterSpawnedWeapon(FGameplayTag WeaponTag, AARPGBa
 	checkf(!CarriedWeaponMap.Contains(WeaponTag), TEXT("A named named %s has already been added as carried weapon"),
 	       *WeaponTag.ToString());
 	check(Weapon);
+	
 	CarriedWeaponMap.Emplace(WeaponTag, Weapon);
 	if (bRegisterAsEquippedWeapon)
 	{

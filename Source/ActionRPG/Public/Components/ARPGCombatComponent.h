@@ -16,10 +16,10 @@ class ACTIONRPG_API UARPGCombatComponent : public UARPGPawnComponent
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "ARPG|Combat")
-	void RegisterSpawnedWeapon(FGameplayTag InWeaponTagToRegister,AARPGBaseBeardWeapon* InWeaponToRegister,bool bRegisterAsEquippedWeapon = false);
+	void RegisterSpawnedWeapon(FGameplayTag WeaponTag,AARPGBaseBeardWeapon* Weapon,bool bRegisterAsEquippedWeapon = false);
 	
 	UFUNCTION(BlueprintCallable, Category = "ARPG|Combat")
-	AARPGBaseBeardWeapon* GetCarriedWeaponByTag(FGameplayTag InWeaponTagToGet) const;
+	AARPGBaseBeardWeapon* GetCarriedWeaponByTag(FGameplayTag WeaponTag) const;
 	
 	UFUNCTION(BlueprintCallable, Category = "ARPG|Combat")
 	AARPGBaseBeardWeapon* GetEquippedWeapon() const;

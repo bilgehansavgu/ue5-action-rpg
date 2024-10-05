@@ -51,6 +51,12 @@ protected:
 	UFUNCTION()
 	void Input_Look(const FInputActionValue& InputActionValue);
 
+	UFUNCTION()
+	void Input_AbilityInputPressed(FGameplayTag InputTag);
+
+	UFUNCTION()
+	void Input_AbilityInputReleased(FGameplayTag InputTag);
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|AbilitySystem")
 	TObjectPtr<UARPGAbilitySystemComponent> AbilitySystemComponent;
 

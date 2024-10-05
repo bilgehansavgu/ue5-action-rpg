@@ -7,9 +7,9 @@
 #include "GameplayAbilitySpec.h"
 #include "GAS/ARPGGameplayAbility.h"
 
-bool FARPGPlayerAbilitySet::IsValid() const
+bool FARPGAbilityWithInputTag::IsValid() const
 {
-	return InputTag.IsValid() && AbilityToGrant;
+	return InputTag.IsValid() && Ability;
 }
 
 void UARPGDataAsset_CharacterStartData::GiveToAbilitySystemComponent(
@@ -19,6 +19,18 @@ void UARPGDataAsset_CharacterStartData::GiveToAbilitySystemComponent(
 
 	GrantAbilities(ActivateOnGivenAbilities, AbilitySystemComponent, ApplyLevel);
 	GrantAbilities(ReactiveAbilities, AbilitySystemComponent, ApplyLevel);
+	
+	for (const FARPGAbilityWithInputTag& AbilityWithInputTag : PlayerStartTaggedGameplayAbility)
+	{
+		if (!AbilityWithInputTag.IsValid()) continue;
+
+		FGameplayAbilitySpec AbilitySpec(AbilityWithInputTag.Ability);
+		AbilitySpec.SourceObject = AbilitySystemComponent->GetAvatarActor();
+		AbilitySpec.Level = ApplyLevel;
+		AbilitySpec.DynamicAbilityTags.AddTag(AbilityWithInputTag.InputTag);
+		
+		AbilitySystemComponent->GiveAbility(AbilitySpec);
+	}
 }
 
 void UARPGDataAsset_CharacterStartData::GrantAbilities(
@@ -37,6 +49,7 @@ void UARPGDataAsset_CharacterStartData::GrantAbilities(
 		FGameplayAbilitySpec AbilitySpec(Ability);
 		AbilitySpec.SourceObject = AbilitySystemComponent->GetAvatarActor();
 		AbilitySpec.Level = ApplyLevel;
+		
 		AbilitySystemComponent->GiveAbility(AbilitySpec);
 	}
 }
