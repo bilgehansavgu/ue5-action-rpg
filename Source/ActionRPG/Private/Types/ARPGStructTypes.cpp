@@ -3,4 +3,10 @@
 
 #include "Types/ARPGStructTypes.h"
 
+#include "GAS/ARPGPlayerGameplayAbility.h"
 
+
+bool FARPGPlayerTaggedAbility::IsValid() const
+{
+	return InputTag.IsValid() && Ability;
+}

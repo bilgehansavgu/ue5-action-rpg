@@ -14,7 +14,7 @@
 #include "DataAssets/ARPGDataAsset_InputConfig.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "GAS/GameplayTags/APRGGameplayTags.h"
+#include "GAS/APRGGameplayTags.h"
 #include "GAS/ARPGAttributeSet.h"
 
 class UARPGInputComponent;

@@ -3,6 +3,8 @@
 
 #include "DataAssets/ARPGDataAsset_InputConfig.h"
 
+#include "Types/ARPGStructTypes.h"
+
 TObjectPtr<UInputAction> UARPGDataAsset_InputConfig::FindNativeInputActionByTag(
 	const FGameplayTag& Tag) const
 {

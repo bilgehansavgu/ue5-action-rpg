@@ -19,4 +19,9 @@ AARPGBaseBeardWeapon::AARPGBaseBeardWeapon()
 
 }
 
+void AARPGBaseBeardWeapon::SetGrantedAbilitySpecHandles(const TArray<FGameplayAbilitySpecHandle>& SpecHandles)
+{
+	GrantedAbilitySpecHandles = SpecHandles;
+}
+
 

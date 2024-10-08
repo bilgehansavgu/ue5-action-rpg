@@ -7,23 +7,10 @@
 #include "Engine/DataAsset.h"
 #include "ARPGDataAsset_CharacterStartData.generated.h"
 
+struct FARPGPlayerTaggedAbility;
 class UAbilitySystemComponent;
 class UARPGGameplayAbility;
 
-USTRUCT(BlueprintType)
-struct FARPGAbilityWithInputTag
-{
-	GENERATED_BODY()
-	
-	// The Categories keyword restricts the tags to those starting with "Input".
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(Categories = "Input")) 
-	FGameplayTag InputTag;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TSubclassOf<UARPGGameplayAbility> Ability;
-	
-	bool IsValid() const;
-};
 
 UCLASS()
 class ACTIONRPG_API UARPGDataAsset_CharacterStartData : public UDataAsset
@@ -47,5 +34,5 @@ protected:
 
 	// The TitleProperty keyword specifies which property to display as the title in the editor UI for elements of this array.
 	UPROPERTY(EditDefaultsOnly, Category = "ARPG|StartData", meta=(TitleProperty = "InputTag"))
-	TArray<FARPGAbilityWithInputTag> PlayerStartTaggedGameplayAbility;
+	TArray<FARPGPlayerTaggedAbility> PlayerStartTaggedGameplayAbility;
 };

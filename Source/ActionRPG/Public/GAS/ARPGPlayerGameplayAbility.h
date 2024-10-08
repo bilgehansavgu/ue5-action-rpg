@@ -16,15 +16,15 @@ class ACTIONRPG_API UARPGPlayerGameplayAbility : public UARPGGameplayAbility
 {
 		GENERATED_BODY()
 
-	public:
-		UFUNCTION(BlueprintPure, Category = "ARPG|Ability")
-		AARPGCharacterBeard* GetBeardCharacterFromActorInfo();
-		
-		UFUNCTION(BlueprintPure, Category = "ARPG|Ability")
-		AARPGPlayerController* GetPlayerControllerFromActorInfo();
-		
-		UFUNCTION(BlueprintPure, Category = "ARPG|Ability")
-		UARPGPlayerCombatComponent* GetPlayerCombatComponentFromActorInfo();
+public:
+	UFUNCTION(BlueprintPure, Category = "ARPG|Ability")
+	AARPGCharacterBeard* GetBeardCharacterFromActorInfo();
+	
+	UFUNCTION(BlueprintPure, Category = "ARPG|Ability")
+	AARPGPlayerController* GetPlayerControllerFromActorInfo();
+	
+	UFUNCTION(BlueprintPure, Category = "ARPG|Ability")
+	UARPGPlayerCombatComponent* GetPlayerCombatComponentFromActorInfo();
 		
 private:
 	TWeakObjectPtr<AARPGCharacterBeard> CachedCharacter;

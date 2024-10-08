@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "EnhancedInputComponent.h"
 #include "DataAssets/ARPGDataAsset_InputConfig.h"
+#include "Types/ARPGStructTypes.h"
 #include "ARPGInputComponent.generated.h"
 
 UCLASS()
@@ -39,11 +40,11 @@ void UARPGInputComponent::BindAbilityInputActions(const UARPGDataAsset_InputConf
 {
 	checkf(InputConfig,TEXT("Input config data asset is null, binding cancelled"));
 	
-	for (const FARPGTaggedInputAction& AbilityInputActionConfig : InputConfig->AbilityTaggedInputActions)
+	for (const FARPGTaggedInputAction& TaggedInputAction : InputConfig->TaggedInputActions)
 	{
-		if(!AbilityInputActionConfig.IsValid()) continue;
+		if(!TaggedInputAction.IsValid()) continue;
 		
-		BindAction(AbilityInputActionConfig.InputAction,ETriggerEvent::Started,ContextObject,InputPressedFunc,AbilityInputActionConfig.InputTag);
-		BindAction(AbilityInputActionConfig.InputAction,ETriggerEvent::Completed,ContextObject,InputReleasedFunc,AbilityInputActionConfig.InputTag);
+		BindAction(TaggedInputAction.InputAction,ETriggerEvent::Started,ContextObject,InputPressedFunc,TaggedInputAction.InputTag);
+		BindAction(TaggedInputAction.InputAction,ETriggerEvent::Completed,ContextObject,InputReleasedFunc,TaggedInputAction.InputTag);
 	}
 }

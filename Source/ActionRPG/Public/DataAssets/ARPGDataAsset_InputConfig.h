@@ -8,26 +8,9 @@
 #include "ARPGDataAsset_InputConfig.generated.h"
 
 
+struct FARPGTaggedInputAction;
 class UInputMappingContext;
 class UInputAction;
-
-USTRUCT(BlueprintType)
-struct FARPGTaggedInputAction
-{
-	GENERATED_BODY()
-
-public:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (Categories = "Input")) // Categories meta tag is to only allow tags starting with "Input"
-	FGameplayTag InputTag;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TObjectPtr<UInputAction> InputAction;
-
-	bool IsValid() const
-	{
-		return InputTag.IsValid() && InputAction;
-	}
-};
 
 
 UCLASS()
@@ -43,7 +26,7 @@ public:
 	TArray<FARPGTaggedInputAction> NativeTaggedInputActions;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (TitleProperty = "InputTag"))
-	TArray<FARPGTaggedInputAction> AbilityTaggedInputActions;
+	TArray<FARPGTaggedInputAction> TaggedInputActions;
 
 	TObjectPtr<UInputAction> FindNativeInputActionByTag(const FGameplayTag& Tag) const;
 };

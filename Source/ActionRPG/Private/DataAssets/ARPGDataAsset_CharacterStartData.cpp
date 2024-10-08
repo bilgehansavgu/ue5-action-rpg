@@ -5,12 +5,9 @@
 
 #include "AbilitySystemComponent.h"
 #include "GameplayAbilitySpec.h"
-#include "GAS/ARPGGameplayAbility.h"
+#include "GAS/ARPGPlayerGameplayAbility.h"
+#include "Types/ARPGStructTypes.h"
 
-bool FARPGAbilityWithInputTag::IsValid() const
-{
-	return InputTag.IsValid() && Ability;
-}
 
 void UARPGDataAsset_CharacterStartData::GiveToAbilitySystemComponent(
 	UAbilitySystemComponent* AbilitySystemComponent, int32 ApplyLevel) const
@@ -20,7 +17,7 @@ void UARPGDataAsset_CharacterStartData::GiveToAbilitySystemComponent(
 	GrantAbilities(ActivateOnGivenAbilities, AbilitySystemComponent, ApplyLevel);
 	GrantAbilities(ReactiveAbilities, AbilitySystemComponent, ApplyLevel);
 	
-	for (const FARPGAbilityWithInputTag& AbilityWithInputTag : PlayerStartTaggedGameplayAbility)
+	for (const FARPGPlayerTaggedAbility& AbilityWithInputTag : PlayerStartTaggedGameplayAbility)
 	{
 		if (!AbilityWithInputTag.IsValid()) continue;
 

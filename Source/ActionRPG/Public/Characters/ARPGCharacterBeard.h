@@ -26,7 +26,7 @@ class ACTIONRPG_API AARPGCharacterBeard : public ACharacter, public IAbilitySyst
 public:
 	AARPGCharacterBeard();
 
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
 	//~ Begin IAbilitySystemInterface Interface.
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override { return GetARPGAbilitySystemComponent(); }
