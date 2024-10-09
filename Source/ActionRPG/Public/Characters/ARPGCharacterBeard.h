@@ -10,7 +10,7 @@
 
 
 class UARPGPlayerCombatComponent;
-class UARPGDataAsset_CharacterStartData;
+class UARPGDataAsset_PlayerInit;
 class UARPGAttributeSet;
 class UARPGAbilitySystemComponent;
 class UCameraComponent;
@@ -73,7 +73,7 @@ protected:
 	TObjectPtr<UARPGDataAsset_InputConfig> InputConfigDataAsset;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ARPG|CharacterData")
-	TSoftObjectPtr<UARPGDataAsset_CharacterStartData> CharacterStartUpDataAsset;
+	TSoftObjectPtr<UARPGDataAsset_PlayerInit> CharacterStartUpDataAsset;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|Combat", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UARPGPlayerCombatComponent> CombatComponent;

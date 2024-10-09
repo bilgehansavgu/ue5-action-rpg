@@ -1,12 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "AnimInstances/ARPGCharacterAnimInstance.h"
+#include "AnimInstances/ARPGBeardAnimInstance.h"
 
 #include "Characters/ARPGCharacterBeard.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
-void UARPGCharacterAnimInstance::NativeInitializeAnimation()
+void UARPGBeardAnimInstance::NativeInitializeAnimation()
 {
 	OwnerCharacter = Cast<AARPGCharacterBeard>(TryGetPawnOwner());
 	if (OwnerCharacter)
@@ -15,7 +15,7 @@ void UARPGCharacterAnimInstance::NativeInitializeAnimation()
 	}
 }
 
-void UARPGCharacterAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSeconds)
+void UARPGBeardAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSeconds)
 {
 	if (!OwnerCharacter || !OwnerMovementComponent)
 	{

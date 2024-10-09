@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "ARPGBaseAnimInstance.h"
-#include "ARPGCharacterAnimInstance.generated.h"
+#include "ARPGBeardAnimInstance.generated.h"
 
 class UCharacterMovementComponent;
 class AARPGCharacterBeard;
 
 UCLASS()
-class ACTIONRPG_API UARPGCharacterAnimInstance : public UARPGBaseAnimInstance
+class ACTIONRPG_API UARPGBeardAnimInstance : public UARPGBaseAnimInstance
 {
 	GENERATED_BODY()
 

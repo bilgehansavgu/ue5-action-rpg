@@ -10,7 +10,7 @@
 #include "Components/ARPGInputComponent.h"
 #include "Components/ARPGPlayerCombatComponent.h"
 #include "Components/CapsuleComponent.h"
-#include "DataAssets/ARPGDataAsset_CharacterStartData.h"
+#include "DataAssets/ARPGDataAsset_PlayerInit.h"
 #include "DataAssets/ARPGDataAsset_InputConfig.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -60,7 +60,7 @@ void AARPGCharacterBeard::PossessedBy(AController* NewController)
 
 	if (!CharacterStartUpDataAsset.IsNull())
 	{
-		if (UARPGDataAsset_CharacterStartData* LoadedData = CharacterStartUpDataAsset.LoadSynchronous())
+		if (UARPGDataAsset_PlayerInit* LoadedData = CharacterStartUpDataAsset.LoadSynchronous())
 		{
 			LoadedData->GiveToAbilitySystemComponent(AbilitySystemComponent);
 		}

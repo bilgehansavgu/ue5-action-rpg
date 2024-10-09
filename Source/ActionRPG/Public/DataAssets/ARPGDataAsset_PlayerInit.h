@@ -3,9 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameplayTagContainer.h"
 #include "Engine/DataAsset.h"
-#include "ARPGDataAsset_CharacterStartData.generated.h"
+#include "ARPGDataAsset_PlayerInit.generated.h"
 
 struct FARPGPlayerTaggedAbility;
 class UAbilitySystemComponent;
@@ -13,7 +12,7 @@ class UARPGGameplayAbility;
 
 
 UCLASS()
-class ACTIONRPG_API UARPGDataAsset_CharacterStartData : public UDataAsset
+class ACTIONRPG_API UARPGDataAsset_PlayerInit : public UDataAsset
 {
 	GENERATED_BODY()
 

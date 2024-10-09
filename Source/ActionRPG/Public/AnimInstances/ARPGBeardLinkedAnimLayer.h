@@ -6,7 +6,7 @@
 #include "ARPGBaseAnimInstance.h"
 #include "ARPGBeardLinkedAnimLayer.generated.h"
 
-class UARPGCharacterAnimInstance;
+class UARPGBeardAnimInstance;
 
 UCLASS()
 class ACTIONRPG_API UARPGBeardLinkedAnimLayer : public UARPGBaseAnimInstance
@@ -15,5 +15,5 @@ class ACTIONRPG_API UARPGBeardLinkedAnimLayer : public UARPGBaseAnimInstance
 
 public:
 	UFUNCTION(BlueprintPure, meta=(BlueprintThreadSafe))
-	UARPGCharacterAnimInstance* GetCharacterAnimInstance() const;
+	UARPGBeardAnimInstance* GetCharacterAnimInstance() const;
 };

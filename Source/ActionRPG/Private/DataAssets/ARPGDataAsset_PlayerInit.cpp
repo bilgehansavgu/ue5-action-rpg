@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "DataAssets/ARPGDataAsset_CharacterStartData.h"
+#include "DataAssets/ARPGDataAsset_PlayerInit.h"
 
 #include "AbilitySystemComponent.h"
 #include "GameplayAbilitySpec.h"
@@ -9,7 +9,7 @@
 #include "Types/ARPGStructTypes.h"
 
 
-void UARPGDataAsset_CharacterStartData::GiveToAbilitySystemComponent(
+void UARPGDataAsset_PlayerInit::GiveToAbilitySystemComponent(
 	UAbilitySystemComponent* AbilitySystemComponent, int32 ApplyLevel) const
 {
 	check(AbilitySystemComponent);
@@ -30,7 +30,7 @@ void UARPGDataAsset_CharacterStartData::GiveToAbilitySystemComponent(
 	}
 }
 
-void UARPGDataAsset_CharacterStartData::GrantAbilities(
+void UARPGDataAsset_PlayerInit::GrantAbilities(
 	TArray<TSubclassOf<UARPGGameplayAbility>> Abilities,
 	UAbilitySystemComponent* AbilitySystemComponent, int32 ApplyLevel) const
 {
