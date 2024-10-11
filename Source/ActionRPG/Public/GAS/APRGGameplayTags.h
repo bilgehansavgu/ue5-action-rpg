@@ -11,6 +11,7 @@ namespace ARPGGameplayTags
 	ACTIONRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Input_EquipWeapon);
 	ACTIONRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Input_UnequipWeapon);
 
+	
 	/** Player Tags **/
 	ACTIONRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Weapon_Axe);
 	
@@ -24,4 +25,7 @@ namespace ARPGGameplayTags
 
 	ACTIONRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_JumpToFinisher);
 
+	
+	/** Foe Tags **/
+	ACTIONRPG_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Foe_Weapon);
 }

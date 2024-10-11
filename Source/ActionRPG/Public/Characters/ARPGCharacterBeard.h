@@ -57,24 +57,24 @@ protected:
 	UFUNCTION()
 	void Input_AbilityInputReleased(FGameplayTag InputTag);
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|AbilitySystem")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|Components")
 	TObjectPtr<UARPGAbilitySystemComponent> AbilitySystemComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|AbilitySystem")
 	TObjectPtr<UARPGAttributeSet> AttributeSet;
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|Camera")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|Components")
 	TObjectPtr<USpringArmComponent> CameraBoom;
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|Camera")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|Components")
 	TObjectPtr<UCameraComponent> FollowCamera;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ARPG|CharacterData")
 	TObjectPtr<UARPGDataAsset_InputConfig> InputConfigDataAsset;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ARPG|CharacterData")
-	TSoftObjectPtr<UARPGDataAsset_PlayerInit> CharacterStartUpDataAsset;
+	TSoftObjectPtr<UARPGDataAsset_PlayerInit> CharacterInitDataAsset;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|Combat", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|Components", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UARPGPlayerCombatComponent> CombatComponent;
 };

@@ -5,6 +5,7 @@
 
 #include "ARPGStructTypes.generated.h"
 
+class UARPGFoeGameplayAbility;
 class UInputMappingContext;
 class UARPGPlayerGameplayAbility;
 class UInputAction;
@@ -21,6 +22,21 @@ struct FARPGPlayerTaggedAbility
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<UARPGPlayerGameplayAbility> Ability;
+	
+	bool IsValid() const;
+};
+
+USTRUCT(BlueprintType)
+struct FARPGFoeTaggedAbility
+{
+	GENERATED_BODY()
+	
+	// The Categories keyword restricts the tags to those starting with "Input".
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(Categories = "Input")) 
+	FGameplayTag InputTag;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<UARPGFoeGameplayAbility> Ability;
 	
 	bool IsValid() const;
 };
@@ -56,4 +72,16 @@ struct FARPGPlayerWeaponData
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta=(TitleProperty = "InputTag"))
 	TArray<FARPGPlayerTaggedAbility> DefaultAbilities;
+};
+
+USTRUCT(BlueprintType)
+struct FARPGFoeWeaponData
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<UARPGBeardLinkedAnimLayer> WeaponAnimLayerToLink;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TArray<FARPGFoeTaggedAbility> DefaultAbilities;
 };

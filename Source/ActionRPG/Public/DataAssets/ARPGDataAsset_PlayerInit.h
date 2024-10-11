@@ -18,20 +18,23 @@ class ACTIONRPG_API UARPGDataAsset_PlayerInit : public UDataAsset
 
 public:
 
-	virtual void GiveToAbilitySystemComponent(UAbilitySystemComponent* AbilitySystemComponent, int32 ApplyLevel = 1) const;
+	virtual void GrantDefaultAbilities(UAbilitySystemComponent* AbilitySystemComponent, int32 ApplyLevel = 1) const;
 	
 protected:
 
 	UFUNCTION()
-	void GrantAbilities(TArray<TSubclassOf<UARPGGameplayAbility>> Abilities, UAbilitySystemComponent* AbilitySystemComponent, int32 ApplyLevel) const;
+	void GrantAbilitiesFromArray(TArray<TSubclassOf<UARPGGameplayAbility>> Abilities, UAbilitySystemComponent* AbilitySystemComponent, int32 ApplyLevel) const;
 	
-	UPROPERTY(EditDefaultsOnly, Category = "ARPG|StartData")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|InitData")
 	TArray<TSubclassOf<UARPGGameplayAbility>> ActivateOnGivenAbilities;
 	
-	UPROPERTY(EditDefaultsOnly, Category = "ARPG|StartData")
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|InitData")
 	TArray<TSubclassOf<UARPGGameplayAbility>> ReactiveAbilities;
 
 	// The TitleProperty keyword specifies which property to display as the title in the editor UI for elements of this array.
-	UPROPERTY(EditDefaultsOnly, Category = "ARPG|StartData", meta=(TitleProperty = "InputTag"))
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|InitData", meta=(TitleProperty = "InputTag"))
 	TArray<FARPGPlayerTaggedAbility> PlayerStartTaggedGameplayAbility;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|InitData")
+	TArray<TSubclassOf<UGameplayEffect>> InitGameplayEffects;
 };

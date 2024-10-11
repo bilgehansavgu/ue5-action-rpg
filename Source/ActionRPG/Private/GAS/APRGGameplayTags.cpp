@@ -13,6 +13,7 @@ namespace ARPGGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Input_Attack_Light_Axe, "Input.Attack.Light.Axe");
 	UE_DEFINE_GAMEPLAY_TAG(Input_Attack_Heavy_Axe, "Input.Attack.Heavy.Axe");
 
+	
 	/** Player Tags **/
 	UE_DEFINE_GAMEPLAY_TAG(Player_Weapon_Axe,"Player.Weapon.Axe");
 
@@ -25,4 +26,8 @@ namespace ARPGGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Attack_Heavy_Axe, "Player.Ability.Attack.Heavy.Axe");
 	
 	UE_DEFINE_GAMEPLAY_TAG(Player_Status_JumpToFinisher, "Player.Status.JumpToFinisher");
+
+
+	/** Foe Tags **/
+	UE_DEFINE_GAMEPLAY_TAG(Foe_Weapon, "Foe.Weapon");
 }

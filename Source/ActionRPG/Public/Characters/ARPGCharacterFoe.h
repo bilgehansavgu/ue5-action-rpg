@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "ARPGCharacterFoe.generated.h"
 
+class UARPGAbilitySystemComponent;
+class UARPGDataAsset_FoeInit;
 class UARPGFoeCombatComponent;
 
 UCLASS()
@@ -19,7 +21,20 @@ public:
 	FORCEINLINE UARPGFoeCombatComponent* GetFoeCombatComponent() const { return FoeCombatComponent;}
 	
 protected:
+	//~ Begin APawn Interface.
+	virtual void PossessedBy(AController* NewController) override;
+	//~ End APawn Interface
+
+	UFUNCTION()
+	void InitData();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|Components")
+	TObjectPtr<UARPGAbilitySystemComponent> AbilitySystemComponent;
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|Components")
 	TObjectPtr<UARPGFoeCombatComponent> FoeCombatComponent;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ARPG|CharacterData")
+	TSoftObjectPtr<UARPGDataAsset_FoeInit> FoeInitDataAsset;
 
 };

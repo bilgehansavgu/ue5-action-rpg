@@ -9,13 +9,13 @@
 #include "Types/ARPGStructTypes.h"
 
 
-void UARPGDataAsset_PlayerInit::GiveToAbilitySystemComponent(
+void UARPGDataAsset_PlayerInit::GrantDefaultAbilities(
 	UAbilitySystemComponent* AbilitySystemComponent, int32 ApplyLevel) const
 {
 	check(AbilitySystemComponent);
 
-	GrantAbilities(ActivateOnGivenAbilities, AbilitySystemComponent, ApplyLevel);
-	GrantAbilities(ReactiveAbilities, AbilitySystemComponent, ApplyLevel);
+	GrantAbilitiesFromArray(ActivateOnGivenAbilities, AbilitySystemComponent, ApplyLevel);
+	GrantAbilitiesFromArray(ReactiveAbilities, AbilitySystemComponent, ApplyLevel);
 	
 	for (const FARPGPlayerTaggedAbility& AbilityWithInputTag : PlayerStartTaggedGameplayAbility)
 	{
@@ -30,7 +30,7 @@ void UARPGDataAsset_PlayerInit::GiveToAbilitySystemComponent(
 	}
 }
 
-void UARPGDataAsset_PlayerInit::GrantAbilities(
+void UARPGDataAsset_PlayerInit::GrantAbilitiesFromArray(
 	TArray<TSubclassOf<UARPGGameplayAbility>> Abilities,
 	UAbilitySystemComponent* AbilitySystemComponent, int32 ApplyLevel) const
 {

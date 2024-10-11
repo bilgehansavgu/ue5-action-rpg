@@ -58,11 +58,11 @@ void AARPGCharacterBeard::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
-	if (!CharacterStartUpDataAsset.IsNull())
+	if (!CharacterInitDataAsset.IsNull())
 	{
-		if (UARPGDataAsset_PlayerInit* LoadedData = CharacterStartUpDataAsset.LoadSynchronous())
+		if (UARPGDataAsset_PlayerInit* LoadedData = CharacterInitDataAsset.LoadSynchronous())
 		{
-			LoadedData->GiveToAbilitySystemComponent(AbilitySystemComponent);
+			LoadedData->GrantDefaultAbilities(AbilitySystemComponent);
 		}
 	}
 
@@ -70,16 +70,9 @@ void AARPGCharacterBeard::PossessedBy(AController* NewController)
 	{
 		AbilitySystemComponent->InitAbilityActorInfo(this,this);
 
-		ensureAlwaysMsgf(!CharacterStartUpDataAsset.IsNull(),TEXT("No start up data for %s"),*GetName());
+		ensureAlwaysMsgf(!CharacterInitDataAsset.IsNull(),TEXT("No start up data for %s"),*GetName());
 	}
-
-	// if (AbilitySystemComponent && AttributeSet)
-	// {	
-	// 	const FString ASCText = FString::Printf(TEXT("Owner Actor: %s, AvatarActor: %s"),*AbilitySystemComponent->GetOwnerActor()->GetActorLabel(),*AbilitySystemComponent->GetAvatarActor()->GetActorLabel());
-	// 	
-	// 	Debug::Print(TEXT("Ability system component valid. ") + ASCText,FColor::Green);
-	// 	Debug::Print(TEXT("AttributeSet valid. ") + ASCText,FColor::Green);
-	// }
+	
 }
 
 void AARPGCharacterBeard::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

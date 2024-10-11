@@ -5,6 +5,7 @@
 
 #include "AbilitySystemComponent.h"
 #include "Components/ARPGAbilitySystemComponent.h"
+#include "Components/ARPGPlayerCombatComponent.h"
 
 class UARPGCombatComponent;
 
@@ -32,11 +33,6 @@ void UARPGGameplayAbility::EndAbility(const FGameplayAbilitySpecHandle Handle,
 	{
 		ActorInfo->AbilitySystemComponent->ClearAbility(Handle);
 	}
-}
-
-UARPGCombatComponent* UARPGGameplayAbility::GetPawnCombatComponentFromActorInfo() const
-{
-	return GetAvatarActorFromActorInfo()->FindComponentByClass<UARPGCombatComponent>();
 }
 
 UARPGAbilitySystemComponent* UARPGGameplayAbility::GetARPGAbilitySystemComponentFromActorInfo() const
