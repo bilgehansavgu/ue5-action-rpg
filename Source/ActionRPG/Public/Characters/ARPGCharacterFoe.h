@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "ARPGCharacterFoe.generated.h"
 
+class UARPGAttributeSet;
 class UARPGAbilitySystemComponent;
 class UARPGDataAsset_FoeInit;
 class UARPGFoeCombatComponent;
@@ -33,6 +34,9 @@ protected:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|Components")
 	TObjectPtr<UARPGFoeCombatComponent> FoeCombatComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ARPG|AbilitySystem")
+	TObjectPtr<UARPGAttributeSet> AttributeSet;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ARPG|CharacterData")
 	TSoftObjectPtr<UARPGDataAsset_FoeInit> FoeInitDataAsset;

@@ -22,6 +22,11 @@ class UEnhancedInputLocalPlayerSubsystem;
 
 AARPGCharacterBeard::AARPGCharacterBeard()
 {
+	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bStartWithTickEnabled = false;
+
+	GetMesh()->bReceivesDecals = false;
+	
 	GetCapsuleComponent()->InitCapsuleSize(42.f,96.f);
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
@@ -57,6 +62,13 @@ void AARPGCharacterBeard::BeginPlay()
 void AARPGCharacterBeard::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
+	
+	if (AbilitySystemComponent)
+	{
+		AbilitySystemComponent->InitAbilityActorInfo(this,this);
+
+		ensureAlwaysMsgf(!CharacterInitDataAsset.IsNull(),TEXT("No start up data for %s"),*GetName());
+	}
 
 	if (!CharacterInitDataAsset.IsNull())
 	{
@@ -65,14 +77,6 @@ void AARPGCharacterBeard::PossessedBy(AController* NewController)
 			LoadedData->GrantDefaultAbilities(AbilitySystemComponent);
 		}
 	}
-
-	if (AbilitySystemComponent)
-	{
-		AbilitySystemComponent->InitAbilityActorInfo(this,this);
-
-		ensureAlwaysMsgf(!CharacterInitDataAsset.IsNull(),TEXT("No start up data for %s"),*GetName());
-	}
-	
 }
 
 void AARPGCharacterBeard::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

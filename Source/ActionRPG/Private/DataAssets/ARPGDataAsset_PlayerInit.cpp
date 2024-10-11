@@ -7,6 +7,7 @@
 #include "GameplayAbilitySpec.h"
 #include "GAS/ARPGPlayerGameplayAbility.h"
 #include "Types/ARPGStructTypes.h"
+#include "GameplayEffect.h"
 
 
 void UARPGDataAsset_PlayerInit::GrantDefaultAbilities(
@@ -16,6 +17,18 @@ void UARPGDataAsset_PlayerInit::GrantDefaultAbilities(
 
 	GrantAbilitiesFromArray(ActivateOnGivenAbilities, AbilitySystemComponent, ApplyLevel);
 	GrantAbilitiesFromArray(ReactiveAbilities, AbilitySystemComponent, ApplyLevel);
+
+	if (!InitGameplayEffects.IsEmpty())
+	{
+		for (const TSubclassOf<UGameplayEffect> EffectClass : InitGameplayEffects)
+		{
+			if (!EffectClass) continue;
+
+			UGameplayEffect* EffectCDO = EffectClass->GetDefaultObject<UGameplayEffect>();
+
+			AbilitySystemComponent->ApplyGameplayEffectToSelf(EffectCDO, ApplyLevel, AbilitySystemComponent->MakeEffectContext());
+		}
+	}
 	
 	for (const FARPGPlayerTaggedAbility& AbilityWithInputTag : PlayerStartTaggedGameplayAbility)
 	{

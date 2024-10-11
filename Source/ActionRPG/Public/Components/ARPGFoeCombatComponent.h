@@ -3,32 +3,32 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ARPGPawnComponent.h"
+#include "ARPGCombatComponent.h"
 #include "GameplayTagContainer.h"
 #include "ARPGFoeCombatComponent.generated.h"
 
-class AARPGBaseFoeWeapon;
+class AARPGFoeWeapon;
 struct FGameplayTag;
 
 UCLASS()
-class ACTIONRPG_API UARPGFoeCombatComponent : public UARPGPawnComponent
+class ACTIONRPG_API UARPGFoeCombatComponent : public UARPGCombatComponent
 {
 	GENERATED_BODY()
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "ARPG|Combat")
-	void RegisterSpawnedWeapon(FGameplayTag WeaponTag,AARPGBaseFoeWeapon* Weapon,bool bRegisterAsEquippedWeapon = false);
+	void RegisterSpawnedWeapon(FGameplayTag WeaponTag,AARPGFoeWeapon* Weapon,bool bRegisterAsEquippedWeapon = false);
 	
 	UFUNCTION(BlueprintCallable, Category = "ARPG|Combat")
-	AARPGBaseFoeWeapon* GetCarriedWeaponByTag(FGameplayTag WeaponTag) const;
+	AARPGFoeWeapon* GetCarriedWeaponByTag(FGameplayTag WeaponTag) const;
 	
 	UFUNCTION(BlueprintCallable, Category = "ARPG|Combat")
-	AARPGBaseFoeWeapon* GetEquippedWeapon() const;
+	AARPGFoeWeapon* GetEquippedWeapon() const;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "ARPG|Combat")
 	FGameplayTag EquippedWeaponTag;
 	
 private:
-	TMap<FGameplayTag,AARPGBaseFoeWeapon*> CarriedWeaponMap;
+	TMap<FGameplayTag,AARPGFoeWeapon*> CarriedWeaponMap;
 	
 };

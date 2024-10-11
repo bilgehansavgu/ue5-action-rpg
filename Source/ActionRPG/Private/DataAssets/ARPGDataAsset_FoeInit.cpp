@@ -5,6 +5,7 @@
 
 #include "AbilitySystemComponent.h"
 #include "GAS/ARPGFoeGameplayAbility.h"
+#include "GameplayEffect.h"
 
 void UARPGDataAsset_FoeInit::GrantDefaultAbilities(UAbilitySystemComponent* AbilitySystemComponent, int32 ApplyLevel) const
 {
@@ -12,6 +13,18 @@ void UARPGDataAsset_FoeInit::GrantDefaultAbilities(UAbilitySystemComponent* Abil
 	
 	GrantAbilitiesFromArray(ActivateOnGivenAbilities, AbilitySystemComponent, ApplyLevel);
 	GrantAbilitiesFromArray(ReactiveAbilities, AbilitySystemComponent, ApplyLevel);
+	
+	if (!InitGameplayEffects.IsEmpty())
+	{
+		for (const TSubclassOf<UGameplayEffect> EffectClass : InitGameplayEffects)
+		{
+			if (!EffectClass) continue;
+
+			UGameplayEffect* EffectCDO = EffectClass->GetDefaultObject<UGameplayEffect>();
+
+			AbilitySystemComponent->ApplyGameplayEffectToSelf(EffectCDO, ApplyLevel, AbilitySystemComponent->MakeEffectContext());
+		}
+	}
 
 	if (EnemyCombatAbilities.IsEmpty())
 	{

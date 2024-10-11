@@ -1,12 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Weapons/ARPGBaseFoeWeapon.h"
-#include "GameplayAbilitySpecHandle.h"
+#include "Weapons/ARPGPlayerWeapon.h"
 
 #include "Components/BoxComponent.h"
 
-AARPGBaseFoeWeapon::AARPGBaseFoeWeapon()
+
+AARPGPlayerWeapon::AARPGPlayerWeapon()
 {
 	PrimaryActorTick.bCanEverTick = false;
 
@@ -16,10 +16,12 @@ AARPGBaseFoeWeapon::AARPGBaseFoeWeapon()
 	CollisionBox->SetupAttachment(GetRootComponent());
 	CollisionBox->SetBoxExtent(FVector(20.f));
 	CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
 }
 
-void AARPGBaseFoeWeapon::SetGrantedAbilitySpecHandles(const TArray<FGameplayAbilitySpecHandle>& SpecHandles)
+void AARPGPlayerWeapon::SetGrantedAbilitySpecHandles(const TArray<FGameplayAbilitySpecHandle>& SpecHandles)
 {
 	GrantedAbilitySpecHandles = SpecHandles;
 }
+
 

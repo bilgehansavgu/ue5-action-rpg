@@ -6,6 +6,7 @@
 #include "Engine/DataAsset.h"
 #include "ARPGDataAsset_FoeInit.generated.h"
 
+class UGameplayEffect;
 class UARPGGameplayAbility;
 class UAbilitySystemComponent;
 class UARPGFoeGameplayAbility;
@@ -32,5 +33,8 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "ARPG|InitData")
 	TArray<TSubclassOf<UARPGFoeGameplayAbility>> EnemyCombatAbilities;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "ARPG|InitData")
+	TArray<TSubclassOf<UGameplayEffect>> InitGameplayEffects;
 	
 };

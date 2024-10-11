@@ -9,9 +9,15 @@
 #include "DataAssets/ARPGDataAsset_FoeInit.h"
 #include "Engine/AssetManager.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "GAS/ARPGAttributeSet.h"
 
 AARPGCharacterFoe::AARPGCharacterFoe()
 {
+	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bStartWithTickEnabled = false;
+
+	GetMesh()->bReceivesDecals = false;
+	
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 	
 	bUseControllerRotationPitch = false;
@@ -25,17 +31,24 @@ AARPGCharacterFoe::AARPGCharacterFoe()
 	
 	FoeCombatComponent = CreateDefaultSubobject<UARPGFoeCombatComponent>("FoeCombatComponent");
 	AbilitySystemComponent = CreateDefaultSubobject<UARPGAbilitySystemComponent>("AbilitySystemComponent");
+	AttributeSet = CreateDefaultSubobject<UARPGAttributeSet>("AttributeSet");
 }
 
 void AARPGCharacterFoe::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
+	if (!AbilitySystemComponent) return;
+	
+	AbilitySystemComponent->InitAbilityActorInfo(this,this);
+	
 	InitData();
 }
 
 void AARPGCharacterFoe::InitData()
 {
+	ensureAlwaysMsgf(!FoeInitDataAsset.IsNull(),TEXT("No start up data for %s"),*GetName());
+	
 	UAssetManager::GetStreamableManager().RequestAsyncLoad(
 		FoeInitDataAsset.ToSoftObjectPath(),
 		FStreamableDelegate::CreateLambda(

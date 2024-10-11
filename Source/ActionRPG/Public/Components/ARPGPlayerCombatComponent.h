@@ -8,27 +8,27 @@
 #include "ARPGPlayerCombatComponent.generated.h"
 
 
-class AARPGBaseBeardWeapon;
+class AARPGPlayerWeapon;
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class ACTIONRPG_API UARPGPlayerCombatComponent : public UARPGPawnComponent
+class ACTIONRPG_API UARPGPlayerCombatComponent : public UARPGCombatComponent
 {
 	GENERATED_BODY()
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "ARPG|Combat")
-	void RegisterSpawnedWeapon(FGameplayTag WeaponTag,AARPGBaseBeardWeapon* Weapon,bool bRegisterAsEquippedWeapon = false);
+	void RegisterSpawnedWeapon(FGameplayTag WeaponTag,AARPGPlayerWeapon* Weapon,bool bRegisterAsEquippedWeapon = false);
 	
 	UFUNCTION(BlueprintCallable, Category = "ARPG|Combat")
-	AARPGBaseBeardWeapon* GetCarriedWeaponByTag(FGameplayTag WeaponTag) const;
+	AARPGPlayerWeapon* GetCarriedWeaponByTag(FGameplayTag WeaponTag) const;
 	
 	UFUNCTION(BlueprintCallable, Category = "ARPG|Combat")
-	AARPGBaseBeardWeapon* GetEquippedWeapon() const;
+	AARPGPlayerWeapon* GetEquippedWeapon() const;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "ARPG|Combat")
 	FGameplayTag EquippedWeaponTag;
 	
 private:
-	TMap<FGameplayTag,AARPGBaseBeardWeapon*> CarriedWeaponMap;
+	TMap<FGameplayTag,AARPGPlayerWeapon*> CarriedWeaponMap;
 	
 };

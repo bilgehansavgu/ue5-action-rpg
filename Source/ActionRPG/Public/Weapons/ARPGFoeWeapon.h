@@ -3,20 +3,21 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ARPGWeapon.h"
 #include "GameFramework/Actor.h"
 #include "Types/ARPGStructTypes.h"
-#include "ARPGBaseFoeWeapon.generated.h"
+#include "ARPGFoeWeapon.generated.h"
 
 class UBoxComponent;
 struct FGameplayAbilitySpecHandle;
 
 UCLASS()
-class ACTIONRPG_API AARPGBaseFoeWeapon : public AActor
+class ACTIONRPG_API AARPGFoeWeapon : public AARPGWeapon
 {
 	GENERATED_BODY()
 	
 public:	
-	AARPGBaseFoeWeapon();
+	AARPGFoeWeapon();
 	
 	FORCEINLINE UBoxComponent* GetWeaponCollisionBox() const { return CollisionBox;}
 

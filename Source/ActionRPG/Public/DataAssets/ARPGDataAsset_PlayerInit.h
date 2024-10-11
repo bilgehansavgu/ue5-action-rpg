@@ -9,6 +9,7 @@
 struct FARPGPlayerTaggedAbility;
 class UAbilitySystemComponent;
 class UARPGGameplayAbility;
+class UGameplayEffect;
 
 
 UCLASS()
