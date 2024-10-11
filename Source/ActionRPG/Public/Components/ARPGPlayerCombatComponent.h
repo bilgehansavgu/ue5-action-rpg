@@ -16,19 +16,12 @@ class ACTIONRPG_API UARPGPlayerCombatComponent : public UARPGCombatComponent
 	GENERATED_BODY()
 
 public:
+
 	UFUNCTION(BlueprintCallable, Category = "ARPG|Combat")
-	void RegisterSpawnedWeapon(FGameplayTag WeaponTag,AARPGPlayerWeapon* Weapon,bool bRegisterAsEquippedWeapon = false);
-	
+	AARPGPlayerWeapon* GetPlayerCarriedWeaponByTag(FGameplayTag InWeaponTag) const;
+
 	UFUNCTION(BlueprintCallable, Category = "ARPG|Combat")
-	AARPGPlayerWeapon* GetCarriedWeaponByTag(FGameplayTag WeaponTag) const;
-	
-	UFUNCTION(BlueprintCallable, Category = "ARPG|Combat")
-	AARPGPlayerWeapon* GetEquippedWeapon() const;
-	
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "ARPG|Combat")
-	FGameplayTag EquippedWeaponTag;
-	
-private:
-	TMap<FGameplayTag,AARPGPlayerWeapon*> CarriedWeaponMap;
+	AARPGPlayerWeapon* GetPlayerEquippedWeapon(FGameplayTag InWeaponTag);
+
 	
 };

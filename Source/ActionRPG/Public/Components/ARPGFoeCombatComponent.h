@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "ARPGCombatComponent.h"
-#include "GameplayTagContainer.h"
 #include "ARPGFoeCombatComponent.generated.h"
 
 class AARPGFoeWeapon;
@@ -17,18 +16,9 @@ class ACTIONRPG_API UARPGFoeCombatComponent : public UARPGCombatComponent
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "ARPG|Combat")
-	void RegisterSpawnedWeapon(FGameplayTag WeaponTag,AARPGFoeWeapon* Weapon,bool bRegisterAsEquippedWeapon = false);
-	
+	AARPGFoeWeapon* GetFoeCarriedWeaponByTag(FGameplayTag InWeaponTag) const;
+
 	UFUNCTION(BlueprintCallable, Category = "ARPG|Combat")
-	AARPGFoeWeapon* GetCarriedWeaponByTag(FGameplayTag WeaponTag) const;
-	
-	UFUNCTION(BlueprintCallable, Category = "ARPG|Combat")
-	AARPGFoeWeapon* GetEquippedWeapon() const;
-	
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "ARPG|Combat")
-	FGameplayTag EquippedWeaponTag;
-	
-private:
-	TMap<FGameplayTag,AARPGFoeWeapon*> CarriedWeaponMap;
+	AARPGFoeWeapon* GetFoeEquippedWeapon(FGameplayTag InWeaponTag);
 	
 };

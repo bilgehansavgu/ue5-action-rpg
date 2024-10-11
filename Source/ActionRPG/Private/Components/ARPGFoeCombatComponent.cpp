@@ -3,44 +3,14 @@
 
 #include "Components/ARPGFoeCombatComponent.h"
 
-#include "ActionRPG/ARPGDebugHelper.h"
 #include "Weapons/ARPGFoeWeapon.h"
 
-void UARPGFoeCombatComponent::RegisterSpawnedWeapon(FGameplayTag WeaponTag, AARPGFoeWeapon* Weapon, bool bRegisterAsEquippedWeapon)
+AARPGFoeWeapon* UARPGFoeCombatComponent::GetFoeCarriedWeaponByTag(FGameplayTag InWeaponTag) const
 {
-	checkf(!CarriedWeaponMap.Contains(WeaponTag), TEXT("A named named %s has already been added as carried weapon"),
-		   *WeaponTag.ToString());
-	check(Weapon);
-	
-	CarriedWeaponMap.Emplace(WeaponTag, Weapon);
-	if (bRegisterAsEquippedWeapon)
-	{
-		EquippedWeaponTag = WeaponTag;
-	}
-	
-	const FString WeaponString = FString::Printf(
-		TEXT("A weapon named: %s has been registered using the tag %s"), *Weapon->GetName(), *WeaponTag.ToString());
-	Debug::Print(WeaponString);
+	return Cast<AARPGFoeWeapon>(GetCarriedWeaponByTag(InWeaponTag));
 }
 
-AARPGFoeWeapon* UARPGFoeCombatComponent::GetCarriedWeaponByTag(FGameplayTag WeaponTag) const
+AARPGFoeWeapon* UARPGFoeCombatComponent::GetFoeEquippedWeapon(FGameplayTag InWeaponTag)
 {
-	if (CarriedWeaponMap.Contains(WeaponTag))
-	{
-		if (AARPGFoeWeapon* const* FoundWeapon = CarriedWeaponMap.Find(WeaponTag))
-		{
-			return *FoundWeapon;
-		}
-	}
-	return nullptr;
-}
-
-
-AARPGFoeWeapon* UARPGFoeCombatComponent::GetEquippedWeapon() const
-{
-	if (!EquippedWeaponTag.IsValid())
-	{
-		return nullptr;
-	}
-	return GetCarriedWeaponByTag(EquippedWeaponTag);
+	return Cast<AARPGFoeWeapon>(GetEquippedWeapon());
 }
