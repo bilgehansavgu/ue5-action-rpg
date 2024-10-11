@@ -8,20 +8,7 @@
 
 AARPGPlayerWeapon::AARPGPlayerWeapon()
 {
-	PrimaryActorTick.bCanEverTick = false;
 
-	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WeaponMesh"));
-	SetRootComponent(Mesh);
-	CollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("WeaponCollisionBox"));
-	CollisionBox->SetupAttachment(GetRootComponent());
-	CollisionBox->SetBoxExtent(FVector(20.f));
-	CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-
-}
-
-void AARPGPlayerWeapon::SetGrantedAbilitySpecHandles(const TArray<FGameplayAbilitySpecHandle>& SpecHandles)
-{
-	GrantedAbilitySpecHandles = SpecHandles;
 }
 
 
