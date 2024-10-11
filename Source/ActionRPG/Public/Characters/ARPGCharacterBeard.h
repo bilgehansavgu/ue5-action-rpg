@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
 #include "Components/ARPGAbilitySystemComponent.h"
+#include "Interfaces/ARPGCombatComponentInterface.h"
 #include "ARPGCharacterBeard.generated.h"
 
 
@@ -19,7 +20,7 @@ class UARPGDataAsset_InputConfig;
 struct FInputActionValue;
 
 UCLASS()
-class ACTIONRPG_API AARPGCharacterBeard : public ACharacter, public IAbilitySystemInterface
+class ACTIONRPG_API AARPGCharacterBeard : public ACharacter, public IAbilitySystemInterface, public IARPGCombatComponentInterface
 {
 	GENERATED_BODY()
 
@@ -38,6 +39,10 @@ public:
 
 	FORCEINLINE UARPGPlayerCombatComponent* GetCombatComponent() const { return CombatComponent; }
 
+	//~ Begin IARPGCombatComponentInterface Interface.
+	virtual UARPGCombatComponent* GetPawnCombatComponent() const override;
+	//~ End IARPGCombatComponentInterface Interface
+	
 protected:
 	virtual void BeginPlay() override;
 

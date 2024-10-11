@@ -3,7 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AbilitySystemInterface.h"
+#include "Components/ARPGAbilitySystemComponent.h"
 #include "GameFramework/Character.h"
+#include "Interfaces/ARPGCombatComponentInterface.h"
 #include "ARPGCharacterFoe.generated.h"
 
 class UARPGAttributeSet;
@@ -12,7 +15,7 @@ class UARPGDataAsset_FoeInit;
 class UARPGFoeCombatComponent;
 
 UCLASS()
-class ACTIONRPG_API AARPGCharacterFoe : public ACharacter
+class ACTIONRPG_API AARPGCharacterFoe : public ACharacter, public IAbilitySystemInterface, public IARPGCombatComponentInterface
 {
 	GENERATED_BODY()
 
@@ -21,10 +24,18 @@ public:
 
 	FORCEINLINE UARPGFoeCombatComponent* GetFoeCombatComponent() const { return FoeCombatComponent;}
 	
+	//~ Begin IARPGCombatComponentInterface Interface.
+	virtual UARPGCombatComponent* GetPawnCombatComponent() const override;
+	//~ End IARPGCombatComponentInterface Interface
+	
 protected:
 	//~ Begin APawn Interface.
 	virtual void PossessedBy(AController* NewController) override;
 	//~ End APawn Interface
+	
+	//~ Begin IAbilitySystemInterface Interface.
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override { return AbilitySystemComponent; }
+	//~ End IAbilitySystemInterface Interface
 
 	UFUNCTION()
 	void InitData();

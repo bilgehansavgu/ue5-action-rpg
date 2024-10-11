@@ -34,6 +34,11 @@ AARPGCharacterFoe::AARPGCharacterFoe()
 	AttributeSet = CreateDefaultSubobject<UARPGAttributeSet>("AttributeSet");
 }
 
+UARPGCombatComponent* AARPGCharacterFoe::GetPawnCombatComponent() const
+{
+	return FoeCombatComponent;
+}
+
 void AARPGCharacterFoe::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);

@@ -19,5 +19,5 @@ class ACTIONRPG_API IARPGCombatComponentInterface
 
 public:
 
-	virtual UARPGCombatComponent* GetCombatComponent() const = 0;
+	virtual UARPGCombatComponent* GetPawnCombatComponent() const = 0;
 };

@@ -53,6 +53,11 @@ AARPGCharacterBeard::AARPGCharacterBeard()
 
 }
 
+UARPGCombatComponent* AARPGCharacterBeard::GetPawnCombatComponent() const
+{
+	return CombatComponent;
+}
+
 void AARPGCharacterBeard::BeginPlay()
 {
 	Super::BeginPlay();

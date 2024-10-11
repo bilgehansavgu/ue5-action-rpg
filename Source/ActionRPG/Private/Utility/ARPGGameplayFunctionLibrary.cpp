@@ -6,6 +6,7 @@
 #include "Characters/ARPGCharacterBeard.h"
 #include "Components/ARPGAbilitySystemComponent.h"
 #include "Components/ARPGAttributeComponent.h"
+#include "Types/ARPGEnumTypes.h"
 
 void UARPGGameplayFunctionLibrary::ApplyDirectionalDamage(AActor* Instigator, AActor* Target, float Damage, float ImpulseMultiplier, const FHitResult& HitResult)
 {
@@ -21,8 +22,6 @@ void UARPGGameplayFunctionLibrary::ApplyDirectionalDamage(AActor* Instigator, AA
 		}
 	}
 }
-
-
 
 UARPGAbilitySystemComponent* UARPGGameplayFunctionLibrary::NativeGetARPGAbilitySystemComponentFromActor(AActor* Actor)
 {
@@ -75,4 +74,25 @@ bool UARPGGameplayFunctionLibrary::NativeActorHasTag(AActor* Actor, FGameplayTag
 bool UARPGGameplayFunctionLibrary::BP_DoesActorHaveTag(AActor* InActor, FGameplayTag TagToCheck)
 {
 	return NativeActorHasTag(InActor,TagToCheck);
+}
+
+UARPGCombatComponent* UARPGGameplayFunctionLibrary::NativeGetARPGCombatComponentFromActor(AActor* Actor)
+{
+	check(Actor);
+
+	if (IARPGCombatComponentInterface* CombatInterface = Cast<IARPGCombatComponentInterface>(Actor))
+	{
+		return CombatInterface->GetPawnCombatComponent();
+	}
+
+	return nullptr;
+}
+
+UARPGCombatComponent* UARPGGameplayFunctionLibrary::BP_GetARPGCombatComponentFromActor(AActor* Actor, EARPGValidType& OutValidType)
+{
+	UARPGCombatComponent* CombatComponent = NativeGetARPGCombatComponentFromActor(Actor);
+
+	OutValidType = CombatComponent ? EARPGValidType::Valid : EARPGValidType::Invalid;
+
+	return CombatComponent;
 }

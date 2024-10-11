@@ -10,6 +10,14 @@
 
 class AARPGWeapon;
 
+UENUM()
+enum EToggleDamageType : uint8
+{
+	CurrentEquippedWeapon,
+	LeftHand,
+	RightHand
+};
+
 UCLASS()
 class ACTIONRPG_API UARPGCombatComponent : public UARPGPawnComponent
 {
@@ -21,6 +29,9 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "ARPG|Combat")
 	AARPGWeapon* GetCarriedWeaponByTag(FGameplayTag WeaponTag) const;
+
+	UFUNCTION(BlueprintCallable, Category = "ARPG|Combat")
+	void ToggleWeaponCollision(bool bIsEnabled, EToggleDamageType ToggleDamageType = EToggleDamageType::CurrentEquippedWeapon);
 	
 	UFUNCTION(BlueprintCallable, Category = "ARPG|Combat")
 	AARPGWeapon* GetEquippedWeapon() const;

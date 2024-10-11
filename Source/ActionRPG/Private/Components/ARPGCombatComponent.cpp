@@ -4,6 +4,7 @@
 #include "Components/ARPGCombatComponent.h"
 #include "Weapons/ARPGWeapon.h"
 #include "ActionRPG/ARPGDebugHelper.h"
+#include "Components/BoxComponent.h"
 
 class AARPGFoeWeapon;
 
@@ -34,6 +35,25 @@ AARPGWeapon* UARPGCombatComponent::GetCarriedWeaponByTag(FGameplayTag WeaponTag)
 		}
 	}
 	return nullptr;
+}
+
+void UARPGCombatComponent::ToggleWeaponCollision(bool bIsEnabled, EToggleDamageType ToggleDamageType)
+{
+	if (ToggleDamageType == EToggleDamageType::CurrentEquippedWeapon)
+	{
+		AARPGWeapon* EquippedWeapon = GetEquippedWeapon();
+
+		check(EquippedWeapon);
+
+		if (bIsEnabled)
+		{
+			EquippedWeapon->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+		}
+		else
+		{
+			EquippedWeapon->GetWeaponCollisionBox()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		}
+	}
 }
 
 

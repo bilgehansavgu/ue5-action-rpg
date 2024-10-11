@@ -6,16 +6,11 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "ARPGGameplayFunctionLibrary.generated.h"
 
+enum class EARPGValidType : uint8;
+class UARPGCombatComponent;
 struct FGameplayTag;
 class UARPGAbilitySystemComponent;
 
-
-// UENUM()
-// enum class EARPGConfirmType : uint8
-// {
-// 	True,
-// 	False
-// };
 
 UCLASS()
 class ACTIONRPG_API UARPGGameplayFunctionLibrary : public UBlueprintFunctionLibrary
@@ -39,5 +34,10 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "ARPG|FunctionLibrary", meta = (DisplayName = "Actor Has Tag", ExpandBoolAsExecs = "ReturnValue"))
 	static bool BP_DoesActorHaveTag(AActor* InActor,FGameplayTag TagToCheck);
+
+	static UARPGCombatComponent* NativeGetARPGCombatComponentFromActor(AActor* Actor);
+
+	UFUNCTION(BlueprintCallable, Category = "ARPG|FunctionLibrary", meta = (DisplayName = "Get ARPG Combat Component From Actor", ExpandEnumAsExecs = "OutValidType"))
+	static UARPGCombatComponent* BP_GetARPGCombatComponentFromActor(AActor* Actor, EARPGValidType& OutValidType);
 	
 };
